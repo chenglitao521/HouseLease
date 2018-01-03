@@ -13,17 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
-/**
- * <dl>
- * <dt>UserController</dt>
- * <dd>Description:</dd>
- * <dd>Copyright: Copyright (C) 2006</dd>
- * <dd>Company:  程立涛</dd>
- * <dd>CreateDate: 2017/12/25 0025</dd>
- * </dl>
- *
- * @author chenglitao
- */
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
