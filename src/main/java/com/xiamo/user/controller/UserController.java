@@ -31,13 +31,14 @@ public class UserController {
 
     @Autowired
     IUserService userServiceImpl;
+
     //映射一个action
     @RequestMapping("/index")
-    public  String index(){
+    public String index() {
         //输出日志文件
         logger.info("the first jsp pages");
         //返回一个index.jsp这个视图
-        return "index";
+        return "user/list";
     }
 
     @ResponseBody
@@ -59,7 +60,7 @@ public class UserController {
             }
 
             res.setRows(list);
-        }  catch (Exception e) {
+        } catch (Exception e) {
             res.setMessage("查询用户信息失败");
         }
         return res;
