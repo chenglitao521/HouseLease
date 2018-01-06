@@ -1,5 +1,8 @@
 package com.xiamo.user.po;
 
+import java.io.Serializable;
+import java.sql.Date;
+
 /**
  * <dl>
  * <dt>UserPo</dt>
@@ -11,10 +14,17 @@ package com.xiamo.user.po;
  *
  * @author chenglitao
  */
-public class UserPo {
+public class UserPo implements Serializable {
 
     private Integer id;
-    private String name ;
+    private String name;
+    private String loginName;
+    private String password;
+    private String status;
+    private Integer roleId;
+    private String userType;
+    private String telephone;
+    private Date createTime;
 
     public String getName() {
         return name;
@@ -30,5 +40,62 @@ public class UserPo {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+
+    public String getLoginName() {
+        return loginName;
+    }
+
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

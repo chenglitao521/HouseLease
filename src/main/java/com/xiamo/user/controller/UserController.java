@@ -21,7 +21,7 @@ import java.util.List;
  * <dd>Company:  程立涛</dd>
  * <dd>CreateDate: 2017/12/25 0025</dd>
  * </dl>
- *
+ * 用户管理接口
  * @author chenglitao
  */
 @Controller
@@ -43,7 +43,7 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping("/query")
-    public AjaxResultPo query(int page, int rows, UserPo po) {
+    public AjaxResultPo query(Integer page, Integer rows,UserPo userPo) {
         logger.info("进入查询用户的方法！");
         AjaxResultPo res = new AjaxResultPo();
         try {
@@ -52,7 +52,7 @@ public class UserController {
                 pageInfo = new PageInfo((page - 1) * rows, rows);
             }
 
-            List<UserPo> list = userServiceImpl.query(po, pageInfo);
+            List<UserPo> list = userServiceImpl.query(userPo, pageInfo);
             if (page > 0) {
                 res.setTotal(pageInfo.getTotalRecords());
             } else {
@@ -61,6 +61,7 @@ public class UserController {
 
             res.setRows(list);
         } catch (Exception e) {
+            e.printStackTrace();
             res.setMessage("查询用户信息失败");
         }
         return res;

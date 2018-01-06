@@ -19,4 +19,6 @@ import java.util.List;
  */
 public interface IUserDao {
     List<UserPo> query(UserPo po, PageInfo pageInfo)throws DataAccessException;
+
+    UserPo loginByName(String loginName)throws DataAccessException;
 }

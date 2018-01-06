@@ -5,6 +5,7 @@ import com.xiamo.user.dao.IUserDao;
 import com.xiamo.user.po.UserPo;
 import com.xiamo.user.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 
 import java.util.List;
 
@@ -19,12 +20,30 @@ import java.util.List;
  *
  * @author chenglitao
  */
-public class UserServiceImpl implements IUserService{
+public class UserServiceImpl implements IUserService {
+
     @Autowired
     IUserDao userDaoImpl;
 
     public List<UserPo> query(UserPo po, PageInfo pageInfo) {
-        List<UserPo> userPos =userDaoImpl.query(po,pageInfo);
+
+        List<UserPo> userPos = null;
+        try {
+            userPos = userDaoImpl.query(po, pageInfo);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
         return userPos;
+    }
+
+    public UserPo loginByName(String loginName) {
+        UserPo user = null;
+        try {
+            user = userDaoImpl.loginByName(loginName);
+            return user;
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 }
