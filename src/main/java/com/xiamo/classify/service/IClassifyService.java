@@ -1,5 +1,10 @@
 package com.xiamo.classify.service;
 
+import com.xiamo.classify.po.ClassifyPo;
+import com.xiamo.common.vo.PageInfo;
+
+import java.util.List;
+
 /**
  * <dl>
  * <dt>IClassifyService</dt>
@@ -12,4 +17,33 @@ package com.xiamo.classify.service;
  * @author CLT
  */
 public interface IClassifyService {
+
+    /**
+     * @Author:chenglitao
+     * @Description:分页查询分类
+     * @Date:20:57 2018/1/8
+     **/
+    List<ClassifyPo> query(ClassifyPo classifyPo, PageInfo pageInfo);
+
+    /**
+     * @Author:chenglitao
+     * @Date:21:00 2018/1/8
+     * @Description:添加分类
+     **/
+    int add(ClassifyPo classifyPo);
+
+    /**
+     * @Author:chenglitao
+     * @Date:21:01 2018/1/8
+     * @Description:更新分类
+     **/
+    int update(ClassifyPo classifyPo);
+
+
+    /**
+     * @Author:chenglitao
+     * @Date:21:01 2018/1/8
+     * @Description: 删除分类
+     **/
+    int delete(String id);
 }

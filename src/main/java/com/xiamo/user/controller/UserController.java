@@ -45,7 +45,7 @@ public class UserController {
     @RequestMapping("/query")
     public AjaxResultPo query(Integer page, Integer rows,UserPo userPo) {
         logger.info("进入查询用户的方法！");
-        AjaxResultPo res = new AjaxResultPo();
+        AjaxResultPo res = new AjaxResultPo(true,"操作成功");
         try {
             PageInfo pageInfo = null;
             if (page > 0) {

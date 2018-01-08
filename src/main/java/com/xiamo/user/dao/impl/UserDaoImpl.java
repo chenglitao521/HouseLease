@@ -26,7 +26,11 @@ public class UserDaoImpl extends BaseJdbcMysqlDao implements IUserDao {
         StringBuffer sql = new StringBuffer();
         sql.append("SELECT *  FROM HL_USER ");
 
-        return this.queryForList(sql.toString(),UserPo.class);
+        if (pageInfo != null && pageInfo.getResults() > 0) {
+            return this.queryByPage(sql.toString(), pageInfo, UserPo.class);
+        } else {
+            return this.queryForList(sql.toString(), UserPo.class);
+        }
     }
 
     public UserPo loginByName(String loginName) throws DataAccessException {

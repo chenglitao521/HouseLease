@@ -1,7 +1,6 @@
 package com.xiamo.user.controller;
 
 import com.xiamo.common.vo.AjaxResultPo;
-import com.xiamo.common.vo.PageInfo;
 import com.xiamo.user.constant.UserStatus;
 import com.xiamo.user.po.UserPo;
 import com.xiamo.user.service.IUserService;
@@ -13,8 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.List;
 
 /**
  * <dl>
@@ -39,7 +36,7 @@ public class LoginController {
     @RequestMapping("/index")
     public String index(String loginName, String password, Model model) {
         logger.info("进入LoginController.index方法，loginName={}，password={}", loginName, password);
-        AjaxResultPo res = new AjaxResultPo();
+        AjaxResultPo res = new AjaxResultPo(true,"操作成功");
         try {
 
             String MD5Password = DigestUtils.md5Hex(password.trim());

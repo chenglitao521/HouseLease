@@ -1,6 +1,13 @@
 package com.xiamo.classify.service.impl;
 
+import com.xiamo.classify.dao.IClassifyDao;
+import com.xiamo.classify.po.ClassifyPo;
 import com.xiamo.classify.service.IClassifyService;
+import com.xiamo.common.vo.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+
+import java.util.List;
 
 /**
  * <dl>
@@ -14,4 +21,47 @@ import com.xiamo.classify.service.IClassifyService;
  * @author CLT
  */
 public class ClassifyServiceImpl implements IClassifyService {
+
+    @Autowired
+    IClassifyDao classifyDaoImpl;
+    public List<ClassifyPo> query(ClassifyPo classifyPo, PageInfo pageInfo) {
+
+        List<ClassifyPo> classifyPos = null;
+        try {
+            classifyPos = classifyDaoImpl.query(classifyPo, pageInfo);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
+        return classifyPos;
+    }
+
+    public int add(ClassifyPo classifyPo) {
+        try {
+             return classifyDaoImpl.add(classifyPo);
+
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int update(ClassifyPo classifyPo) {
+        try {
+            return classifyDaoImpl.update(classifyPo);
+
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int delete(String id) {
+        try {
+            return classifyDaoImpl.delete(id);
+
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }
