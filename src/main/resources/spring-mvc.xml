@@ -14,9 +14,8 @@
     <context:annotation-config/>
     <!-- 启动注解驱动的Spring MVC功能，注册请求url和注解POJO类方法的映射-->
 
-    <mvc:annotation-driven>
-
-    </mvc:annotation-driven>
+    <mvc:annotation-driven/>
+ <!--   <mvc:default-servlet-handler />-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/"/>
         <property name="suffix" value=".jsp"/>
