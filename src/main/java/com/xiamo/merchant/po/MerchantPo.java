@@ -24,7 +24,15 @@ public class MerchantPo implements Serializable {
     private String telephone;
     private Integer status;//状态
     private String register;//备案信息
+    private String qrCode;//二维码
 
+    public String getQrCode() {
+        return qrCode;
+    }
+
+    public void setQrCode(String qrCode) {
+        this.qrCode = qrCode;
+    }
 
     public Integer getId() {
         return id;
