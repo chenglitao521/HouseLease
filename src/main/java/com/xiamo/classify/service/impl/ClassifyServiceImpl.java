@@ -55,7 +55,7 @@ public class ClassifyServiceImpl implements IClassifyService {
         return 0;
     }
 
-    public int delete(String id) {
+    public int delete(Integer id) {
         try {
             return classifyDaoImpl.delete(id);
 

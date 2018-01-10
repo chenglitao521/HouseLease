@@ -44,6 +44,7 @@ public interface IClassifyService {
      * @Author:chenglitao
      * @Date:21:01 2018/1/8
      * @Description: 删除分类
-     **/
-    int delete(String id);
+     *
+     * @param id*/
+    int delete(Integer id);
 }

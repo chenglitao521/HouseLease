@@ -22,7 +22,7 @@ public interface IClassifyDao {
 
     int add(ClassifyPo classifyPo)throws DataAccessException ;
 
-    int delete(String id)throws DataAccessException;
+    int delete(Integer id)throws DataAccessException;
 
     int update(ClassifyPo classifyPo)throws DataAccessException;
 }

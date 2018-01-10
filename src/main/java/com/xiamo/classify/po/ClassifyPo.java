@@ -17,7 +17,9 @@ import java.io.Serializable;
 public class ClassifyPo implements Serializable {
 
     private Integer id;
-    private String name;
+    private String name; //分类名称
+    private String catalog;//一级目录
+    private String iconUrl;//图片URl地址
     private String catalog1;
     private String iconUrl1;
     private String catalog2;
@@ -29,6 +31,22 @@ public class ClassifyPo implements Serializable {
     private String catalog5;
     private String iconUrl5;
     private Integer sort;
+
+    public String getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(String catalog) {
+        this.catalog = catalog;
+    }
+
+    public String getIconUrl() {
+        return iconUrl;
+    }
+
+    public void setIconUrl(String iconUrl) {
+        this.iconUrl = iconUrl;
+    }
 
     public Integer getId() {
         return id;
