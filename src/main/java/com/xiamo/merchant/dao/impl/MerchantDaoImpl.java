@@ -1,6 +1,13 @@
 package com.xiamo.merchant.dao.impl;
 
+import com.xiamo.common.dao.impl.BaseJdbcMysqlDao;
+import com.xiamo.common.vo.PageInfo;
 import com.xiamo.merchant.dao.IMerchantDao;
+import com.xiamo.merchant.po.MerchantPo;
+import org.springframework.dao.DataAccessException;
+
+import java.sql.Types;
+import java.util.List;
 
 /**
  * <dl>
@@ -13,5 +20,43 @@ import com.xiamo.merchant.dao.IMerchantDao;
  *
  * @author chenglitao
  */
-public class MerchantDaoImpl implements IMerchantDao {
+public class MerchantDaoImpl extends BaseJdbcMysqlDao implements IMerchantDao {
+    public List<MerchantPo> query(MerchantPo po, PageInfo pageInfo) throws DataAccessException {
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT *  FROM HL_MERCHANT ");
+
+        if (pageInfo != null && pageInfo.getResults() > 0) {
+            return this.queryByPage(sql.toString(), pageInfo, MerchantPo.class);
+        } else {
+            return this.queryForList(sql.toString(), MerchantPo.class);
+        }
+    }
+
+    public int add(MerchantPo po) throws DataAccessException {
+        StringBuffer sql = new StringBuffer("INSERT INTO HL_MERCHANT (NAME,CLASSIFY_ID,NUM,ADDRESS,TELEPHONE,STATUS" +
+                ",QR_CODE,REGISTER) ")
+                .append(" VALUES(?,?,?,?,?,?,?,?)");
+        Object[] args = new Object[]{po.getName(), po.getClassifyId(), po.getNum(), po.getAddress(), po.getTelephone(), po.getStatus(),
+                po.getQrCode(), po.getRegister()};
+        int[] argTypes = new int[]{Types.VARCHAR, Types.INTEGER, Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.VARCHAR, Types.VARCHAR};
+
+        return this.update(sql.toString(), args, argTypes);
+    }
+
+    public int update(MerchantPo po) throws DataAccessException {
+        StringBuffer sql = new StringBuffer("UPDATE HL_MERCHANT SET NAME=?, CLASSIFY_ID=?,NUM=?,ADDRESS=?,TELEPHONE=?,STATUS=?,QR_CODE=?," +
+                "REGISTER=? ");
+
+        sql.append(" UPDATE_TIME= NOW() WHERE ID=?");
+        Object[] args = new Object[]{po.getName(), po.getClassifyId(), po.getNum(), po.getAddress(), po.getTelephone(), po.getStatus(),
+                po.getQrCode(), po.getRegister(), po.getId()};
+        int[] argTypes = new int[]{Types.VARCHAR, Types.INTEGER, Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.VARCHAR,
+                Types.VARCHAR, Types.INTEGER};
+        return this.update(sql.toString(), args, argTypes);
+    }
+
+    public int delete(Integer id) {
+        String sql = "DELETE FROM HL_MERCHANT WHERE ID=?";
+        return this.update(sql, new Object[]{id}, new int[]{Types.INTEGER});
+    }
 }
