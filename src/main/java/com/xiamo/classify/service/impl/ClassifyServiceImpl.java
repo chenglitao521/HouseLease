@@ -4,6 +4,7 @@ import com.xiamo.classify.dao.IClassifyDao;
 import com.xiamo.classify.po.ClassifyPo;
 import com.xiamo.classify.service.IClassifyService;
 import com.xiamo.common.vo.PageInfo;
+import com.xiamo.shops.service.IShopsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
@@ -21,7 +22,8 @@ import java.util.List;
  * @author CLT
  */
 public class ClassifyServiceImpl implements IClassifyService {
-
+    @Autowired
+    IShopsService shopsServiceImpl;
     @Autowired
     IClassifyDao classifyDaoImpl;
     public List<ClassifyPo> query(ClassifyPo classifyPo, PageInfo pageInfo) {
@@ -57,6 +59,7 @@ public class ClassifyServiceImpl implements IClassifyService {
 
     public int delete(Integer id) {
         try {
+           int j= shopsServiceImpl.deleteByClassifyId(id);
             return classifyDaoImpl.delete(id);
 
         } catch (DataAccessException e) {

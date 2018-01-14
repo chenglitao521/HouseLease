@@ -53,4 +53,9 @@ public class ShopsDaoImpl extends BaseJdbcMysqlDao implements IShopsDao {
         String sql = "DELETE FROM HL_SHOPS WHERE ID=?";
         return this.update(sql, new Object[]{id}, new int[]{Types.INTEGER});
     }
+
+    public int deleteByClassifyId(Integer id) throws DataAccessException {
+        String sql = "DELETE FROM HL_SHOPS WHERE ID=?";
+        return this.update(sql, new Object[]{id}, new int[]{Types.INTEGER});
+    }
 }

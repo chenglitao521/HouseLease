@@ -19,4 +19,12 @@ public interface IShopsService {
     int add(ShopsPo po);
 
     int delete(Integer id);
+
+    /**
+     * @date:2018/1/14 0014 9:42
+     * @className:IShopsService
+     * @author:chenglitao
+     * @description:删除某一类商铺
+     */
+    int deleteByClassifyId(Integer id);
 }

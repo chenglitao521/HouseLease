@@ -20,4 +20,6 @@ public interface IShopsDao {
     int add(ShopsPo po) throws DataAccessException;
 
     int delete(Integer id) throws DataAccessException;
+
+    int deleteByClassifyId(Integer id) throws DataAccessException;
 }

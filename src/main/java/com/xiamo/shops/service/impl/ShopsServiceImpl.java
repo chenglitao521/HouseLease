@@ -61,4 +61,14 @@ public class ShopsServiceImpl implements IShopsService {
         }
         return 0;
     }
+
+    public int deleteByClassifyId(Integer id) {
+        try {
+            return shopsDaoImpl.deleteByClassifyId(id);
+
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }
