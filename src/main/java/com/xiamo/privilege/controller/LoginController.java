@@ -1,9 +1,9 @@
-package com.xiamo.user.controller;
+package com.xiamo.privilege.controller;
 
 import com.xiamo.common.vo.AjaxResultPo;
-import com.xiamo.user.constant.UserStatus;
-import com.xiamo.user.po.UserPo;
-import com.xiamo.user.service.IUserService;
+import com.xiamo.privilege.constant.UserStatus;
+import com.xiamo.privilege.po.UserPo;
+import com.xiamo.privilege.service.IUserService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

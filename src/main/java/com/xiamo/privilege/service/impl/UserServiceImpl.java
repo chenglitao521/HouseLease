@@ -1,9 +1,9 @@
-package com.xiamo.user.service.impl;
+package com.xiamo.privilege.service.impl;
 
 import com.xiamo.common.vo.PageInfo;
-import com.xiamo.user.dao.IUserDao;
-import com.xiamo.user.po.UserPo;
-import com.xiamo.user.service.IUserService;
+import com.xiamo.privilege.dao.IUserDao;
+import com.xiamo.privilege.po.UserPo;
+import com.xiamo.privilege.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 

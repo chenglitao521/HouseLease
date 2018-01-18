@@ -10,10 +10,10 @@
 			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <bean id="userServiceImpl"
-          class="com.xiamo.user.service.impl.UserServiceImpl"
+          class="com.xiamo.privilege.service.impl.UserServiceImpl"
           autowire="byName"/>
 
     <bean id="userDaoImpl"
-          class="com.xiamo.user.dao.impl.UserDaoImpl"
+          class="com.xiamo.privilege.dao.impl.UserDaoImpl"
           autowire="byName"/>
 </beans>

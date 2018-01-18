@@ -1,4 +1,4 @@
-package com.xiamo.user.controller;
+package com.xiamo.privilege.controller;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -87,7 +87,7 @@ public class UserTest {
 
 
 /*
-        String responseString = mockMvc.perform(post("/user/query")
+        String responseString = mockMvc.perform(post("/privilege/query")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED).content(requestBody)).andDo(print())
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 */

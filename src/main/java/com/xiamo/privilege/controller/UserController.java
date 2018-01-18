@@ -1,9 +1,9 @@
-package com.xiamo.user.controller;
+package com.xiamo.privilege.controller;
 
 import com.xiamo.common.vo.AjaxResultPo;
 import com.xiamo.common.vo.PageInfo;
-import com.xiamo.user.po.UserPo;
-import com.xiamo.user.service.IUserService;
+import com.xiamo.privilege.po.UserPo;
+import com.xiamo.privilege.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import java.util.List;
  * <dd>Company:  程立涛</dd>
  * <dd>CreateDate: 2017/12/25 0025</dd>
  * </dl>
- *
+ * 用户管理
  * @author chenglitao
  */
 @Controller

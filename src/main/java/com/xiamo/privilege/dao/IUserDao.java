@@ -1,7 +1,7 @@
-package com.xiamo.user.dao;
+package com.xiamo.privilege.dao;
 
 import com.xiamo.common.vo.PageInfo;
-import com.xiamo.user.po.UserPo;
+import com.xiamo.privilege.po.UserPo;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;

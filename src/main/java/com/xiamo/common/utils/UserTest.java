@@ -55,7 +55,7 @@ public class UserTest {
     @Test
     public void testAllCategoryTest() throws Exception {
         String s = mockMvc.perform(
-                get("/user/query")    //请求的url,请求的方法是get
+                get("/privilege/query")    //请求的url,请求的方法是get
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED).param("page", "1").param("rows", "2").param("id", "1")  //数据的格式
                 //添加参数
         ).andExpect(status().isOk())    //返回的状态是200
@@ -66,7 +66,7 @@ public class UserTest {
 
 
 /*
-        String responseString = mockMvc.perform(post("/user/query")
+        String responseString = mockMvc.perform(post("/privilege/query")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED).content(requestBody)).andDo(print())
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 */

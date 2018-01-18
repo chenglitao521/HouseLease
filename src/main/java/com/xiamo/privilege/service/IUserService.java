@@ -1,7 +1,7 @@
-package com.xiamo.user.service;
+package com.xiamo.privilege.service;
 
 import com.xiamo.common.vo.PageInfo;
-import com.xiamo.user.po.UserPo;
+import com.xiamo.privilege.po.UserPo;
 
 import java.util.List;
 

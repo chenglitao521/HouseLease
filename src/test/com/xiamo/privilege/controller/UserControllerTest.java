@@ -1,4 +1,4 @@
-package com.xiamo.user.controller;
+package com.xiamo.privilege.controller;
 
 import org.junit.Test;
 

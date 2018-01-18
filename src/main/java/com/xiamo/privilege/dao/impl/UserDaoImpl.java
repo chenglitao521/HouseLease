@@ -1,9 +1,9 @@
-package com.xiamo.user.dao.impl;
+package com.xiamo.privilege.dao.impl;
 
 import com.xiamo.common.dao.impl.BaseJdbcMysqlDao;
 import com.xiamo.common.vo.PageInfo;
-import com.xiamo.user.dao.IUserDao;
-import com.xiamo.user.po.UserPo;
+import com.xiamo.privilege.dao.IUserDao;
+import com.xiamo.privilege.po.UserPo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DataAccessException;
 

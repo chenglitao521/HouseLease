@@ -3,7 +3,7 @@ package com.xiamo.common.dao.impl;
 
 import com.xiamo.common.dao.IBaseJdbcDao;
 import com.xiamo.common.vo.PageInfo;
-import com.xiamo.user.controller.UserController;
+import com.xiamo.privilege.controller.UserController;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

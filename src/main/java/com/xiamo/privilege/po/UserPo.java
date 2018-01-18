@@ -1,4 +1,4 @@
-package com.xiamo.user.po;
+package com.xiamo.privilege.po;
 
 import java.io.Serializable;
 import java.sql.Date;

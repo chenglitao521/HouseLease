@@ -15,13 +15,15 @@
     <!-- 启动注解驱动的Spring MVC功能，注册请求url和注解POJO类方法的映射-->
 
     <mvc:annotation-driven/>
+
+    <mvc:view-controller path="/" view-name="/index" />
     <mvc:default-servlet-handler />
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <mvc:resources mapping="/statics/img/**" location="/WEB-INF/statics/img/"/>
+    <mvc:resources mapping="/img/**" location="/WEB-INF/statics/images/"/>
 
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

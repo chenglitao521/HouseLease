@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<webapp-configs>
+	<param name="HOST_IP" value="192.168.1.183"/>
+
+	<!--上传文件地址-->
+	<param name="UPLOAD_FILE_PATH" value="E:\\test"/>
+</webapp-configs>
