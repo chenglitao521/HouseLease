@@ -19,7 +19,7 @@ public class ShopsServiceImpl implements IShopsService {
 
     @Autowired
     IShopsDao shopsDaoImpl;
-
+    @Override
     public List<ShopsPo> query(ShopsPo po, PageInfo pageInfo) {
         List<ShopsPo> shopsPos = null;
         try {
@@ -44,9 +44,12 @@ public class ShopsServiceImpl implements IShopsService {
 
     public int add(ShopsPo po) {
         try {
-            return shopsDaoImpl.add(po);
+           // shopsDaoImpl = (IShopsDao) BeanFactoryUtil.getBean("systemRedisLogService");
+            return  shopsDaoImpl.add(po);
 
         } catch (DataAccessException e) {
+            e.printStackTrace();
+        }catch (Exception e){
             e.printStackTrace();
         }
         return 0;

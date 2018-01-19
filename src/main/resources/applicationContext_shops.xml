@@ -9,11 +9,12 @@
 			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <bean id="shopsServiceImpl"
-          class="com.xiamo.shops.service.impl.ShopsServiceImpl"
-          autowire="byName"/>
 
     <bean id="shopsDaoImpl"
           class="com.xiamo.shops.dao.impl.ShopsDaoImpl"
           autowire="byName"/>
+    <bean id="shopsService"
+          class="com.xiamo.shops.service.impl.ShopsServiceImpl"
+          autowire="byName"/>
+
 </beans>

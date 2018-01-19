@@ -246,6 +246,16 @@
     </dependencies>
     <build>
         <finalName>house-lease</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+        </plugins>
 
         <resources>
             <!--表示把java目录下的有关xml文件,properties文件编译/打包的时候放在resource目录下-->

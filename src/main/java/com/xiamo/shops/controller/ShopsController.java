@@ -1,6 +1,5 @@
 package com.xiamo.shops.controller;
 
-import com.xiamo.common.utils.FileUpload;
 import com.xiamo.common.utils.JsonUtils;
 import com.xiamo.common.vo.AjaxResultPo;
 import com.xiamo.common.vo.PageInfo;
@@ -14,9 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -42,7 +39,7 @@ public class ShopsController {
     private static final Logger logger = LoggerFactory.getLogger(ShopsController.class);
 
     @Autowired
-    IShopsService shopsServiceImpl;
+    IShopsService shopsService;
 
     @InitBinder
     public void initBinder(ServletRequestDataBinder binder) {
@@ -66,7 +63,7 @@ public class ShopsController {
             if (page > 0) {
                 pageInfo = new PageInfo((page - 1) * rows, rows);
             }
-            List<ShopsPo> list = shopsServiceImpl.query(po, pageInfo);
+            List<ShopsPo> list = shopsService.query(po, pageInfo);
             if (page > 0) {
                 res.setTotal(pageInfo.getTotalRecords());
             } else {
@@ -90,11 +87,12 @@ public class ShopsController {
      */
     @ResponseBody
     @RequestMapping("/add")
-    public AjaxResultPo add(ShopsPo po, @RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request) throws IOException {
+    public AjaxResultPo add(ShopsPo po, HttpServletRequest request) throws IOException {
         logger.info("进入ShopsController.add方法，ShopsPo={}", JsonUtils.toJson(po));
         try {
-            FileUpload.uploadFile(file, request);
-            int r = shopsServiceImpl.add(po);
+/*            String uploadFile = FileUpload.uploadFile(request);
+            po.setPhotoUrl(uploadFile);*/
+            int r = shopsService.add(po);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResultPo.failure("添加商铺信息失败");
@@ -116,7 +114,7 @@ public class ShopsController {
         logger.info("进入ShopsController.update方法，po={}", JsonUtils.toJson(po));
 
         try {
-            int r = shopsServiceImpl.update(po);
+            int r = shopsService.update(po);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResultPo.failure("更新商铺信息失败");
@@ -137,7 +135,7 @@ public class ShopsController {
         logger.info("进入ShopsController.delete方法，id={}", id);
 
         try {
-            int r = shopsServiceImpl.delete(id);
+            int r = shopsService.delete(id);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResultPo.failure("删除商铺信息失败");

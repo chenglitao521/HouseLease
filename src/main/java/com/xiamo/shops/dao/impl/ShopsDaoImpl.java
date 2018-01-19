@@ -16,6 +16,7 @@ import java.util.List;
  * @description:商铺接口
  */
 public class ShopsDaoImpl extends BaseJdbcMysqlDao implements IShopsDao {
+    @Override
     public List<ShopsPo> query(ShopsPo po, PageInfo pageInfo) throws DataAccessException {
         StringBuffer sql = new StringBuffer();
         sql.append("SELECT *  FROM HL_SHOPS ");

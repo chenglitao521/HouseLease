@@ -24,6 +24,7 @@ import java.util.List;
 public class ClassifyServiceImpl implements IClassifyService {
     @Autowired
     IShopsService shopsServiceImpl;
+
     @Autowired
     IClassifyDao classifyDaoImpl;
     public List<ClassifyPo> query(ClassifyPo classifyPo, PageInfo pageInfo) {

@@ -3,10 +3,7 @@ package com.xiamo.common.dao.impl;
 
 import com.xiamo.common.dao.IBaseJdbcDao;
 import com.xiamo.common.vo.PageInfo;
-import com.xiamo.privilege.controller.UserController;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -16,7 +13,7 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import java.util.List;
 
 public class BaseJdbcDao extends JdbcDaoSupport implements IBaseJdbcDao {
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
 
     public BaseJdbcDao() {
         super();
