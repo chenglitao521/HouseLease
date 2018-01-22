@@ -1,7 +1,10 @@
 package com.xiamo.weixin.service.impl;
 
 import com.xiamo.weixin.po.resp.TextMessage;
+import com.xiamo.weixin.service.IWeiXinService;
 import com.xiamo.weixin.utils.MessageUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -18,6 +21,8 @@ import java.util.Map;
  * @author chenglitao
  */
 public class WeinXinServiceImpl implements IWeiXinService {
+    private static final Logger logger = LoggerFactory.getLogger(WeinXinServiceImpl.class);
+
 
     /**
      * 处理微信发来的请求
@@ -39,6 +44,12 @@ public class WeinXinServiceImpl implements IWeiXinService {
             String toUserName = requestMap.get("ToUserName");
             // 消息类型
             String msgType = requestMap.get("MsgType");
+
+            logger.debug("处理微信发来的消息，发送方账号：{}", fromUserName);
+
+            logger.debug("处理微信发来的消息，发送方微信号：{}",toUserName);
+            logger.debug("处理微信发来的消息，消息类型：{}",msgType);
+
 
             // 回复文本消息
             TextMessage textMessage = new TextMessage();
@@ -104,6 +115,8 @@ public class WeinXinServiceImpl implements IWeiXinService {
             textMessage.setContent(respContent);
             // 将文本消息对象转换成xml
             respXml = MessageUtil.messageToXml(textMessage);
+
+            logger.debug("处理微信发来的消息，转化后的XML：{}", respXml);
         } catch (Exception e) {
             e.printStackTrace();
         }

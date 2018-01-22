@@ -1,6 +1,6 @@
 package com.xiamo.weixin.controller;
 
-import com.xiamo.weixin.service.impl.IWeiXinService;
+import com.xiamo.weixin.service.IWeiXinService;
 import com.xiamo.weixin.utils.SignUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +21,7 @@ import java.io.PrintWriter;
  * <dd>CreateDate: 2018/1/14 0014</dd>
  * </dl>
  * 微信服务器调用
+ *
  * @author chenglitao
  */
 @Controller
@@ -35,9 +36,8 @@ public class WeixinController {
      * @className:WeixinController
      * @author:chenglitao
      * @description:验证消息来自微信服务器
-     *
      */
-    @RequestMapping(value = "/checkWeixin", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public void zxingdecode(HttpServletRequest request, HttpServletResponse response) {
 
         try {
@@ -73,9 +73,8 @@ public class WeixinController {
      * @className:WeixinController
      * @author:chenglitao
      * @description:处理微信发来的消息
-     *
      */
-    @RequestMapping(value = "/handlemessge", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public void handlemessge(HttpServletRequest request, HttpServletResponse response) {
 
         try {

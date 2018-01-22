@@ -1,4 +1,4 @@
-package com.xiamo.weixin.service.impl;
+package com.xiamo.weixin.service;
 
 import javax.servlet.http.HttpServletRequest;
 
