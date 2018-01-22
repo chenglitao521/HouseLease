@@ -6,25 +6,37 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import org.apache.commons.net.util.Base64;
+import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ZXingCode {
+/**
+ * <dl>
+ * <dt>QrCode</dt>
+ * <dd>Description:</dd>
+ * <dd>Copyright: Copyright (C) 2006</dd>
+ * <dd>CreateDate: 2018/1/22 0022</dd>
+ * </dl>
+ *
+ * @author chenglitao
+ */
+public class QrCode {
     private static final int QRCOLOR = 0xFF000000;   //默认是黑色
     private static final int BGWHITE = 0xFFFFFFFF;   //背景颜色
-
+    private static final Logger logger = LoggerFactory.getLogger(QrCode.class);
 
     public static void main(String[] args) throws WriterException {
         try {
-/*            getLogoQRCode("https://www.baidu.com/", "跳转到百度的二维码", request);*/
+            getLogoQRCode("https://www.baidu.com/", "跳转到百度的二维码");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -33,22 +45,19 @@ public class ZXingCode {
 
     /**
      * 生成带logo的二维码图片
-     *  @param
+     *
      * @param
      * @param
-     * @param request
-     * @param response
      */
-    public static String getLogoQRCode(String qrUrl, String productName, String filePath, HttpServletRequest request, HttpServletResponse response) {
-
-
+    public static String getLogoQRCode(String qrUrl, String productName) {
+        //      String filePath = (javax.servlet.http.HttpServletRequest)request.getSession().getServletContext().getRealPath("/") + "resources/images/logoImages/llhlogo.png";
         //filePath是二维码logo的路径，但是实际中我们是放在项目的某个路径下面的，所以路径用上面的，把下面的注释就好
-        // String filePath = "D:/upload/logo.jpg";  //TODO
+        String filePath = "E:/test/logo.jpg";  //TODO
         String content = qrUrl;
         try {
-            ZXingCode zp = new ZXingCode();
+            QrCode zp = new QrCode();
             BufferedImage bim = zp.getQR_CODEBufferedImage(content, BarcodeFormat.QR_CODE, 400, 400, zp.getDecodeHintType());
-            return zp.addLogo_QRCode(bim, new File(filePath), new LogoConfig(), productName,request,response);
+            return zp.addLogo_QRCode(bim, new File(filePath), new LogoConfig(), productName);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,12 +66,11 @@ public class ZXingCode {
 
     /**
      * 给二维码图片添加Logo
-     *  @param
+     *
+     * @param
      * @param logoPic
-     * @param request
-     * @param response
      */
-    public String addLogo_QRCode(BufferedImage bim, File logoPic, LogoConfig logoConfig, String productName, HttpServletRequest request, HttpServletResponse response) {
+    public String addLogo_QRCode(BufferedImage bim, File logoPic, LogoConfig logoConfig, String productName) {
         try {
             /**
              * 读取二维码图片，并构建绘图对象
@@ -144,36 +152,11 @@ public class ZXingCode {
             //二维码生成的路径，但是实际项目中，我们是把这生成的二维码显示到界面上的，因此下面的折行代码可以注释掉
             //可以看到这个方法最终返回的是这个二维码的imageBase64字符串
             //前端用 <img src="data:image/png;base64,${imageBase64QRCode}"/>  其中${imageBase64QRCode}对应二维码的imageBase64字符串
-            File fi = new File(logoPic.getPath() + "test.png");
-            ImageIO.write(image, "png", fi); //TODO
+            ImageIO.write(image, "png", new File("E:/test/" + new Date().getTime() + "qr.png")); //TODO
 
             String imageBase64QRCode = Base64.encodeBase64URLSafeString(baos.toByteArray());
 
             baos.close();
-
-            File file = new File(fi.getAbsolutePath());
-            FileInputStream fis = null;
-            try {
-
-                response.setContentType("image/gif");
-                OutputStream out = response.getOutputStream();
-                fis = new FileInputStream(file);
-                byte[] b = new byte[fis.available()];
-
-                fis.read(b);
-                out.write(b);
-                out.flush();
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (fis != null) {
-                    try {
-                        fis.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
             return imageBase64QRCode;
         } catch (Exception e) {
             e.printStackTrace();
@@ -260,3 +243,37 @@ public class ZXingCode {
     }
 }
 
+class LogoConfig {
+    // logo默认边框颜色
+    public static final Color DEFAULT_BORDERCOLOR = Color.WHITE;
+    // logo默认边框宽度
+    public static final int DEFAULT_BORDER = 2;
+    // logo大小默认为照片的1/5
+    public static final int DEFAULT_LOGOPART = 5;
+
+    private final int border = DEFAULT_BORDER;
+    private final Color borderColor;
+    private final int logoPart;
+
+
+    public LogoConfig() {
+        this(DEFAULT_BORDERCOLOR, DEFAULT_LOGOPART);
+    }
+
+    public LogoConfig(Color borderColor, int logoPart) {
+        this.borderColor = borderColor;
+        this.logoPart = logoPart;
+    }
+
+    public Color getBorderColor() {
+        return borderColor;
+    }
+
+    public int getBorder() {
+        return border;
+    }
+
+    public int getLogoPart() {
+        return logoPart;
+    }
+}
