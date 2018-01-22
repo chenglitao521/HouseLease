@@ -15,6 +15,8 @@ import java.util.List;
  * @author:chenglitao
  * @description:商铺接口
  */
+
+
 public class ShopsServiceImpl implements IShopsService {
 
     @Autowired

@@ -51,6 +51,7 @@ public class FileUpload {
                 if (!("gif".equals(ext) || "jpg".equals(ext) || "png".equals(ext))) {
                     //  return AjaxResultPo.failure("上传的图片格式不正确！");
                     logger.error("上传的文件格式不正确！文件名为：{}" + origName);
+                    return "";
                 }
                 trueFileName =  DateConstants.DATE_FORMAT_NUM().format(new Date()) + origName;
                 String path = realPath + trueFileName;

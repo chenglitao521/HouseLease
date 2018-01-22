@@ -2,7 +2,6 @@ package com.xiamo.classify.controller;
 
 import com.xiamo.classify.po.ClassifyPo;
 import com.xiamo.classify.service.IClassifyService;
-import com.xiamo.common.utils.FileUpload;
 import com.xiamo.common.utils.JsonUtils;
 import com.xiamo.common.vo.AjaxResultPo;
 import com.xiamo.common.vo.PageInfo;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -80,23 +78,19 @@ public class ClassifyController {
      */
     @ResponseBody
     @RequestMapping("/add")
-    public ModelAndView add(ClassifyPo classifyPo, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public AjaxResultPo add(ClassifyPo classifyPo, HttpServletRequest request, HttpServletResponse response) throws IOException {
         logger.info("进入ClassifyController.add方法，classifyPo={}", JsonUtils.toJson(classifyPo));
-        ModelAndView ret = new ModelAndView();
-        try {
-            String url= FileUpload.uploadFile(request);
 
-            classifyPo.setIconUrl(url);
+        try {
             int r = classifyServiceImpl.add(classifyPo);
-            ret.addObject("trueFileName", url);
-            ret.setViewName("zxingcoder");
+
         } catch (Exception e) {
             e.printStackTrace();
-            //   return AjaxResultPo.failure("添加分类信息失败");
+            return AjaxResultPo.failure("添加分类信息失败");
 
         }
 
-        return ret;
+        return AjaxResultPo.successDefault();
     }
 
     /**

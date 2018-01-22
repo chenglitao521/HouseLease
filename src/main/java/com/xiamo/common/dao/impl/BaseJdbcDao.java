@@ -70,7 +70,7 @@ public class BaseJdbcDao extends JdbcDaoSupport implements IBaseJdbcDao {
      */
     public String queryForString(String sql) throws DataAccessException {
         try {
-            String str = (String) getJdbcTemplate().queryForObject(sql, String.class);
+            String str = getJdbcTemplate().queryForObject(sql, String.class);
 
             return str;
         } catch (DataAccessException e) {
@@ -88,7 +88,7 @@ public class BaseJdbcDao extends JdbcDaoSupport implements IBaseJdbcDao {
      */
     public String queryForString(String sql, Object[] args, int[] argTypes) throws DataAccessException {
         try {
-            String str = (String) getJdbcTemplate().queryForObject(sql, args, argTypes, String.class);
+            String str = getJdbcTemplate().queryForObject(sql, args, argTypes, String.class);
 
             return str;
         } catch (DataAccessException e) {
@@ -403,7 +403,7 @@ public class BaseJdbcDao extends JdbcDaoSupport implements IBaseJdbcDao {
         StringBuffer sql = new StringBuffer(100);
         sql.append("SELECT TO_CHAR(").append(seqName).append(
                 ".nextval) FROM DUAL");
-        return (String) getJdbcTemplate().queryForObject(sql.toString(),
+        return getJdbcTemplate().queryForObject(sql.toString(),
                 String.class);
     }
 

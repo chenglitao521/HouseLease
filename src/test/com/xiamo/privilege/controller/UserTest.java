@@ -64,7 +64,6 @@ public class UserTest {
             //设置日期格式化样式为：yyyy-MM-dd
             SimpleDateFormat SimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             //格式化当前日期
-            ;
 
             String s = mockMvc.perform(
                     post("/shops/add")    //请求的url,请求的方法是get

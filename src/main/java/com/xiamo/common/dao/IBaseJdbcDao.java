@@ -25,7 +25,7 @@ public interface IBaseJdbcDao {
 	 * @return
 	 * @throws DataAccessException
 	 */
-	public int update(String sql, Object[] args, int[] argTypes)throws DataAccessException;
+    int update(String sql, Object[] args, int[] argTypes)throws DataAccessException;
 	
 	/**
 	 * 执行查询SQL语句，返回String值
@@ -34,7 +34,7 @@ public interface IBaseJdbcDao {
 	 * @return
 	 * @throws
 	 */
-	public String queryForString(String sql) throws DataAccessException;
+    String queryForString(String sql) throws DataAccessException;
 	/**
 	 * 执行查询SQL语句，返回int值
 	 * 
@@ -42,7 +42,7 @@ public interface IBaseJdbcDao {
 	 * @return
 	 * @throws DataAccessException
 	 */
-	public int queryForInt(String sql) throws DataAccessException;
+    int queryForInt(String sql) throws DataAccessException;
 	/**
 	 * 执行查询SQL语句，返回long值
 	 * 
@@ -50,7 +50,7 @@ public interface IBaseJdbcDao {
 	 * @return
 	 * @throws DataAccessException
 	 */
-	public long queryForLong(String sql) throws DataAccessException;
+    long queryForLong(String sql) throws DataAccessException;
 
 	/**
 	 * 执行查询SQL语句
@@ -61,7 +61,7 @@ public interface IBaseJdbcDao {
 	 * @throws DataAccessException
 	 *
 	 */
-	public <T> Object queryForObject(String sql, Class<T> objectClass)
+    <T> Object queryForObject(String sql, Class<T> objectClass)
 			throws DataAccessException;
 
 	/**
@@ -71,7 +71,7 @@ public interface IBaseJdbcDao {
 	 * @return
 	 * @throws DataAccessException
 	 */
-	public boolean tableExist(String tableName) throws DataAccessException;
+    boolean tableExist(String tableName) throws DataAccessException;
 
 	/**
 	 * 校验数据是否存在。
@@ -84,7 +84,7 @@ public interface IBaseJdbcDao {
 	 * @throws DataAccessException
 	 *
 	 */
-	public boolean dataExist(String tableName, String whereClause)
+    boolean dataExist(String tableName, String whereClause)
 			throws DataAccessException;
 
 	/**
@@ -94,7 +94,7 @@ public interface IBaseJdbcDao {
 	 * @return
 	 * @throws DataAccessException
 	 */
-	public long getSequence(String name) throws DataAccessException;
+    long getSequence(String name) throws DataAccessException;
 
 	/**
 	 * 执行查询SQL语句
@@ -103,8 +103,8 @@ public interface IBaseJdbcDao {
 	 * @return 返回结果列表
 	 * @throws DataAccessException
 	 */
-	public <T> List<T> queryForList(String sql, Object[] args, int[] argTypes,
-                                    Class<T> poClass) throws DataAccessException;
+    <T> List<T> queryForList(String sql, Object[] args, int[] argTypes,
+                             Class<T> poClass) throws DataAccessException;
 
 	/**
 	 * 执行查询SQL语句
@@ -113,8 +113,8 @@ public interface IBaseJdbcDao {
 	 * @return Object
 	 * @throws DataAccessException
 	 */
-	public <T> T queryForObject(String sql, Object[] args, int[] argTypes,
-                                Class<T> poClass) throws DataAccessException;
+    <T> T queryForObject(String sql, Object[] args, int[] argTypes,
+                         Class<T> poClass) throws DataAccessException;
 
 	
 
@@ -125,8 +125,8 @@ public interface IBaseJdbcDao {
 	 * @return 返回结果列表
 	 * @throws DataAccessException
 	 */
-	public <T> List<T> queryByPage(String sql, Object[] args, int[] argTypes,
-								   PageInfo page, Class<T> poClass) throws DataAccessException;
+    <T> List<T> queryByPage(String sql, Object[] args, int[] argTypes,
+                            PageInfo page, Class<T> poClass) throws DataAccessException;
 
 	/**
 	 * 执行分页查询SQL语句
@@ -135,7 +135,7 @@ public interface IBaseJdbcDao {
 	 * @return 返回结果列表
 	 * @throws DataAccessException
 	 */
-	public <T> List<T> queryByPage(String sql, PageInfo page, Class<T> poClass)
+    <T> List<T> queryByPage(String sql, PageInfo page, Class<T> poClass)
 			throws DataAccessException;
 	
 	/**
@@ -144,7 +144,7 @@ public interface IBaseJdbcDao {
 	 * @return
 	 * @throws DataAccessException
 	 */
-	public String getSequenceStr(String seqName) throws DataAccessException;
+    String getSequenceStr(String seqName) throws DataAccessException;
 	 /**
      * 执行sql语句 得到记录总数
      * @param sql
@@ -153,7 +153,7 @@ public interface IBaseJdbcDao {
      * @return int
      * @throws DataAccessException
      */
-	public int getMaxRowCount(String sql, Object[] args, int[] argTypes)
+     int getMaxRowCount(String sql, Object[] args, int[] argTypes)
 			throws DataAccessException;
 	/**
      * 执行sql语句 得到记录总数
@@ -161,7 +161,7 @@ public interface IBaseJdbcDao {
      * @return int
      * @throws DataAccessException
      */
-	public int getMaxRowCount(String sql) throws DataAccessException;
+    int getMaxRowCount(String sql) throws DataAccessException;
 	/**
 	 * 执行查询SQL语句
 	 * 
@@ -171,6 +171,6 @@ public interface IBaseJdbcDao {
 	 * 
 	 *
 	 */
-	public <T> List<T> queryForList(String sql, Class<T> poClass)
+    <T> List<T> queryForList(String sql, Class<T> poClass)
 			throws DataAccessException;
 }

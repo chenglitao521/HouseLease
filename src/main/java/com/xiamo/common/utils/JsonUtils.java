@@ -24,30 +24,30 @@ public class JsonUtils {
 	  		return objMapper;
 	  	}
 	    public static <T> Object fromJson(String jsonAsString, Class<T> pojoClass)
-	    throws JsonMappingException, JsonParseException, IOException {
+	    throws IOException {
 	        return objMapper.readValue(jsonAsString, pojoClass);
 	    }
 
 	    public static <T> Object fromJson(Reader reader, Class<T> pojoClass)
-	    throws JsonParseException, IOException
+	    throws IOException
 	    {
 	        return objMapper.readValue(reader, pojoClass);
 	    }
 
 	    public static String toJson(Object pojo)
-	    throws JsonMappingException, IOException {
+	    throws IOException {
 	      
 	        return objMapper.writeValueAsString(pojo);
 	    }
 
 	    public static void toJson(Object pojo, Writer writer)
-	    throws JsonMappingException, IOException {
+	    throws IOException {
 	    	objMapper.writeValue(writer, pojo);
 	    }
 	    
 	    public static  List str2List(String content,Class c){
 
-		    List list = (List) JSONArray.parseArray(content, c);
+		    List list = JSONArray.parseArray(content, c);
 		    return list;
 		}
 	    

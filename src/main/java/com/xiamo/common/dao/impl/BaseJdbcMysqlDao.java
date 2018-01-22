@@ -44,7 +44,7 @@ public class BaseJdbcMysqlDao extends BaseJdbcDao {
 		StringBuffer sql = new StringBuffer(100);
 		sql.append("SELECT cast(nextval('").append(seqName).append(
 				"') as char(20))");
-		return (String) getJdbcTemplate().queryForObject(sql.toString(),
+		return getJdbcTemplate().queryForObject(sql.toString(),
 				String.class);
 	}
 

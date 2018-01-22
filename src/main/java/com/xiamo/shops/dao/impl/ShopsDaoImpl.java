@@ -5,6 +5,7 @@ import com.xiamo.common.vo.PageInfo;
 import com.xiamo.shops.dao.IShopsDao;
 import com.xiamo.shops.po.ShopsPo;
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Types;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
  * @author:chenglitao
  * @description:商铺接口
  */
+@Repository
 public class ShopsDaoImpl extends BaseJdbcMysqlDao implements IShopsDao {
     @Override
     public List<ShopsPo> query(ShopsPo po, PageInfo pageInfo) throws DataAccessException {
