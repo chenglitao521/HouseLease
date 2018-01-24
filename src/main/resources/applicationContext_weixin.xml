@@ -12,5 +12,7 @@
     <bean id="weiXinServiceImpl"
           class="com.xiamo.weixin.service.impl.WeinXinServiceImpl"
           autowire="byName"/>
-
+    <bean id="weiXinDaoImpl"
+          class="com.xiamo.weixin.dao.impl.WinXinDaoImpl"
+          autowire="byName"/>
 </beans>

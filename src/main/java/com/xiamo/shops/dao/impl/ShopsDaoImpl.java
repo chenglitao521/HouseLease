@@ -32,7 +32,7 @@ public class ShopsDaoImpl extends BaseJdbcMysqlDao implements IShopsDao {
 
     public int update(ShopsPo po) throws DataAccessException {
         StringBuffer sql = new StringBuffer("UPDATE HL_SHOPS SET NAME=?, POSITION=?,AREA=?,STATUS=?,EXPIRE_TIME=?,FLOOR=?,STRUCTURE=?," +
-                "LEASE_TIME=? ,LEASE_MONEY=?,DESCP=?,PHOTO_URL=?");
+                "LEASE_TIME=? ,LEASE_MONEY=?,DESCP=?,PHOTO_URL=?,");
         sql.append(" UPDATE_TIME= NOW() WHERE ID=?");
         Object[] args = new Object[]{po.getName(), po.getPosition(), po.getArea(), po.getStatus(), po.getExpireTime(), po.getFloor(),
                 po.getStructure(), po.getLeaseTime(), po.getLeaseMoney(), po.getDescp(), po.getPhotoUrl(), po.getId()};

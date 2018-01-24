@@ -1,4 +1,4 @@
-package com.xiamo.weixin.po;
+package com.xiamo.weixin.po.event;
 
 /**
  * <dl>
