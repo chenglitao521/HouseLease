@@ -1,5 +1,6 @@
 package com.xiamo.weixin.controller;
 
+import com.xiamo.common.vo.AjaxResultPo;
 import com.xiamo.weixin.service.IWeiXinService;
 import com.xiamo.weixin.utils.SignUtil;
 import org.slf4j.Logger;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -93,5 +95,19 @@ public class WeixinController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "createMenu")
+    public AjaxResultPo createMenu(HttpServletRequest request, HttpServletResponse response) {
+        logger.debug("进入WeixinController.createMenu");
+        try {
+            int re = weiXinServiceImpl.createMenu();
+            logger.debug("---------------------------------------");
+            return AjaxResultPo.success("创建成功", 1, re);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return AjaxResultPo.successDefault();
     }
 }

@@ -8,6 +8,7 @@ package com.xiamo.weixin.utils;
  * <dd>Company:  程立涛</dd>
  * <dd>CreateDate: 2018/1/16</dd>
  * </dl>
+ * 验证消息来源于微信服务器
  *
  * @author CLT
  */
@@ -17,13 +18,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
-/**
- * 类名: SignUtil </br>
- * 描述: 检验signature 工具类 </br>
- * 开发人员： souvc </br>
- * 创建时间：  2015-9-29 </br>
- * 发布版本：V1.0  </br>
- */
 public class SignUtil {
 
     // 与接口配置信息中的Token要一致
@@ -40,9 +34,9 @@ public class SignUtil {
      * @return
      * @throws
      */
-    public static boolean checkSignature(String signature, String timestamp,String nonce) {
+    public static boolean checkSignature(String signature, String timestamp, String nonce) {
         // 1.将token、timestamp、nonce三个参数进行字典序排序
-        String[] arr = new String[] { token, timestamp, nonce };
+        String[] arr = new String[]{token, timestamp, nonce};
         Arrays.sort(arr);
 
         // 2. 将三个参数字符串拼接成一个字符串进行sha1加密
@@ -93,7 +87,7 @@ public class SignUtil {
      * @throws
      */
     private static String byteToHexStr(byte mByte) {
-        char[] Digit = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A','B', 'C', 'D', 'E', 'F' };
+        char[] Digit = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
         char[] tempArr = new char[2];
         tempArr[0] = Digit[(mByte >>> 4) & 0X0F];
         tempArr[1] = Digit[mByte & 0X0F];

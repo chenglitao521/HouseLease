@@ -1,8 +1,10 @@
 package com.xiamo.weixin.service.impl;
 
+import com.xiamo.weixin.po.Token;
 import com.xiamo.weixin.po.resp.TextMessage;
 import com.xiamo.weixin.service.IWeiXinService;
 import com.xiamo.weixin.utils.MessageUtil;
+import com.xiamo.weixin.utils.WeiXinUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,8 +49,8 @@ public class WeinXinServiceImpl implements IWeiXinService {
 
             logger.debug("处理微信发来的消息，发送方账号：{}", fromUserName);
 
-            logger.debug("处理微信发来的消息，发送方微信号：{}",toUserName);
-            logger.debug("处理微信发来的消息，消息类型：{}",msgType);
+            logger.debug("处理微信发来的消息，发送方微信号：{}", toUserName);
+            logger.debug("处理微信发来的消息，消息类型：{}", msgType);
 
 
             // 回复文本消息
@@ -116,10 +118,26 @@ public class WeinXinServiceImpl implements IWeiXinService {
             // 将文本消息对象转换成xml
             respXml = MessageUtil.messageToXml(textMessage);
 
-            logger.debug("处理微信发来的消息，转化后的XML：{}", respXml);
+           // logger.debug("处理微信发来的消息，转化后的XML：{}", respXml);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return respXml;
     }
+
+    @Override
+    public int createMenu() {
+        int result = 0;
+        String appId = "wx38c623b92c52b793";
+        // 第三方用户唯一凭证密钥
+        String appSecret = "ee39cb1c014e2b9e8136366510e13586";
+
+        // 调用接口获取access_token
+        Token at = WeiXinUtil.getAccessToken(appId, appSecret);
+
+        result = WeiXinUtil.createMenu(at.getAccessToken());
+        logger.debug("创建菜单返回的结果：{}", result);
+        return result;
+    }
+
 }
