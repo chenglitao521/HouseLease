@@ -313,23 +313,23 @@ public class WeiXinUtil {
         CommonButton btn12 = new CommonButton();
         btn12.setName("文章2");
         btn12.setType("click");
-        btn12.setKey("12");
+        btn12.setKey("我爱你");
 
         CommonButton btn13 = new CommonButton();
         btn13.setName("文章3");
         btn13.setType("click");
-        btn13.setKey("13");
+        btn13.setKey("我爱你");
 
 
         CommonButton btn21 = new CommonButton();
         btn21.setName("我要救援");
         btn21.setType("click");
-        btn21.setKey("21");
+        btn21.setKey("我爱你");
 
         CommonButton btn22 = new CommonButton();
         btn22.setName("生活缴费");
         btn22.setType("click");
-        btn22.setKey("22");
+        btn22.setKey("我爱你");
 
 
         CommonButton btn31 = new CommonButton();
@@ -347,7 +347,7 @@ public class WeiXinUtil {
         CommonButton btn33 = new CommonButton();
         btn33.setName("在线客服");
         btn33.setType("click");
-        btn33.setKey("33");
+        btn33.setKey("我爱你");
 
 
         /**
