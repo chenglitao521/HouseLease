@@ -1,8 +1,11 @@
 package com.xiamo.weixin.controller;
 
 import com.xiamo.common.vo.AjaxResultPo;
+import com.xiamo.weixin.po.SNSUserInfo;
+import com.xiamo.weixin.po.WeixinOauth2Token;
 import com.xiamo.weixin.service.IWeiXinService;
 import com.xiamo.weixin.utils.SignUtil;
+import com.xiamo.weixin.utils.WeiXinUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,16 +101,64 @@ public class WeixinController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "createMenu")
+    @RequestMapping(value = "/createMenu")
     public AjaxResultPo createMenu(HttpServletRequest request, HttpServletResponse response) {
         logger.debug("进入WeixinController.createMenu");
         try {
             int re = weiXinServiceImpl.createMenu();
-            logger.debug("---------------------------------------");
+            logger.debug("菜单创建成功！！！！！！！！！！！！！！！！！！！！！");
             return AjaxResultPo.success("创建成功", 1, re);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return AjaxResultPo.successDefault();
     }
+
+    /**
+     * @date:2018/1/25 0025 16:36
+     * @className:WeixinController
+     * @author:chenglitao
+     * @description:授权后回调
+     *
+     */
+    @ResponseBody
+    @RequestMapping(value = "/OAuthAfter")
+    public AjaxResultPo OAuthAfter(HttpServletRequest request, HttpServletResponse response) {
+        logger.debug("进入WeixinController.OAuthAfter");
+        try {
+            request.setCharacterEncoding("utf-8");
+            response.setCharacterEncoding("utf-8");
+
+            // 用户同意授权后，能获取到code
+            String code = request.getParameter("code");
+            String state = request.getParameter("state");
+
+            // 用户同意授权
+            if (!"authdeny".equals(code)) {
+                // 获取网页授权access_token
+                WeixinOauth2Token weixinOauth2Token = WeiXinUtil.getOauth2AccessToken("wx49bbc90ad4a7cc59", "dc0237e21bcb3fa78ef6fa94de932bac", code);
+                // 网页授权接口访问凭证
+                String accessToken = weixinOauth2Token.getAccessToken();
+                // 用户标识
+                String openId = weixinOauth2Token.getOpenId();
+                // 获取用户信息
+                SNSUserInfo snsUserInfo = WeiXinUtil.getSNSUserInfo(accessToken, openId);
+
+                // 设置要传递的参数
+                request.setAttribute("snsUserInfo", snsUserInfo);
+                request.setAttribute("state", state);
+
+                logger.debug(snsUserInfo.getOpenId()+"==========================================");
+                return AjaxResultPo.success("创建成功", 1, snsUserInfo);
+
+            }
+            // 跳转到index.jsp
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return AjaxResultPo.successDefault();
+    }
+
+
 }

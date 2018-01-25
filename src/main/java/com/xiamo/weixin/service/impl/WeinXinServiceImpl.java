@@ -118,7 +118,7 @@ public class WeinXinServiceImpl implements IWeiXinService {
             // 将文本消息对象转换成xml
             respXml = MessageUtil.messageToXml(textMessage);
 
-           // logger.debug("处理微信发来的消息，转化后的XML：{}", respXml);
+            logger.debug("处理微信发来的消息，转化后的XML：{}", respXml);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -128,9 +128,9 @@ public class WeinXinServiceImpl implements IWeiXinService {
     @Override
     public int createMenu() {
         int result = 0;
-        String appId = "wx38c623b92c52b793";
+        String appId = "wx49bbc90ad4a7cc59";
         // 第三方用户唯一凭证密钥
-        String appSecret = "ee39cb1c014e2b9e8136366510e13586";
+        String appSecret = "dc0237e21bcb3fa78ef6fa94de932bac";
 
         // 调用接口获取access_token
         Token at = WeiXinUtil.getAccessToken(appId, appSecret);

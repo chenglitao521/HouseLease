@@ -4,4 +4,12 @@
 
 	<!--上传文件地址-->
 	<param name="UPLOAD_FILE_PATH" value="E:\\test"/>
+
+	<!--测试账号-->
+	<param name="appId" value="wx49bbc90ad4a7cc59"/>
+	<param name="appSecret" value="dc0237e21bcb3fa78ef6fa94de932bac"/>
+
+	<!--正式账号-->
+	<param name="appId" value="wx38c623b92c52b793"/>
+	<param name="appSecret" value="ee39cb1c014e2b9e8136366510e13586"/>
 </webapp-configs>
