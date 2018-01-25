@@ -46,6 +46,7 @@ public class WeinXinServiceImpl implements IWeiXinService {
             String toUserName = requestMap.get("ToUserName");
             // 消息类型
             String msgType = requestMap.get("MsgType");
+            String eventKey = requestMap.get("EventKey");
 
             logger.debug("处理微信发来的消息，发送方账号：{}", fromUserName);
 
@@ -94,7 +95,9 @@ public class WeinXinServiceImpl implements IWeiXinService {
                 String eventType = requestMap.get("Event");
                 // 关注
                 if (eventType.equals(MessageUtil.EVENT_TYPE_SUBSCRIBE)) {
-                    respContent = "谢谢您的关注！";
+
+                    eventKey = requestMap.get("EventKey"); //事件KEY值
+                    respContent = "谢谢您的关注！" + eventKey;
                 }
                 // 取消关注
                 else if (eventType.equals(MessageUtil.EVENT_TYPE_UNSUBSCRIBE)) {
@@ -103,14 +106,27 @@ public class WeinXinServiceImpl implements IWeiXinService {
                 // 扫描带参数二维码
                 else if (eventType.equals(MessageUtil.EVENT_TYPE_SCAN)) {
                     // TODO 处理扫描带参数二维码事件
+
+                    eventKey = requestMap.get("EventKey"); //事件KEY值
+                    respContent = "您扫描的二维码事件！" + eventKey;
+
                 }
                 // 上报地理位置
                 else if (eventType.equals(MessageUtil.EVENT_TYPE_LOCATION)) {
                     // TODO 处理上报地理位置事件
+                    String Latitude = requestMap.get("Latitude");
+                    String Longitude = requestMap.get("Longitude");
+                    String Precision = requestMap.get("Precision");
+
+
+                    respContent = "您上报的地理位置！" + Latitude + "_" + Longitude + "_" + Precision;
+
                 }
                 // 自定义菜单
                 else if (eventType.equals(MessageUtil.EVENT_TYPE_CLICK)) {
                     // TODO 处理菜单点击事件
+                    eventKey = requestMap.get("EventKey"); //事件KEY值
+                    respContent = "您点击的自定义菜单事件！" + eventKey;
                 }
             }
             // 设置文本消息的内容
