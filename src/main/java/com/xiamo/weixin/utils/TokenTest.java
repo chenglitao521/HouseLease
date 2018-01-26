@@ -30,7 +30,7 @@ public class TokenTest {
         String appSecret = "dc0237e21bcb3fa78ef6fa94de932bac";
 
 
-        String url = WeiXinUtil.urlEncodeUTF8("http://hlm1234.duapp.com/weixin/OAuthAfter");
+        String url = WeiXinUtil.urlEncodeUTF8("http://197e68v051.iask.in/weixin/OAuthAfter");
         System.out.println(url);
         // 调用接口获取access_token
        Token at = WeiXinUtil.getAccessToken(appId, appSecret);

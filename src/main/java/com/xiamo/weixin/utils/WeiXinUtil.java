@@ -307,7 +307,7 @@ public class WeiXinUtil {
         btn11.setType("view");
         btn11.setKey("1");
 
-        String urrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx49bbc90ad4a7cc59&redirect_uri=http%3A%2F%2Fhlm1234.duapp.com%2Fweixin%2FOAuthAfter&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+        String urrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx49bbc90ad4a7cc59&redirect_uri=http%3A%2F%2F197e68v051.iask.in%2Fweixin%2FOAuthAfter&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
         btn11.setUrl(urrl);
 
         CommonButton btn12 = new CommonButton();
