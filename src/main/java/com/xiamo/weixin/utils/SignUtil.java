@@ -14,6 +14,8 @@ package com.xiamo.weixin.utils;
  */
 
 
+import org.springframework.beans.factory.annotation.Value;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -21,7 +23,8 @@ import java.util.Arrays;
 public class SignUtil {
 
     // 与接口配置信息中的Token要一致
-    private static String token = "souvcweixin";
+    @Value("${token}")
+    private static String token;
 
     /**
      * 方法名：checkSignature</br>

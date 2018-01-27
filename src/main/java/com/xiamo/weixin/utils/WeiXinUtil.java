@@ -3,8 +3,9 @@ package com.xiamo.weixin.utils;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.xiamo.common.utils.BeanFactoryUtil;
+import com.xiamo.weixin.dao.IWeinXinDao;
 import com.xiamo.weixin.po.SNSUserInfo;
-import com.xiamo.weixin.po.Token;
 import com.xiamo.weixin.po.WeixinOauth2Token;
 import com.xiamo.weixin.po.WeixinUserInfo;
 import com.xiamo.weixin.po.menu.Button;
@@ -13,6 +14,10 @@ import com.xiamo.weixin.po.menu.ComplexButton;
 import com.xiamo.weixin.po.menu.Menu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -21,7 +26,9 @@ import javax.net.ssl.TrustManager;
 import java.io.*;
 import java.net.ConnectException;
 import java.net.URL;
-import java.util.List;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
 
 /**
  * <dl>
@@ -33,16 +40,47 @@ import java.util.List;
  *
  * @author chenglitao
  */
+
+@Component
 public class WeiXinUtil {
 
     private static Logger logger = LoggerFactory.getLogger(WeiXinUtil.class);
 
     // 获取access_token接口
-    public final static String token_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
+    public static String token_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
     //创建菜单接口
     public static String menu_create_url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN";
     //获取用户信息接口
-    public static String requestUrl = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID";
+    public static String getUserInfo_url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID";
+    //获得jsapi ticket
+    public static String getJsapi_ticket_url= "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi";
+
+
+    //获取网页access_Token
+    public static  String access_token_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
+    @Value("${appId}")
+    private String appId;
+
+    @Value("${appSecret}")
+    private String appSecret;
+
+
+    @Autowired
+    IWeinXinDao weiXinDaoImpl;
+
+    public static String jsapi_ticket;
+    public static String access_token;
+
+    static {
+
+    }
+
+    private void initInstance() {
+
+        if (weiXinDaoImpl == null) {
+            weiXinDaoImpl = (IWeinXinDao) BeanFactoryUtil.getBean("weiXinDaoImpl");
+        }
+    }
 
     /**
      * 发送https请求
@@ -99,40 +137,111 @@ public class WeiXinUtil {
 
             jsonObject = JSONObject.parseObject(buffer.toString());
         } catch (ConnectException ce) {
+            ce.printStackTrace();
             logger.error("连接超时：{}", ce);
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error("https请求异常：{}", e);
         }
         return jsonObject;
     }
 
     /**
-     * 获取接口访问凭证
-     *
-     * @param appid     凭证
-     * @param appsecret 密钥
-     * @return
+     * 自动刷新获得access_token
+     * 每隔一个小时55分钟获取一次
      */
-    public static Token getAccessToken(String appid, String appsecret) {
-        Token token = null;
-        String requestUrl = token_url.replace("APPID", appid).replace("APPSECRET", appsecret);
+    @Scheduled(fixedRate = 1000 * 60 * 115)
+    public void getAccessToken() {
+        initInstance();
+        String requestUrl = token_url.replace("APPID", appId).replace("APPSECRET", appSecret);
         // 发起GET请求获取凭证
         JSONObject jsonObject = httpsRequest(requestUrl, "GET", null);
 
         if (null != jsonObject) {
             try {
-                token = new Token();
-                token.setAccessToken(jsonObject.getString("access_token"));
+
+                access_token =jsonObject.getString("access_token");
+
+/*
+                if(token!=null){
+                    weiXinDaoImpl.updateAccessToken(jsonObject.getString("access_token"), jsonObject.getString("expires_in"));
+                }else{
+                    weiXinDaoImpl.insertAccessToken(jsonObject.getString("access_token"), jsonObject.getString("expires_in"));
+                }
+*/
+
                 logger.debug("access_token：{}", jsonObject.getString("access_token"));
-                token.setExpiresIn(jsonObject.getIntValue("expires_in"));
             } catch (JSONException e) {
-                token = null;
+                e.printStackTrace();
                 // 获取token失败
-                logger.error("获取token失败 errcode:{} errmsg:{}", jsonObject.getIntValue("errcode"), jsonObject.getString("errmsg"));
+                logger.error("自动获取token失败 errcode:{} errmsg:{}", jsonObject.getIntValue("errcode"), jsonObject.getString("errmsg"));
+            } catch (Exception e) {
+                e.printStackTrace();
+                logger.error("自动获取token失败 errcode:{} errmsg:{}", jsonObject.getIntValue("errcode"), jsonObject.getString("errmsg"));
             }
         }
-        return token;
+
+        //获得jsapi_ticket
+        String requestUrl1 = getJsapi_ticket_url.replace("ACCESS_TOKEN", access_token);
+        JSONObject jsonObject1 = httpsRequest(requestUrl1, "GET", null);
+        if (null != jsonObject1) {
+
+            try {
+
+                jsapi_ticket = jsonObject1.getString("ticket");
+                logger.debug("jsapi_ticket：{}", jsonObject1.getString("ticket"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+                // 获取token失败
+                logger.error("自动获取jsapi_ticket失败 errcode:{} errmsg:{}", jsonObject1.getIntValue("errcode"), jsonObject1.getString("errmsg"));
+            } catch (Exception e) {
+                e.printStackTrace();
+                logger.error("自动获取jsapi_ticket失败 errcode:{} errmsg:{}", jsonObject1.getIntValue("errcode"), jsonObject1.getString("errmsg"));
+            }
+
+        }
+
     }
+    /**
+     * 生成JS-SDK签名
+     * @param
+     * @param url
+     * @return
+     */
+    public static Map<String, String> sign( String url) {
+        Map<String, String> ret = new HashMap<String, String>();
+        String nonce_str = create_nonce_str();
+        String timestamp = create_timestamp();
+        String string1;
+        String signature = "";
+
+        //注意这里参数名必须全部小写，且必须有序
+        string1 = "jsapi_ticket=" + jsapi_ticket +
+                "&noncestr=" + nonce_str +
+                "&timestamp=" + timestamp +
+                "&url=" + url;
+        logger.info("string1 : " + string1);
+
+        try {
+            MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+            crypt.reset();
+            crypt.update(string1.getBytes("UTF-8")); //对string1 字符串进行SHA-1加密处理
+            signature = byteToHex(crypt.digest());  //对加密后字符串转成16进制
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        ret.put("url", url);
+        ret.put("jsapi_ticket", jsapi_ticket);
+        ret.put("nonceStr", nonce_str);
+        ret.put("timestamp", timestamp);
+        ret.put("signature", signature);
+
+        return ret;
+    }
+
 
     /**
      * @date:2018/1/25 0025 15:41
@@ -171,9 +280,9 @@ public class WeiXinUtil {
         WeixinUserInfo weixinUserInfo = null;
         // 拼接请求地址
 
-        requestUrl = requestUrl.replace("ACCESS_TOKEN", accessToken).replace("OPENID", openId);
+        getUserInfo_url = getUserInfo_url.replace("ACCESS_TOKEN", accessToken).replace("OPENID", openId);
         // 获取用户信息
-        JSONObject jsonObject = httpsRequest(requestUrl, "GET", null);
+        JSONObject jsonObject = httpsRequest(getUserInfo_url, "GET", null);
 
         if (null != jsonObject) {
             try {
@@ -222,12 +331,11 @@ public class WeiXinUtil {
     public static WeixinOauth2Token getOauth2AccessToken(String appId, String appSecret, String code) {
         WeixinOauth2Token wat = null;
         // 拼接请求地址
-        String requestUrl = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
-        requestUrl = requestUrl.replace("APPID", appId);
-        requestUrl = requestUrl.replace("SECRET", appSecret);
-        requestUrl = requestUrl.replace("CODE", code);
+
+        access_token_url = access_token_url.replace("APPID", appId).replace("SECRET", appSecret).replace("CODE", code);
+
         // 获取网页授权凭证
-        JSONObject jsonObject = httpsRequest(requestUrl, "GET", null);
+        JSONObject jsonObject = httpsRequest(access_token_url, "GET", null);
         if (null != jsonObject) {
             try {
                 wat = new WeixinOauth2Token();
@@ -285,12 +393,12 @@ public class WeiXinUtil {
         }
         return snsUserInfo;
     }
+
     /**
      * @date:2018/1/25 0025 16:40
      * @className:WeiXinUtil
      * @author:chenglitao
      * @description:URL编码（utf-8）
-     *
      */
     public static String urlEncodeUTF8(String source) {
         String result = source;
@@ -301,13 +409,15 @@ public class WeiXinUtil {
         }
         return result;
     }
+
     private static Menu getMenu() {
         CommonButton btn11 = new CommonButton();
         btn11.setName("文章1");
         btn11.setType("view");
         btn11.setKey("1");
 
-        String urrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx49bbc90ad4a7cc59&redirect_uri=http%3A%2F%2F197e68v051.iask.in%2Fweixin%2FOAuthAfter&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+        String urrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx49bbc90ad4a7cc59&redirect_uri=http%3A%2F%2F197e68v051.iask" +
+                ".in%2Fweixin%2FOAuthAfter&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
         btn11.setUrl(urrl);
 
         CommonButton btn12 = new CommonButton();
@@ -379,4 +489,21 @@ public class WeiXinUtil {
         return menu;
     }
 
+    private static String byteToHex(final byte[] hash) {
+        Formatter formatter = new Formatter();
+        for (byte b : hash) {
+            formatter.format("%02x", b);
+        }
+        String result = formatter.toString();
+        formatter.close();
+        return result;
+    }
+    //生成随机字符串
+    private static String create_nonce_str() {
+        return UUID.randomUUID().toString();
+    }
+    //生成时间戳字符串
+    private static String create_timestamp() {
+        return Long.toString(System.currentTimeMillis() / 1000);
+    }
 }

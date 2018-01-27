@@ -1,5 +1,6 @@
 package com.xiamo.weixin.service.impl;
 
+import com.xiamo.weixin.dao.IWeinXinDao;
 import com.xiamo.weixin.po.Token;
 import com.xiamo.weixin.po.resp.TextMessage;
 import com.xiamo.weixin.service.IWeiXinService;
@@ -7,6 +8,7 @@ import com.xiamo.weixin.utils.MessageUtil;
 import com.xiamo.weixin.utils.WeiXinUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -24,6 +26,8 @@ import java.util.Map;
  */
 public class WeinXinServiceImpl implements IWeiXinService {
     private static final Logger logger = LoggerFactory.getLogger(WeinXinServiceImpl.class);
+    @Autowired
+    IWeinXinDao weiXinDaoImpl;
 
 
     /**
@@ -144,14 +148,8 @@ public class WeinXinServiceImpl implements IWeiXinService {
     @Override
     public int createMenu() {
         int result = 0;
-        String appId = "wx49bbc90ad4a7cc59";
-        // 第三方用户唯一凭证密钥
-        String appSecret = "dc0237e21bcb3fa78ef6fa94de932bac";
-
-        // 调用接口获取access_token
-        Token at = WeiXinUtil.getAccessToken(appId, appSecret);
-
-        result = WeiXinUtil.createMenu(at.getAccessToken());
+        Token token= weiXinDaoImpl.getAccessToken();
+        result = WeiXinUtil.createMenu(token.getAccessToken());
         logger.debug("创建菜单返回的结果：{}", result);
         return result;
     }

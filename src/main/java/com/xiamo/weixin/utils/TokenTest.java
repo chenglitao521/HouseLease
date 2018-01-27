@@ -1,6 +1,5 @@
 package com.xiamo.weixin.utils;
 
-import com.xiamo.weixin.po.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,26 +23,19 @@ public class TokenTest {
         //输出返回结果
         System.out.println(token.getAccessToken());*/
 
-        // 第三方用户唯一凭证wx38c623b92c52b793
-        String appId = "wx49bbc90ad4a7cc59";
-        // 第三方用户唯一凭证密钥ee39cb1c014e2b9e8136366510e13586
-        String appSecret = "dc0237e21bcb3fa78ef6fa94de932bac";
-
 
         String url = WeiXinUtil.urlEncodeUTF8("http://197e68v051.iask.in/weixin/OAuthAfter");
         System.out.println(url);
-        // 调用接口获取access_token
-       Token at = WeiXinUtil.getAccessToken(appId, appSecret);
-        if (null != at) {
-            // 调用接口创建菜单
-            int result = WeiXinUtil.createMenu(at.getAccessToken());
 
-            // 判断菜单创建结果
-            if (0 == result)
-                logger.info("菜单创建成功！");
-            else
-                logger.info("菜单创建失败，错误码：" + result);
-        }
+        // 调用接口创建菜单
+        int result = WeiXinUtil.createMenu("");
+
+        // 判断菜单创建结果
+        if (0 == result)
+            logger.info("菜单创建成功！");
+        else
+            logger.info("菜单创建失败，错误码：" + result);
+
     }
 
 

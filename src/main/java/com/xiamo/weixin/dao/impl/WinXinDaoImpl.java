@@ -20,15 +20,15 @@ public class WinXinDaoImpl extends BaseJdbcMysqlDao implements IWeinXinDao {
 
 
     /**
-     * @param appid
-     * @param appsecret
+     * @param
+     * @param
      * @date:2018/1/24 0024 15:39
      * @className:IWeinXinDao
      * @author:chenglitao
      * @description:获得AccessToken
      */
     @Override
-    public Token getAccessToken(String appid, String appsecret) {
+    public Token getAccessToken() {
         StringBuffer sql = new StringBuffer();
         sql.append("SELECT *  FROM HL_TOKEN WHERE 1=1 ORDER BY CREATE_TIME DESC LIMIT 0,1 ");
 
@@ -40,7 +40,7 @@ public class WinXinDaoImpl extends BaseJdbcMysqlDao implements IWeinXinDao {
     public int insertAccessToken(String accessToken, String expiresIn) {
         StringBuffer sql = new StringBuffer("INSERT INTO HL_TOKEN (ACCESS_TOKEN,EXPIRES_IN,CREATE_TIME) ")
                 .append(" VALUES(?,?,NOW())");
-        Object[] args = new Object[]{accessToken,expiresIn};
+        Object[] args = new Object[]{accessToken,Integer.valueOf(expiresIn).intValue()};
         int[] argTypes = new int[]{Types.VARCHAR, Types.INTEGER};
         return this.update(sql.toString(), args, argTypes);
     }
@@ -57,7 +57,7 @@ public class WinXinDaoImpl extends BaseJdbcMysqlDao implements IWeinXinDao {
     public int updateAccessToken(String accessToken, String expiresIn) {
         StringBuffer sql = new StringBuffer("UPDATE HL_TOKEN SET ACCESS_TOKEN=?, EXPIRES_IN=?");
         sql.append(" CREATE_TIME= NOW() WHERE ID=?");
-        Object[] args = new Object[]{accessToken,expiresIn};
+        Object[] args = new Object[]{accessToken,Integer.valueOf(expiresIn)};
         int[] argTypes = new int[]{Types.VARCHAR,  Types.INTEGER};
         return this.update(sql.toString(), args, argTypes);
     }

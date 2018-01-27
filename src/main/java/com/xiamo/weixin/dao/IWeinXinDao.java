@@ -20,7 +20,7 @@ public interface IWeinXinDao {
      * @author:chenglitao
      * @description:获得AccessToken
      */
-    Token getAccessToken(String appid, String appsecret);
+    Token getAccessToken();
 
     /**
      * @date:2018/1/24 0024 15:57

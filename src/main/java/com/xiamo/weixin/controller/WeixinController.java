@@ -10,6 +10,7 @@ import com.xiamo.weixin.utils.WeiXinUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.util.Map;
 
 /**
  * <dl>
@@ -38,12 +40,18 @@ public class WeixinController {
     IWeiXinService weiXinServiceImpl;
     private static final Logger logger = LoggerFactory.getLogger(WeixinController.class);
 
+    @Value("${appId}")
+    private String appId;
+
+    @Value("${appSecret}")
+    private String appSecret;
     /**
      * @date:2018/1/17 0017 16:41
      * @className:WeixinController
      * @author:chenglitao
      * @description:验证消息来自微信服务器
      */
+
     @RequestMapping(method = RequestMethod.GET)
     public void zxingdecode(HttpServletRequest request, HttpServletResponse response) {
 
@@ -131,15 +139,16 @@ public class WeixinController {
         try {
             request.setCharacterEncoding("utf-8");
             response.setCharacterEncoding("utf-8");
-
+            String requestUrl = request.getRequestURL().toString();
             // 用户同意授权后，能获取到code
             String code = request.getParameter("code");
             String state = request.getParameter("state");
-
+            logger.debug("code=" + code);
+            logger.debug("state=" + state);
             // 用户同意授权
             if (!"authdeny".equals(code)) {
                 // 获取网页授权access_token
-                WeixinOauth2Token weixinOauth2Token = WeiXinUtil.getOauth2AccessToken("wx49bbc90ad4a7cc59", "dc0237e21bcb3fa78ef6fa94de932bac", code);
+                WeixinOauth2Token weixinOauth2Token = WeiXinUtil.getOauth2AccessToken(appId, appSecret, code);
                 // 网页授权接口访问凭证
                 String accessToken = weixinOauth2Token.getAccessToken();
                 // 用户标识
@@ -152,9 +161,15 @@ public class WeixinController {
                 mv.addObject("snsUserInfo", JsonUtils.toJson(snsUserInfo));
                 mv.addObject("state", state);
             }
+            String url =  "http://" + request.getServerName()+ request.getRequestURI()+"?"+request.getQueryString();
+            Map<String, String> sign = WeiXinUtil.sign(url);
 
+            mv.addObject("timestamp",sign.get("timestamp"));
+            mv.addObject("nonceStr",sign.get("nonceStr"));
+            mv.addObject("signature",sign.get("signature"));
+            mv.addObject("appId",appId);
 
-        mv.setViewName("/index");
+            mv.setViewName("/index");
         } catch (Exception e) {
             e.printStackTrace();
         }
