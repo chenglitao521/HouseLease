@@ -337,6 +337,12 @@ public class WeiXinUtil {
         // 获取网页授权凭证
         JSONObject jsonObject = httpsRequest(access_token_url, "GET", null);
         if (null != jsonObject) {
+            int errorCode = jsonObject.getIntValue("errcode");
+            if(errorCode!=0){
+
+                System.out.println("出差");
+            }
+
             try {
                 wat = new WeixinOauth2Token();
                 wat.setAccessToken(jsonObject.getString("access_token"));
@@ -346,7 +352,7 @@ public class WeiXinUtil {
                 wat.setScope(jsonObject.getString("scope"));
             } catch (Exception e) {
                 wat = null;
-                int errorCode = jsonObject.getIntValue("errcode");
+                 errorCode = jsonObject.getIntValue("errcode");
                 String errorMsg = jsonObject.getString("errmsg");
                 logger.error("获取网页授权凭证失败 errcode:{} errmsg:{}", errorCode, errorMsg);
             }
