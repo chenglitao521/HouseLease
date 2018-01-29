@@ -5,7 +5,6 @@ import com.xiamo.classify.service.IClassifyService;
 import com.xiamo.common.po.ServiceException;
 import com.xiamo.common.utils.JsonUtils;
 import com.xiamo.common.vo.AjaxResultPo;
-import com.xiamo.common.vo.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,19 +49,8 @@ public class ClassifyController {
         logger.info("进入ClassifyController.query方法");
         AjaxResultPo res = new AjaxResultPo(true, "操作成功");
         try {
-
-            PageInfo pageInfo = null;
-            if (page > 0) {
-                pageInfo = new PageInfo((page - 1) * rows, rows);
-            }
-
-            List<ClassifyPo> list = classifyServiceImpl.query(classifyPo, pageInfo);
-            if (page > 0) {
-                res.setTotal(pageInfo.getTotalRecords());
-            } else {
-                res.setTotal(list.size());
-            }
-
+            List<ClassifyPo> list = classifyServiceImpl.query(classifyPo);
+            res.setTotal(list.size());
             res.setRows(list);
         } catch (ServiceException e) {
             logger.debug(e.getMessage());
@@ -89,9 +77,9 @@ public class ClassifyController {
         logger.info("进入ClassifyController.add方法，classifyPo={}", JsonUtils.toJson(classifyPo));
 
         try {
-            int r = classifyServiceImpl.add(classifyPo,request);
+            int r = classifyServiceImpl.add(classifyPo, request);
 
-        }catch (ServiceException e) {
+        } catch (ServiceException e) {
             e.printStackTrace();
             return AjaxResultPo.failure(e.getMessage());
 

@@ -1,7 +1,6 @@
 package com.xiamo.classify.dao;
 
 import com.xiamo.classify.po.ClassifyPo;
-import com.xiamo.common.vo.PageInfo;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;
@@ -18,7 +17,7 @@ import java.util.List;
  * @author CLT
  */
 public interface IClassifyDao {
-    List<ClassifyPo> query(ClassifyPo classifyPo, PageInfo pageInfo)throws DataAccessException;
+    List<ClassifyPo> query(ClassifyPo classifyPo)throws DataAccessException;
 
     int add(ClassifyPo classifyPo)throws DataAccessException ;
 

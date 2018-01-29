@@ -1,7 +1,6 @@
 package com.xiamo.classify.service;
 
 import com.xiamo.classify.po.ClassifyPo;
-import com.xiamo.common.vo.PageInfo;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -24,7 +23,7 @@ public interface IClassifyService {
      * @Description:分页查询分类
      * @Date:20:57 2018/1/8
      **/
-    List<ClassifyPo> query(ClassifyPo classifyPo, PageInfo pageInfo);
+    List<ClassifyPo> query(ClassifyPo classifyPo);
 
     /**
      * @Author:chenglitao

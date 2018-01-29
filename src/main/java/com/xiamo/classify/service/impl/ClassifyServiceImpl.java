@@ -6,7 +6,6 @@ import com.xiamo.classify.service.IClassifyService;
 import com.xiamo.common.po.ServiceException;
 import com.xiamo.common.utils.ConfigUtils;
 import com.xiamo.common.utils.DateConstants;
-import com.xiamo.common.vo.PageInfo;
 import com.xiamo.shops.service.IShopsService;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
@@ -45,11 +44,11 @@ public class ClassifyServiceImpl implements IClassifyService {
     @Autowired
     IClassifyDao classifyDaoImpl;
 
-    public List<ClassifyPo> query(ClassifyPo classifyPo, PageInfo pageInfo) {
+    public List<ClassifyPo> query(ClassifyPo classifyPo) {
 
         List<ClassifyPo> classifyPos = null;
         try {
-            classifyPos = classifyDaoImpl.query(classifyPo, pageInfo);
+            classifyPos = classifyDaoImpl.query(classifyPo);
         } catch (DataAccessException e) {
             e.printStackTrace();
         }

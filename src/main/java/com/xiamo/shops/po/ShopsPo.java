@@ -22,13 +22,24 @@ public class ShopsPo implements Serializable {
     private Integer area;//商铺面积
     private Integer status;//商铺状态
     private Date expireTime;//到期时间
-    private  Integer floor;//楼层
-    private String structure;//构造
-    private Integer leaseTime;//租期
-    private Integer leaseMoney;//租金
+    private Integer floor;//楼层
+    private Integer structure;//构造
+    private String leaseTime;//租期
+    private String leaseMoney;//租金
     private String descp;//描述
     private String photoUrl;//图片地址
 
+    private String coordinate;//商铺坐标
+    private Integer classifyId; //分类ID
+    private String catalog;//一级目录
+    private String catalog1;//二级目录
+    private Integer high;//层高
+    private String santong;//水电气
+    private Integer electricType;//电类型
+
+    private Integer attribute;//房子属性
+    private String lessee;//承租人姓名
+    private String lessseTel;//承租人电话
 
     public Integer getId() {
         return id;
@@ -86,29 +97,14 @@ public class ShopsPo implements Serializable {
         this.floor = floor;
     }
 
-    public String getStructure() {
+    public Integer getStructure() {
         return structure;
     }
 
-    public void setStructure(String structure) {
+    public void setStructure(Integer structure) {
         this.structure = structure;
     }
 
-    public Integer getLeaseTime() {
-        return leaseTime;
-    }
-
-    public void setLeaseTime(Integer leaseTime) {
-        this.leaseTime = leaseTime;
-    }
-
-    public Integer getLeaseMoney() {
-        return leaseMoney;
-    }
-
-    public void setLeaseMoney(Integer leaseMoney) {
-        this.leaseMoney = leaseMoney;
-    }
 
     public String getDescp() {
         return descp;
@@ -124,5 +120,101 @@ public class ShopsPo implements Serializable {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public String getLeaseTime() {
+        return leaseTime;
+    }
+
+    public void setLeaseTime(String leaseTime) {
+        this.leaseTime = leaseTime;
+    }
+
+    public String getLeaseMoney() {
+        return leaseMoney;
+    }
+
+    public void setLeaseMoney(String leaseMoney) {
+        this.leaseMoney = leaseMoney;
+    }
+
+    public String getCoordinate() {
+        return coordinate;
+    }
+
+    public void setCoordinate(String coordinate) {
+        this.coordinate = coordinate;
+    }
+
+    public Integer getClassifyId() {
+        return classifyId;
+    }
+
+    public void setClassifyId(Integer classifyId) {
+        this.classifyId = classifyId;
+    }
+
+    public String getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(String catalog) {
+        this.catalog = catalog;
+    }
+
+    public String getCatalog1() {
+        return catalog1;
+    }
+
+    public void setCatalog1(String catalog1) {
+        this.catalog1 = catalog1;
+    }
+
+    public Integer getHigh() {
+        return high;
+    }
+
+    public void setHigh(Integer high) {
+        this.high = high;
+    }
+
+    public String getSantong() {
+        return santong;
+    }
+
+    public void setSantong(String santong) {
+        this.santong = santong;
+    }
+
+    public Integer getElectricType() {
+        return electricType;
+    }
+
+    public void setElectricType(Integer electricType) {
+        this.electricType = electricType;
+    }
+
+    public Integer getAttribute() {
+        return attribute;
+    }
+
+    public void setAttribute(Integer attribute) {
+        this.attribute = attribute;
+    }
+
+    public String getLessee() {
+        return lessee;
+    }
+
+    public void setLessee(String lessee) {
+        this.lessee = lessee;
+    }
+
+    public String getLessseTel() {
+        return lessseTel;
+    }
+
+    public void setLessseTel(String lessseTel) {
+        this.lessseTel = lessseTel;
     }
 }
