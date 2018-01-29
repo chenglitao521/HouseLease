@@ -3,6 +3,7 @@ package com.xiamo.merchant.service;
 import com.xiamo.common.vo.PageInfo;
 import com.xiamo.merchant.po.MerchantPo;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ public interface IMerchantService {
 
     List<MerchantPo> query(MerchantPo po, PageInfo pageInfo);
 
-    int add(MerchantPo po);
+    int add(MerchantPo po, HttpServletRequest request);
 
     int update(MerchantPo po);
 }

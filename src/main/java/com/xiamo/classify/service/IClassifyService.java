@@ -3,6 +3,7 @@ package com.xiamo.classify.service;
 import com.xiamo.classify.po.ClassifyPo;
 import com.xiamo.common.vo.PageInfo;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -30,7 +31,7 @@ public interface IClassifyService {
      * @Date:21:00 2018/1/8
      * @Description:添加分类
      **/
-    int add(ClassifyPo classifyPo);
+    int add(ClassifyPo classifyPo, HttpServletRequest request);
 
     /**
      * @Author:chenglitao

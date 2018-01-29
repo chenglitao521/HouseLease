@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -49,5 +51,17 @@ public class CommonController {
         return po;
     }
 
+
+    @ResponseBody
+    @RequestMapping(value="upload")
+    public ModelAndView testUpload() throws IOException {
+       // FileUpload.uploadImages(request);
+
+       // /tmp/2018012915540012345. png
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("trueFileName","/tmp/2018012915540012345.png");
+        modelAndView.setViewName("/zxingcoder");
+        return modelAndView;
+    }
 
 }

@@ -5,4 +5,6 @@
 	<!--上传文件地址-->
 	<param name="UPLOAD_FILE_PATH" value="E:\\test"/>
 
+	<!--图片虚拟目录-->
+	<param name="VIRTUAL_PATH" value="/tmp/"/>
 </webapp-configs>

@@ -33,25 +33,25 @@ public class MerchantDaoImpl extends BaseJdbcMysqlDao implements IMerchantDao {
     }
 
     public int add(MerchantPo po) throws DataAccessException {
-        StringBuffer sql = new StringBuffer("INSERT INTO HL_MERCHANT (NAME,CLASSIFY_ID,NUM,ADDRESS,TELEPHONE,STATUS" +
-                ",QR_CODE,REGISTER) ")
-                .append(" VALUES(?,?,?,?,?,?,?,?)");
-        Object[] args = new Object[]{po.getName(), po.getClassifyId(), po.getNum(), po.getAddress(), po.getTelephone(), po.getStatus(),
-                po.getQrCode(), po.getRegister()};
-        int[] argTypes = new int[]{Types.VARCHAR, Types.INTEGER, Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.VARCHAR, Types.VARCHAR};
+        StringBuffer sql = new StringBuffer("INSERT INTO HL_MERCHANT (NAME,NUM,ADDRESS,TELEPHONE,STATUS" +
+                ",CONTACT_NAME,IMAGE_URL1,IMAGE_URL2,IMAGE_URL3) ")
+                .append(" VALUES(?,?,?,?,?,?,?,?,?)");
+        Object[] args = new Object[]{po.getName(), po.getNum(), po.getAddress(), po.getTelephone(), po.getStatus(),
+                po.getContactName(), po.getImageUrl1(), po.getImageUrl2(), po.getImageUrl3()};
+        int[] argTypes = new int[]{Types.VARCHAR, Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR};
 
         return this.update(sql.toString(), args, argTypes);
     }
 
     public int update(MerchantPo po) throws DataAccessException {
-        StringBuffer sql = new StringBuffer("UPDATE HL_MERCHANT SET NAME=?, CLASSIFY_ID=?,NUM=?,ADDRESS=?,TELEPHONE=?,STATUS=?,QR_CODE=?," +
-                "REGISTER=? ");
+        StringBuffer sql = new StringBuffer("UPDATE HL_MERCHANT SET NAME=?,NUM=?,ADDRESS=?,TELEPHONE=?,STATUS=?" +
+                ",CONTACT_NAME=?,IMAGE_URL1=?,IMAGE_URL2=?,IMAGE_URL3=?");
 
         sql.append(" UPDATE_TIME= NOW() WHERE ID=?");
-        Object[] args = new Object[]{po.getName(), po.getClassifyId(), po.getNum(), po.getAddress(), po.getTelephone(), po.getStatus(),
-                po.getQrCode(), po.getRegister(), po.getId()};
-        int[] argTypes = new int[]{Types.VARCHAR, Types.INTEGER, Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.VARCHAR,
-                Types.VARCHAR, Types.INTEGER};
+        Object[] args = new Object[]{po.getName(), po.getNum(), po.getAddress(), po.getTelephone(), po.getStatus(), po.getContactName(),
+                po.getImageUrl1(), po.getImageUrl2(), po.getImageUrl3(), po.getId()};
+
+        int[] argTypes = new int[]{Types.VARCHAR, Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.INTEGER};
         return this.update(sql.toString(), args, argTypes);
     }
 

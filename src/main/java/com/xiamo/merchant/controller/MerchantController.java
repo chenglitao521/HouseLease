@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 
@@ -77,11 +78,11 @@ public class MerchantController {
      */
     @ResponseBody
     @RequestMapping("/add")
-    public AjaxResultPo add(MerchantPo po) throws IOException {
+    public AjaxResultPo add(MerchantPo po, HttpServletRequest request) throws IOException {
         logger.info("进入MerchantController.add方法，MerchantPo={}", JsonUtils.toJson(po));
         try {
 
-            int r = merchantServiceImpl.add(po);
+            int r = merchantServiceImpl.add(po,request);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResultPo.failure("添加商户信息失败");

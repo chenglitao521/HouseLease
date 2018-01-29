@@ -16,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -150,7 +149,7 @@ public class WeiXinUtil {
      * 自动刷新获得access_token
      * 每隔一个小时55分钟获取一次
      */
-    @Scheduled(fixedRate = 1000 * 60 * 115)
+   // @Scheduled(fixedRate = 1000 * 60 * 115)
     public void getAccessToken() {
         initInstance();
         String requestUrl = token_url.replace("APPID", appId).replace("APPSECRET", appSecret);

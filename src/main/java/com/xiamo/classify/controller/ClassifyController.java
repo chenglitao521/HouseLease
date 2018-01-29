@@ -2,6 +2,7 @@ package com.xiamo.classify.controller;
 
 import com.xiamo.classify.po.ClassifyPo;
 import com.xiamo.classify.service.IClassifyService;
+import com.xiamo.common.po.ServiceException;
 import com.xiamo.common.utils.JsonUtils;
 import com.xiamo.common.vo.AjaxResultPo;
 import com.xiamo.common.vo.PageInfo;
@@ -49,6 +50,7 @@ public class ClassifyController {
         logger.info("进入ClassifyController.query方法");
         AjaxResultPo res = new AjaxResultPo(true, "操作成功");
         try {
+
             PageInfo pageInfo = null;
             if (page > 0) {
                 pageInfo = new PageInfo((page - 1) * rows, rows);
@@ -62,6 +64,11 @@ public class ClassifyController {
             }
 
             res.setRows(list);
+        } catch (ServiceException e) {
+            logger.debug(e.getMessage());
+            e.printStackTrace();
+            return AjaxResultPo.failure("查询分类信息失败");
+
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResultPo.failure("查询分类信息失败");
@@ -82,7 +89,11 @@ public class ClassifyController {
         logger.info("进入ClassifyController.add方法，classifyPo={}", JsonUtils.toJson(classifyPo));
 
         try {
-            int r = classifyServiceImpl.add(classifyPo);
+            int r = classifyServiceImpl.add(classifyPo,request);
+
+        }catch (ServiceException e) {
+            e.printStackTrace();
+            return AjaxResultPo.failure(e.getMessage());
 
         } catch (Exception e) {
             e.printStackTrace();

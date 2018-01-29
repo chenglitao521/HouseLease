@@ -18,21 +18,16 @@ public class MerchantPo implements Serializable {
 
     private Integer id;
     private String name;//商家名称
-    private Integer classifyId; //分类Id
     private Integer num;
     private String address;
     private String telephone;
     private Integer status;//状态
-    private String register;//备案信息
-    private String qrCode;//二维码
+    private String contactName;//联系人姓名
 
-    public String getQrCode() {
-        return qrCode;
-    }
+    private String imageUrl1;//备案图片1
+    private String imageUrl2;//
+    private String imageUrl3;//
 
-    public void setQrCode(String qrCode) {
-        this.qrCode = qrCode;
-    }
 
     public Integer getId() {
         return id;
@@ -50,13 +45,6 @@ public class MerchantPo implements Serializable {
         this.name = name;
     }
 
-    public Integer getClassifyId() {
-        return classifyId;
-    }
-
-    public void setClassifyId(Integer classifyId) {
-        this.classifyId = classifyId;
-    }
 
     public Integer getNum() {
         return num;
@@ -90,11 +78,36 @@ public class MerchantPo implements Serializable {
         this.status = status;
     }
 
-    public String getRegister() {
-        return register;
+
+    public String getContactName() {
+        return contactName;
     }
 
-    public void setRegister(String register) {
-        this.register = register;
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
+    }
+
+    public String getImageUrl1() {
+        return imageUrl1;
+    }
+
+    public void setImageUrl1(String imageUrl1) {
+        this.imageUrl1 = imageUrl1;
+    }
+
+    public String getImageUrl2() {
+        return imageUrl2;
+    }
+
+    public void setImageUrl2(String imageUrl2) {
+        this.imageUrl2 = imageUrl2;
+    }
+
+    public String getImageUrl3() {
+        return imageUrl3;
+    }
+
+    public void setImageUrl3(String imageUrl3) {
+        this.imageUrl3 = imageUrl3;
     }
 }
