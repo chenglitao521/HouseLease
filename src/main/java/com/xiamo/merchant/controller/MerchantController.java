@@ -100,11 +100,11 @@ public class MerchantController {
 
     @ResponseBody
     @RequestMapping("/update")
-    public AjaxResultPo update(MerchantPo po) throws IOException {
+    public AjaxResultPo update(MerchantPo po,HttpServletRequest request) throws IOException {
         logger.info("进入MerchantController.update方法，po={}", JsonUtils.toJson(po));
 
         try {
-            int r = merchantServiceImpl.update(po);
+            int r = merchantServiceImpl.update(po,request);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResultPo.failure("更新商户信息失败");

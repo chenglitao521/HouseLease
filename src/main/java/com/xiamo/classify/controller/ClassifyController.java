@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
@@ -73,7 +72,7 @@ public class ClassifyController {
      */
     @ResponseBody
     @RequestMapping("/add")
-    public AjaxResultPo add(ClassifyPo classifyPo, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public AjaxResultPo add(ClassifyPo classifyPo, HttpServletRequest request) throws IOException {
         logger.info("进入ClassifyController.add方法，classifyPo={}", JsonUtils.toJson(classifyPo));
 
         try {
@@ -100,11 +99,11 @@ public class ClassifyController {
      */
     @ResponseBody
     @RequestMapping("/update")
-    public AjaxResultPo update(ClassifyPo classifyPo) throws IOException {
+    public AjaxResultPo update(ClassifyPo classifyPo, HttpServletRequest request) throws IOException {
         logger.info("进入ClassifyController.update方法，classifyPo={}", JsonUtils.toJson(classifyPo));
 
         try {
-            int r = classifyServiceImpl.update(classifyPo);
+            int r = classifyServiceImpl.update(classifyPo,request);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResultPo.failure("更新分类信息失败");

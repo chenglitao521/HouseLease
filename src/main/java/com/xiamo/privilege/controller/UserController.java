@@ -66,4 +66,30 @@ public class UserController {
         }
         return res;
     }
+
+    @ResponseBody
+    @RequestMapping("/add")
+    public AjaxResultPo add(UserPo userPo) {
+        logger.info("进入查询用户的方法！");
+        AjaxResultPo res = new AjaxResultPo(true,"操作成功");
+        try {
+            PageInfo pageInfo = null;
+            if (page > 0) {
+                pageInfo = new PageInfo((page - 1) * rows, rows);
+            }
+
+            List<UserPo> list = userServiceImpl.query(userPo, pageInfo);
+            if (page > 0) {
+                res.setTotal(pageInfo.getTotalRecords());
+            } else {
+                res.setTotal(list.size());
+            }
+
+            res.setRows(list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            res.setMessage("查询用户信息失败");
+        }
+        return res;
+    }
 }

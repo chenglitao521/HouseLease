@@ -37,7 +37,7 @@ public interface IClassifyService {
      * @Date:21:01 2018/1/8
      * @Description:更新分类
      **/
-    int update(ClassifyPo classifyPo);
+    int update(ClassifyPo classifyPo, HttpServletRequest request);
 
 
     /**

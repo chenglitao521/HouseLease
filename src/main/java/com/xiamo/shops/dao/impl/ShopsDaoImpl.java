@@ -4,6 +4,7 @@ import com.xiamo.common.dao.impl.BaseJdbcMysqlDao;
 import com.xiamo.common.vo.PageInfo;
 import com.xiamo.shops.dao.IShopsDao;
 import com.xiamo.shops.po.ShopsPo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
@@ -21,8 +22,17 @@ public class ShopsDaoImpl extends BaseJdbcMysqlDao implements IShopsDao {
     @Override
     public List<ShopsPo> query(ShopsPo po, PageInfo pageInfo) throws DataAccessException {
         StringBuffer sql = new StringBuffer();
-        sql.append("SELECT *  FROM HL_SHOPS ");
+        sql.append("SELECT * FROM HL_SHOPS  WHERE 1=1 ");
 
+        if(StringUtils.isNotBlank(po.getName())){
+            sql.append(" AND NAME LIKE '%"+po.getName()+"%'");
+        }
+        if(StringUtils.isNotBlank(po.getCatalog())){
+            sql.append(" AND CATALOG LIKE '%"+po.getCatalog()+"%'");
+        }
+        if(StringUtils.isNotBlank(po.getCatalog1())){
+            sql.append(" AND CATALOG1 LIKE '%"+po.getCatalog1()+"%'");
+        }
         if (pageInfo != null && pageInfo.getResults() > 0) {
             return this.queryByPage(sql.toString(), pageInfo, ShopsPo.class);
         } else {

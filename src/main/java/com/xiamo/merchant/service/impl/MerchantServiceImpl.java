@@ -173,13 +173,13 @@ public class MerchantServiceImpl implements IMerchantService {
                 }
             }
 
-            for (int i=0;i<imgUrls.size();i++) {
+            for (int i = 0; i < imgUrls.size(); i++) {
 
-                if(i==0){
+                if (i == 0) {
                     po.setImageUrl1(imgUrls.get(i));
-                }else if(i==1){
+                } else if (i == 1) {
                     po.setImageUrl2(imgUrls.get(i));
-                }else if(i==2){
+                } else if (i == 2) {
                     po.setImageUrl3(imgUrls.get(i));
                 }
             }
@@ -197,12 +197,145 @@ public class MerchantServiceImpl implements IMerchantService {
         return 0;
     }
 
-    public int update(MerchantPo po) {
+    public int update(MerchantPo po, HttpServletRequest httprequest) {
         try {
+
+            MultipartHttpServletRequest request = (MultipartHttpServletRequest) httprequest;
+            Iterator<String> fileNames = request.getFileNames();
+
+            //保存图片名和url对应关系
+            List<String> imgUrls = new ArrayList<>();
+
+            long totalSum = 0;
+            while (fileNames.hasNext()) {
+
+                //把fileNames集合中的值打出来
+                String fileName = fileNames.next();
+                logger.debug("fileName:{} ", fileName);
+
+            /*
+             * request.getFiles(fileName)方法即通过fileName这个Key, 得到对应的文件
+             * 集合列表. 只是在这个Map中, 文件被包装成MultipartFile类型
+             */
+                List<MultipartFile> fileList = request.getFiles(fileName);
+
+
+                if (fileList.size() > 0) {
+
+                    //遍历文件列表
+                    Iterator<MultipartFile> fileIte = fileList.iterator();
+
+
+                    while (fileIte.hasNext()) {
+
+                        //获得每一个文件
+                        MultipartFile multipartFile = fileIte.next();
+                        //判断文件是否为空
+                        if (!multipartFile.isEmpty()) {
+                            //获取文件大小, 单位为字节
+                            long size = multipartFile.getSize();
+                            logger.debug("size: ", size);
+                            totalSum += size;
+                            if (totalSum > 10485760) {
+
+                                throw new ServiceException("上传的文件总大小，不能超过10M");
+                            }
+                            //获得原文件名
+                            String origName = multipartFile.getOriginalFilename();
+                            logger.debug("origName: " + origName);
+
+                            String ext = FilenameUtils.getExtension(origName).toLowerCase();
+
+                            String removeExtName = FilenameUtils.removeExtension(origName).toLowerCase();
+                            logger.debug("上传文件后缀名：{}", ext);
+                            //判断上传文件后缀名
+                            if (!("gif".equals(ext) || "jpg".equals(ext) || "png".equals(ext))) {
+                                //  return AjaxResultPo.failure("上传的图片格式不正确！");
+                                logger.error("上传的文件格式不正确！文件名为：{}" + origName);
+                                throw new ServiceException("上传的文件格式不正确！");
+
+                            }
+                            String trueFileName = DateConstants.DATE_FORMAT_NUM().format(new Date()) + origName;
+                            imgUrls.add(VIRTUAL_PATH + trueFileName);
+
+                            String filePath = realPath + trueFileName;
+
+                            logger.debug("上传文件完整的路径为：{}", filePath);
+
+                            //检查该路径对应的目录是否存在. 如果不存在则创建目录
+                            File tempFile = new File(filePath);
+
+                            if (!tempFile.getParentFile().exists()) {
+                                tempFile.getParentFile().mkdir();
+                            }
+                            if (!tempFile.exists()) {
+                                tempFile.mkdir();
+                            }
+
+                            //保存文件
+
+                        /*
+                         * MultipartFile提供了void transferTo(File dest)方法,
+                         * 将获取到的文件以File形式传输至指定路径.
+                         */
+                            multipartFile.transferTo(tempFile);
+
+                        /*
+                         * 如果需对文件进行其他操作, MultipartFile也提供了
+                         * InputStream getInputStream()方法获取文件的输入流
+                         *
+                         * 例如下面的语句即为通过
+                         * org.apache.commons.io.FileUtils提供的
+                         * void copyInputStreamToFile(InputStream source, File destination)
+                         * 方法, 获取输入流后将其保存至指定路径
+                         */
+                            //FileUtils.copyInputStreamToFile(multipartFile.getInputStream(), dest);
+
+
+                            //MultipartFile也提供了其他一些方法, 用来获取文件的部分属性
+
+                            //获取文件contentType
+                            String contentType = multipartFile.getContentType();
+                            logger.debug("contentType: ", contentType);
+
+                    /*
+                     * 获取name
+                     * 其实这个name跟上面提到的getFileName值是一样的,
+                     * 就是Map中Key的值. 即前台页面<input>中name=""
+                     * 属性. 但是上面的getFileName只是得到这个Map的Key,
+                     * 而Spring在处理上传文件的时候会把这个值以name属性
+                     * 记录到对应的每一个文件. 如果需要从文件层面获取这个
+                     * 值, 则可以使用该方法
+                     */
+                            String name = multipartFile.getName();
+                            logger.debug("name: ", name);
+                        }
+
+
+                    }
+                }
+            }
+
+            for (int i = 0; i < imgUrls.size(); i++) {
+
+                if (i == 0) {
+                    po.setImageUrl1(imgUrls.get(i));
+                } else if (i == 1) {
+                    po.setImageUrl2(imgUrls.get(i));
+                } else if (i == 2) {
+                    po.setImageUrl3(imgUrls.get(i));
+                }
+            }
+
             return merchantDaoImpl.update(po);
 
         } catch (DataAccessException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ServiceException e) {
+            e.printStackTrace();
+            throw e;
         }
         return 0;
     }

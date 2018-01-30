@@ -25,5 +25,5 @@ public interface IMerchantService {
 
     int add(MerchantPo po, HttpServletRequest request);
 
-    int update(MerchantPo po);
+    int update(MerchantPo po, HttpServletRequest request);
 }

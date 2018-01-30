@@ -3,6 +3,7 @@ package com.xiamo.shops.service;
 import com.xiamo.common.vo.PageInfo;
 import com.xiamo.shops.po.ShopsPo;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -14,9 +15,9 @@ import java.util.List;
 public interface IShopsService {
     List<ShopsPo> query(ShopsPo po, PageInfo pageInfo);
 
-    int update(ShopsPo po);
+    int update(ShopsPo po, HttpServletRequest request);
 
-    int add(ShopsPo po);
+    int add(ShopsPo po, HttpServletRequest request);
 
     int delete(Integer id);
 

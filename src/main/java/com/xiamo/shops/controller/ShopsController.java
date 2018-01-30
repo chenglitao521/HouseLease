@@ -90,9 +90,8 @@ public class ShopsController {
     public AjaxResultPo add(ShopsPo po, HttpServletRequest request) throws IOException {
         logger.info("进入ShopsController.add方法，ShopsPo={}", JsonUtils.toJson(po));
         try {
-/*            String uploadFile = FileUpload.uploadFile(request);
-            po.setPhotoUrl(uploadFile);*/
-            int r = shopsService.add(po);
+
+            int r = shopsService.add(po,request);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResultPo.failure("添加商铺信息失败");
@@ -110,11 +109,11 @@ public class ShopsController {
      */
     @ResponseBody
     @RequestMapping("/update")
-    public AjaxResultPo update(ShopsPo po) throws IOException {
+    public AjaxResultPo update(ShopsPo po,HttpServletRequest request) throws IOException {
         logger.info("进入ShopsController.update方法，po={}", JsonUtils.toJson(po));
 
         try {
-            int r = shopsService.update(po);
+            int r = shopsService.update(po, request);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResultPo.failure("更新商铺信息失败");
