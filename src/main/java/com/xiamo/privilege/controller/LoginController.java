@@ -50,7 +50,7 @@ public class LoginController {
                 model.addAttribute("errMsg", "用户名或密码错误!");
             }
 
-            if (userPo.getUserType().equals(UserStatus.STOP.value)) {
+            if (UserStatus.STOP.value.equals(userPo.getUserType())) {
 
                 model.addAttribute("errMsg", "用户已注销!");
             }

@@ -36,4 +36,14 @@ public interface IUserService {
     *
     **/
     UserPo loginByName(String loginName);
+
+    /**
+     * @date:2018/1/31 0031 11:06
+     * @className:IUserService
+     * @author:chenglitao
+     * @description:添加用户
+     *
+     */
+    int add(UserPo userPo);
+
 }

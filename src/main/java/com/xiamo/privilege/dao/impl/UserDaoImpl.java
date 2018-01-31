@@ -7,6 +7,7 @@ import com.xiamo.privilege.po.UserPo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DataAccessException;
 
+import java.sql.Types;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ import java.util.List;
  * @author chenglitao
  */
 public class UserDaoImpl extends BaseJdbcMysqlDao implements IUserDao {
-    public List<UserPo> query(UserPo po, PageInfo pageInfo)throws DataAccessException {
+    public List<UserPo> query(UserPo po, PageInfo pageInfo) throws DataAccessException {
 
         StringBuffer sql = new StringBuffer();
         sql.append("SELECT *  FROM HL_USER ");
@@ -36,11 +37,21 @@ public class UserDaoImpl extends BaseJdbcMysqlDao implements IUserDao {
     public UserPo loginByName(String loginName) throws DataAccessException {
         StringBuffer sql = new StringBuffer();
         sql.append("SELECT *  FROM HL_USER WHERE  1=1 ");
-        if (StringUtils.isNotBlank(loginName)){
+        if (StringUtils.isNotBlank(loginName)) {
             sql.append(" AND LOGIN_NAME = '").append(loginName).append("'");
         }
 
-        return this.queryForObject(sql.toString(),UserPo.class);
+        return this.queryForObject(sql.toString(), UserPo.class);
 
+    }
+
+    @Override
+    public int add(UserPo po) throws DataAccessException {
+        StringBuffer sql = new StringBuffer("INSERT INTO HL_USER (NAME,LOGIN_NAME,PASSWORD,STATUS,USER_TYPE,TELEPHONE) ")
+                .append(" VALUES(? ,? ,? ,? ,? ,?)");
+        Object[] args = new Object[]{po.getName(), po.getLoginName(), po.getPassword(), po.getStatus(), po.getUserType(), po.getTelephone()};
+        int[] argTypes = new int[]{Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR};
+
+        return this.update(sql.toString(), args, argTypes);
     }
 }

@@ -46,4 +46,16 @@ public class UserServiceImpl implements IUserService {
         }
         return user;
     }
+
+    @Override
+    public int add(UserPo userPo) {
+
+        try {
+            int r = userDaoImpl.add(userPo);
+            return r;
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
 }
