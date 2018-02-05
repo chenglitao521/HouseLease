@@ -7,11 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -22,78 +21,10 @@ import java.util.List;
  * @author:chenglitao
  * @description:上传文件
  */
-public class FileUpload {
-    private static final Logger logger = LoggerFactory.getLogger(FileUpload.class);
+public class FileUpload_copy {
+    private static final Logger logger = LoggerFactory.getLogger(FileUpload_copy.class);
     public static final String FILE_PATH = ConfigUtils.VIRTUAL_PATH(); //图片虚拟目录
     public static final String realPath = ConfigUtils.UPLOAD_FILE_PATH(); //上传文件的目录
-
-    /**
-     * @param imgStr base64编码字符串
-     * @param
-     * @return
-     * @Description: 将base64编码字符串转换为图片
-     * @Author:
-     * @CreateTime:
-     */
-    public static String generateImage(String imgStr, String origName) {
-
-        //保存到服务器的文件名
-        String trueFileName = DateConstants.DATE_FORMAT_NUM().format(new Date()) + origName+".jpg";
-        //上传的路径
-        String path = realPath + trueFileName;
-
-        logger.debug("上传文件完整的路径为：{}", path);
-        // 转存文件到指定的路径
-
-
-        if (imgStr == null) {
-            return "";
-        }
-
-
-        BASE64Decoder decoder = new BASE64Decoder();
-        try {
-            // 解密
-            byte[] b = decoder.decodeBuffer(imgStr);
-            // 处理数据
-            for (int i = 0; i < b.length; ++i) {
-                if (b[i] < 0) {
-                    b[i] += 256;
-                }
-            }
-            OutputStream out = new FileOutputStream(path);
-            out.write(b);
-            out.flush();
-            out.close();
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-        return FILE_PATH + trueFileName;
-    }
-
-    /**
-     * @return
-     * @Description: 根据图片地址转换为base64编码字符串
-     * @Author:
-     * @CreateTime:
-     */
-    public static String getImageStr(String imgFile) {
-        InputStream inputStream = null;
-        byte[] data = null;
-        try {
-            inputStream = new FileInputStream(imgFile);
-            data = new byte[inputStream.available()];
-            inputStream.read(data);
-            inputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // 加密
-        BASE64Encoder encoder = new BASE64Encoder();
-        return encoder.encode(data);
-    }
 
     //文件上传
     public static String uploadFile(HttpServletRequest request) throws IOException {
@@ -101,7 +32,7 @@ public class FileUpload {
         logger.debug("图片上传根路径：{}", realPath);
         // 自定义的文件名称
         String trueFileName = "";
-        String origName = ""; //源文件名
+        String origName=""; //源文件名
         // 先实例化一个文件解析器
         CommonsMultipartResolver coMultipartResolver = new CommonsMultipartResolver(request.getSession()
                 .getServletContext());
@@ -126,7 +57,7 @@ public class FileUpload {
                     throw new ServiceException("上传的文件格式不正确！");
 
                 }
-                trueFileName = DateConstants.DATE_FORMAT_NUM().format(new Date()) + origName;
+                trueFileName =  DateConstants.DATE_FORMAT_NUM().format(new Date()) + origName;
                 String path = realPath + trueFileName;
 
                 logger.debug("上传文件完整的路径为：{}", path);
@@ -147,41 +78,41 @@ public class FileUpload {
                 logger.error("找不到上传的文件！");
             }
         }
-        return FILE_PATH + trueFileName;
+        return FILE_PATH+trueFileName;
     }
 
-    public static void uploadImages(MultipartHttpServletRequest request) throws IOException {
+    public static  void uploadImages(MultipartHttpServletRequest request) throws IOException {
 
         Iterator<String> fileNames = request.getFileNames();
 
         while (fileNames.hasNext()) {
 
             //把fileNames集合中的值打出来
-            String fileName = fileNames.next();
-            logger.debug("fileName:{} ", fileName);
+            String fileName=fileNames.next();
+            logger.debug("fileName:{} ",fileName);
 
             /*
              * request.getFiles(fileName)方法即通过fileName这个Key, 得到对应的文件
              * 集合列表. 只是在这个Map中, 文件被包装成MultipartFile类型
              */
-            List<MultipartFile> fileList = request.getFiles(fileName);
+            List<MultipartFile> fileList=request.getFiles(fileName);
 
-            String trueFileName = "";
-            if (fileList.size() > 0) {
+            String trueFileName="";
+            if (fileList.size()>0) {
 
                 //遍历文件列表
-                Iterator<MultipartFile> fileIte = fileList.iterator();
+                Iterator<MultipartFile> fileIte=fileList.iterator();
 
                 while (fileIte.hasNext()) {
 
                     //获得每一个文件
-                    MultipartFile multipartFile = fileIte.next();
+                    MultipartFile multipartFile=fileIte.next();
 
                     //获得原文件名
                     String origName = multipartFile.getOriginalFilename();
-                    System.out.println("origName: " + origName);
+                    System.out.println("origName: "+origName);
 
-                    trueFileName = DateConstants.DATE_FORMAT_NUM().format(new Date()) + origName;
+                    trueFileName =  DateConstants.DATE_FORMAT_NUM().format(new Date()) + origName;
                     String filePath = realPath + trueFileName;
 
                     logger.debug("上传文件完整的路径为：{}", filePath);
@@ -195,6 +126,8 @@ public class FileUpload {
                     if (!tempFile.exists()) {
                         tempFile.mkdir();
                     }
+
+
 
 
                     //保存文件
@@ -221,8 +154,8 @@ public class FileUpload {
                     //MultipartFile也提供了其他一些方法, 用来获取文件的部分属性
 
                     //获取文件contentType
-                    String contentType = multipartFile.getContentType();
-                    System.out.println("contentType: " + contentType);
+                    String contentType=multipartFile.getContentType();
+                    System.out.println("contentType: "+contentType);
 
                     /*
                      * 获取name
@@ -233,12 +166,12 @@ public class FileUpload {
                      * 记录到对应的每一个文件. 如果需要从文件层面获取这个
                      * 值, 则可以使用该方法
                      */
-                    String name = multipartFile.getName();
-                    System.out.println("name: " + name);
+                    String name=multipartFile.getName();
+                    System.out.println("name: "+name);
 
                     //获取文件大小, 单位为字节
-                    long size = multipartFile.getSize();
-                    System.out.println("size: " + size);
+                    long size=multipartFile.getSize();
+                    System.out.println("size: "+size);
 
                 }
             }

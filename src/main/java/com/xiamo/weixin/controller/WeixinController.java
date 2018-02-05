@@ -154,6 +154,8 @@ public class WeixinController {
                 // 用户标识
                 String openId = weixinOauth2Token.getOpenId();
                 // 获取用户信息
+
+               // WeixinUserInfo userInfo=WeiXinUtil. getUserInfo(accessToken, openId);
                 SNSUserInfo snsUserInfo = WeiXinUtil.getSNSUserInfo(accessToken, openId);
 
                 // 设置要传递的参数

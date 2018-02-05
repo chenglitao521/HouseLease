@@ -50,13 +50,13 @@ public class WeiXinUtil {
     //创建菜单接口
     public static String menu_create_url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN";
     //获取用户信息接口
-    public static String getUserInfo_url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID";
+    public static String getUserInfo_url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
     //获得jsapi ticket
-    public static String getJsapi_ticket_url= "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi";
+    public static String getJsapi_ticket_url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi";
 
 
     //获取网页access_Token
-    public static  String access_token_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
+    public static String access_token_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
     @Value("${appId}")
     private String appId;
 
@@ -149,7 +149,7 @@ public class WeiXinUtil {
      * 自动刷新获得access_token
      * 每隔一个小时55分钟获取一次
      */
-   // @Scheduled(fixedRate = 1000 * 60 * 115)
+    // @Scheduled(fixedRate = 1000 * 60 * 115)
     public void getAccessToken() {
         initInstance();
         String requestUrl = token_url.replace("APPID", appId).replace("APPSECRET", appSecret);
@@ -159,7 +159,7 @@ public class WeiXinUtil {
         if (null != jsonObject) {
             try {
 
-                access_token =jsonObject.getString("access_token");
+                access_token = jsonObject.getString("access_token");
 
 /*
                 if(token!=null){
@@ -201,13 +201,15 @@ public class WeiXinUtil {
         }
 
     }
+
     /**
      * 生成JS-SDK签名
+     *
      * @param
      * @param url
      * @return
      */
-    public static Map<String, String> sign( String url) {
+    public static Map<String, String> sign(String url) {
         Map<String, String> ret = new HashMap<String, String>();
         String nonce_str = create_nonce_str();
         String timestamp = create_timestamp();
@@ -337,9 +339,10 @@ public class WeiXinUtil {
         JSONObject jsonObject = httpsRequest(access_token_url, "GET", null);
         if (null != jsonObject) {
             int errorCode = jsonObject.getIntValue("errcode");
-            if(errorCode!=0){
+            String errorMsg = jsonObject.getString("errmsg");
+            if (errorCode != 0) {
 
-                System.out.println("出差");
+                logger.error("获取网页授权凭证失败 errcode:{} errmsg:{}", errorCode, errorMsg);
             }
 
             try {
@@ -351,8 +354,8 @@ public class WeiXinUtil {
                 wat.setScope(jsonObject.getString("scope"));
             } catch (Exception e) {
                 wat = null;
-                 errorCode = jsonObject.getIntValue("errcode");
-                String errorMsg = jsonObject.getString("errmsg");
+                errorCode = jsonObject.getIntValue("errcode");
+                errorMsg = jsonObject.getString("errmsg");
                 logger.error("获取网页授权凭证失败 errcode:{} errmsg:{}", errorCode, errorMsg);
             }
         }
@@ -503,10 +506,12 @@ public class WeiXinUtil {
         formatter.close();
         return result;
     }
+
     //生成随机字符串
     private static String create_nonce_str() {
         return UUID.randomUUID().toString();
     }
+
     //生成时间戳字符串
     private static String create_timestamp() {
         return Long.toString(System.currentTimeMillis() / 1000);
