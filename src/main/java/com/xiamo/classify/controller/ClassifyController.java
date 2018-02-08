@@ -1,6 +1,7 @@
 package com.xiamo.classify.controller;
 
 import com.xiamo.classify.po.ClassifyPo;
+import com.xiamo.classify.po.ClassifyVo;
 import com.xiamo.classify.service.IClassifyService;
 import com.xiamo.common.po.ServiceException;
 import com.xiamo.common.utils.JsonUtils;
@@ -9,12 +10,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <dl>
@@ -36,6 +41,13 @@ public class ClassifyController {
     @Autowired
     IClassifyService classifyServiceImpl;
 
+    @ResponseBody
+    @RequestMapping("/testHttpMessageConverter")
+    public String testHttpMessageConverter(@RequestBody String body)
+    {
+        System.out.println(body);
+        return "";
+    }
     /**
      * @date:2018/1/10 0010
      * @className:ClassifyController
@@ -44,13 +56,28 @@ public class ClassifyController {
      */
     @ResponseBody
     @RequestMapping("/query")
-    public AjaxResultPo query( ClassifyPo classifyPo) {
+    public AjaxResultPo query(ClassifyPo classifyPo) {
         logger.info("进入ClassifyController.query方法");
         AjaxResultPo res = new AjaxResultPo(true, "操作成功");
         try {
             List<ClassifyPo> list = classifyServiceImpl.query(classifyPo);
-            res.setTotal(list.size());
-            res.setRows(list);
+
+
+            List<ClassifyVo> result = new ArrayList<>();
+            for (ClassifyPo po : list) {
+                ClassifyVo vo = new ClassifyVo();
+
+                vo.setId(po.getId());
+                vo.setName(po.getName());
+                Map<String, Object> iconMap = new HashMap<>();
+
+
+                vo.setIcon(iconMap);
+
+                result.add(vo);
+            }
+            res.setTotal(result.size());
+            res.setRows(result);
         } catch (ServiceException e) {
             logger.debug(e.getMessage());
             e.printStackTrace();
@@ -103,7 +130,7 @@ public class ClassifyController {
         logger.info("进入ClassifyController.update方法，classifyPo={}", JsonUtils.toJson(classifyPo));
 
         try {
-            int r = classifyServiceImpl.update(classifyPo,request);
+            int r = classifyServiceImpl.update(classifyPo, request);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResultPo.failure("更新分类信息失败");
