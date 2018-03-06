@@ -155,6 +155,12 @@ public class WeixinController {
                 String openId = weixinOauth2Token.getOpenId();
                 // 获取用户信息
 
+                Boolean check= WeiXinUtil.checkAccessToken(accessToken, openId);
+                if(!check){
+                    WeixinOauth2Token refresh=   WeiXinUtil.refreshAccessToken(weixinOauth2Token.getRefreshToken(), appId);
+
+                    accessToken =  refresh.getAccessToken();
+                }
                // WeixinUserInfo userInfo=WeiXinUtil. getUserInfo(accessToken, openId);
                 SNSUserInfo snsUserInfo = WeiXinUtil.getSNSUserInfo(accessToken, openId);
 

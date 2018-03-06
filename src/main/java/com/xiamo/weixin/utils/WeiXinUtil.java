@@ -57,6 +57,11 @@ public class WeiXinUtil {
 
     //获取网页access_Token
     public static String access_token_url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
+
+    //检验授权凭证（access_token）是否有效
+    public static String check_url = "https://api.weixin.qq.com/sns/auth?access_token=ACCESS_TOKEN&openid=OPENID";
+    //刷新授权凭证
+    public static String refresh_accesstoken_url="https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=APPID&grant_type=refresh_token&refresh_token=REFRESH_TOKEN";
     @Value("${appId}")
     private String appId;
 
@@ -80,6 +85,7 @@ public class WeiXinUtil {
             weiXinDaoImpl = (IWeinXinDao) BeanFactoryUtil.getBean("weiXinDaoImpl");
         }
     }
+
 
     /**
      * 发送https请求
@@ -143,6 +149,64 @@ public class WeiXinUtil {
             logger.error("https请求异常：{}", e);
         }
         return jsonObject;
+    }
+
+
+    /**
+     * @date:2018/3/6 0006 15:14
+     * @className:WeiXinUtil
+     * @author:chenglitao
+     * @description:检验授权凭证（access_token）是否有效
+     */
+    public static Boolean checkAccessToken(String access_token, String appId) {
+        String requestUrl = check_url.replace("ACCESS_TOKEN", access_token).replace("OPENID", appId);
+
+        JSONObject jsonObject1 = httpsRequest(requestUrl, "GET", null);
+        if (jsonObject1 != null) {
+            if (0 != jsonObject1.getIntValue("errcode")) {
+
+                logger.error("创建菜单失败 errcode:{} errmsg:{}", jsonObject1.getIntValue("errcode"), jsonObject1.getString("errmsg"));
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @date:2018/3/6 0006 15:28
+     * @className:WeiXinUtil
+     * @author:chenglitao
+     * @description:刷新AccessToken
+     *
+     */
+    public static WeixinOauth2Token refreshAccessToken(String refreshToken, String appId) {
+        String requestUrl = refresh_accesstoken_url.replace("REFRESH_TOKEN", refreshToken).replace("APPID", appId);
+        WeixinOauth2Token wat = new WeixinOauth2Token();
+        JSONObject jsonObject = httpsRequest(requestUrl, "GET", null);
+        if (null != jsonObject) {
+            int errorCode = jsonObject.getIntValue("errcode");
+            String errorMsg = jsonObject.getString("errmsg");
+            if (errorCode != 0) {
+
+                logger.error("获取网页授权凭证失败 errcode:{} errmsg:{}", errorCode, errorMsg);
+            }
+
+            try {
+
+                wat.setAccessToken(jsonObject.getString("access_token"));
+                wat.setExpiresIn(jsonObject.getIntValue("expires_in"));
+                wat.setRefreshToken(jsonObject.getString("refresh_token"));
+                wat.setOpenId(jsonObject.getString("openid"));
+                wat.setScope(jsonObject.getString("scope"));
+            } catch (Exception e) {
+                wat = null;
+                errorCode = jsonObject.getIntValue("errcode");
+                errorMsg = jsonObject.getString("errmsg");
+                logger.error("获取网页授权凭证失败 errcode:{} errmsg:{}", errorCode, errorMsg);
+            }
+        }
+        return wat;
     }
 
     /**
