@@ -46,7 +46,7 @@ public class ClassifyController {
     public String testHttpMessageConverter(@RequestBody String body)
     {
         System.out.println(body);
-        return "";
+        return "1111";
     }
     /**
      * @date:2018/1/10 0010

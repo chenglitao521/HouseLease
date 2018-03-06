@@ -7,7 +7,7 @@
 
 
     <title>json交互测试</title>
-    <script type="text/javascript" src="<%=request.getContextPath()%>/WEB-INF/statics/jquery/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/res/jquery/jquery-1.9.1.js"></script>
     <script type="text/javascript">
         //请求的是json，输出的是json
         function reuqestJson(){

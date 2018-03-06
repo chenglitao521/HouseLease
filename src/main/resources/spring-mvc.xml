@@ -32,6 +32,8 @@
 
     <mvc:resources mapping="/img/**" location="/WEB-INF/statics/images/"/>
 
+    <mvc:resources mapping="/res/**" location="/WEB-INF/statics/" />
+
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <!--  设置上传文件大小的参数 ，当前为10M -->
