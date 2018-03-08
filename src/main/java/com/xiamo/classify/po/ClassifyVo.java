@@ -1,5 +1,6 @@
 package com.xiamo.classify.po;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,8 +18,7 @@ public class ClassifyVo {
     private Integer id;  //id
     private String name; //一级目录名称
     private Map<String, Object> icon; //一级目录图片
-    private Map<String, Object> subName; //二级目录图片
-
+    private List<Map<String, Object>> subName;//二级目录
     private Integer sort;
 
     public Integer getId() {
@@ -27,6 +27,15 @@ public class ClassifyVo {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+
+    public List<Map<String, Object>> getSubName() {
+        return subName;
+    }
+
+    public void setSubName(List<Map<String, Object>> subName) {
+        this.subName = subName;
     }
 
     public String getName() {
@@ -45,13 +54,6 @@ public class ClassifyVo {
         this.icon = icon;
     }
 
-    public Map<String, Object> getSubName() {
-        return subName;
-    }
-
-    public void setSubName(Map<String, Object> subName) {
-        this.subName = subName;
-    }
 
     public Integer getSort() {
         return sort;

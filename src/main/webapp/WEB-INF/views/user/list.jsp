@@ -13,12 +13,13 @@
         function reuqestJson(){
             $.ajax({
                 type:'post',
-                url:'${pageContext.request.contextPath }/classify/testHttpMessageConverter',
+                url:'${pageContext.request.contextPath }/classify/query',
                 contentType:'application/json;charset=utf-8',
                 //数据格式是json串,商品信息
-                data:'{"name":"手机","price":999}',
+                datatype:"json",
+                data:'{"id":1,"name":"fjf"}',
                 success:function(data){//返回json结果
-                    alert(data);
+                    console.info(data);
                 }
             });
         }
