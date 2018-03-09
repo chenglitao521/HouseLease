@@ -27,6 +27,16 @@ public class FileUpload {
     public static final String FILE_PATH = ConfigUtils.VIRTUAL_PATH(); //图片虚拟目录
     public static final String realPath = ConfigUtils.UPLOAD_FILE_PATH(); //上传文件的目录
 
+
+    public static void main(String[] args) {
+
+        String str = getImageStr(realPath + "qqq.jpg");
+
+
+        String path= generateImage(str,"测试");
+        System.out.println(path);
+    }
+
     /**
      * @param imgStr base64编码字符串
      * @param
@@ -38,7 +48,7 @@ public class FileUpload {
     public static String generateImage(String imgStr, String origName) {
 
         //保存到服务器的文件名
-        String trueFileName = DateConstants.DATE_FORMAT_NUM().format(new Date()) + origName+".jpg";
+        String trueFileName = DateConstants.DATE_FORMAT_NUM().format(new Date()) + origName + ".jpg";
         //上传的路径
         String path = realPath + trueFileName;
 
