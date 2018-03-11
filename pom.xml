@@ -265,7 +265,7 @@
                 <directory>${basedir}/src/main/resources</directory>
             </resource>
         </resources>
-        <!--  <plugins>
+  <!--        <plugins>
               &lt;!&ndash;servlet容器 jetty插件&ndash;&gt;
               <plugin>
                   <groupId>org.eclipse.jetty</groupId>

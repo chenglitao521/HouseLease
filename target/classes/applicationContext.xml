@@ -48,7 +48,14 @@
         </property>
     </bean>
 
-
+    <context:annotation-config />
     <tx:annotation-driven proxy-target-class="false" transaction-manager="transactionManager"/>
+
+<!--    <bean id="baseJdbcDao" abstract="true"
+          class="com.xiamo.common.dao.impl.BaseJdbcDao">
+        <property name="jdbcTemplate">
+            <ref bean="jdbcTemplate" />
+        </property>
+    </bean>-->
 
 </beans>
