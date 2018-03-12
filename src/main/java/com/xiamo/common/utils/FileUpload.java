@@ -30,11 +30,11 @@ public class FileUpload {
 
     public static void main(String[] args) {
 
-        String str = getImageStr(realPath + "qqq.jpg");
+        String str = getImageStr(realPath + "20180312171536aaa.png");
 
 
         String path= generateImage(str,"测试");
-        System.out.println(path);
+        System.out.println(str);
     }
 
     /**
@@ -48,7 +48,7 @@ public class FileUpload {
     public static String generateImage(String imgStr, String origName) {
 
         //保存到服务器的文件名
-        String trueFileName = DateConstants.DATE_FORMAT_NUM().format(new Date()) + origName + ".jpg";
+        String trueFileName = DateConstants.DATE_FORMAT_NUM().format(new Date()) + origName ;
         //上传的路径
         String path = realPath + trueFileName;
 

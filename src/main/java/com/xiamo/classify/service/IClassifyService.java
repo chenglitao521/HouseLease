@@ -30,7 +30,7 @@ public interface IClassifyService {
      * @Date:21:00 2018/1/8
      * @Description:添加分类
      **/
-    int add(ClassifyPo classifyPo, HttpServletRequest request);
+    int add(String param, HttpServletRequest request);
 
     /**
      * @Author:chenglitao

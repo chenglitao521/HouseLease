@@ -1,5 +1,7 @@
 package com.xiamo.privilege.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.xiamo.common.po.ServiceException;
 import com.xiamo.common.vo.AjaxResultPo;
 import com.xiamo.privilege.constant.UserStatus;
@@ -10,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -35,7 +38,11 @@ public class LoginController {
 
     @ResponseBody
     @RequestMapping("/index")
-    public AjaxResultPo index(String loginName, String password) {
+    public AjaxResultPo index(@RequestBody String param) {
+
+        JSONObject jo = JSON.parseObject(param);
+        String loginName = jo.getString("loginName");
+        String password = jo.getString("password");
         logger.info("进入LoginController.index方法，loginName={}，password={}", loginName, password);
         AjaxResultPo res = new AjaxResultPo(true, "操作成功");
         try {
@@ -56,6 +63,7 @@ public class LoginController {
                 throw new ServiceException("用户已注销!");
 
             }
+            res.setRows(userPo);
         } catch (ServiceException e) {
             e.printStackTrace();
             res.setSuccess(false);

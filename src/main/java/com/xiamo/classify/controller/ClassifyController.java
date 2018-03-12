@@ -4,6 +4,7 @@ import com.xiamo.classify.po.ClassifyPo;
 import com.xiamo.classify.po.ClassifyVo;
 import com.xiamo.classify.service.IClassifyService;
 import com.xiamo.common.po.ServiceException;
+import com.xiamo.common.utils.FileUpload;
 import com.xiamo.common.utils.JsonUtils;
 import com.xiamo.common.vo.AjaxResultPo;
 import org.slf4j.Logger;
@@ -59,12 +60,14 @@ public class ClassifyController {
      */
     @ResponseBody
     @RequestMapping("/query")
-    public AjaxResultPo query(ClassifyPo classifyPo) {
+    public AjaxResultPo query(ClassifyPo classifyPo,HttpServletRequest request) {
         logger.info("进入ClassifyController.query方法");
         AjaxResultPo res = new AjaxResultPo(true, "操作成功");
         try {
             List<ClassifyPo> list = classifyServiceImpl.query(classifyPo);
-
+            String contextPath = request.getContextPath();
+            String basePath = request.getScheme()+"://"+request.getServerName()+":"+
+                    request.getServerPort()+contextPath+"/";
 
             List<ClassifyVo> result = new ArrayList<>();
             for (ClassifyPo po : list) {
@@ -75,7 +78,7 @@ public class ClassifyController {
                 Map<String, Object> iconMap = new HashMap<>();
 
                 iconMap.put("name", po.getCatalog());
-                iconMap.put("src", po.getIconUrl());
+                iconMap.put("src", FileUpload.getImageStr( FileUpload.realPath+po.getIconUrl()));
                 vo.setIcon(iconMap);
 
 
@@ -152,11 +155,12 @@ public class ClassifyController {
      */
     @ResponseBody
     @RequestMapping("/add")
-    public AjaxResultPo add(ClassifyPo classifyPo, HttpServletRequest request) throws IOException {
-        logger.info("进入ClassifyController.add方法，classifyPo={}", JsonUtils.toJson(classifyPo));
+    public AjaxResultPo add(@RequestBody String param, HttpServletRequest request) throws IOException {
+
+        logger.info("进入ClassifyController.add方法，classifyPo={}", JsonUtils.toJson(param));
 
         try {
-            int r = classifyServiceImpl.add(classifyPo, request);
+            int r = classifyServiceImpl.add(param, request);
 
         } catch (ServiceException e) {
             e.printStackTrace();
