@@ -67,7 +67,7 @@ public class ClassifyController {
             List<ClassifyPo> list = classifyServiceImpl.query(classifyPo);
             String contextPath = request.getContextPath();
             String basePath = request.getScheme()+"://"+request.getServerName()+":"+
-                    request.getServerPort()+contextPath+"/";
+                    request.getServerPort()+contextPath+ FileUpload.FILE_PATH;
 
             List<ClassifyVo> result = new ArrayList<>();
             for (ClassifyPo po : list) {
@@ -78,11 +78,11 @@ public class ClassifyController {
                 Map<String, Object> iconMap = new HashMap<>();
 
                 iconMap.put("name", po.getCatalog());
-                iconMap.put("src", FileUpload.getImageStr( FileUpload.realPath+po.getIconUrl()));
+                iconMap.put("src",basePath+po.getIconUrl());
                 vo.setIcon(iconMap);
 
 
-                List<Map<String, Object>> subName = getSubName(po);
+                List<Map<String, Object>> subName = getSubName(basePath,po);
                 vo.setSubName(subName);
 
                 result.add(vo);
@@ -102,46 +102,46 @@ public class ClassifyController {
         return res;
     }
 
-    private List<Map<String, Object>> getSubName(ClassifyPo po) {
+    private List<Map<String, Object>> getSubName(String basePath, ClassifyPo po) {
         List<Map<String, Object>> subName = new ArrayList<>();
 
         Map<String, Object> temp1 = new HashMap<>();
         temp1.put("name", po.getCatalog1());
         Map<String, Object> file1 = new HashMap<>();
-        file1.put("anme", po.getCatalog1());
-        file1.put("src", po.getIconUrl1());
+        file1.put("name", po.getCatalog1());
+        file1.put("src", basePath+po.getIconUrl1());
         temp1.put("files", file1);
         subName.add(temp1);
 
         Map<String, Object> temp2 = new HashMap<>();
         temp2.put("name", po.getCatalog2());
         Map<String, Object> file2 = new HashMap<>();
-        file2.put("anme", po.getCatalog2());
-        file2.put("src", po.getIconUrl2());
+        file2.put("name", po.getCatalog2());
+        file2.put("src", basePath+po.getIconUrl2());
         temp2.put("files", file2);
         subName.add(temp2);
 
         Map<String, Object> temp3 = new HashMap<>();
         temp3.put("name", po.getCatalog3());
         Map<String, Object> file3 = new HashMap<>();
-        file3.put("anme", po.getCatalog3());
-        file3.put("src", po.getIconUrl3());
+        file3.put("name", po.getCatalog3());
+        file3.put("src",basePath+ po.getIconUrl3());
         temp3.put("files", file3);
         subName.add(temp3);
 
         Map<String, Object> temp4 = new HashMap<>();
         temp4.put("name", po.getCatalog4());
         Map<String, Object> file4 = new HashMap<>();
-        file4.put("anme", po.getCatalog4());
-        file4.put("src", po.getIconUrl4());
+        file4.put("name", po.getCatalog4());
+        file4.put("src", basePath+po.getIconUrl4());
         temp4.put("files", file4);
         subName.add(temp4);
 
         Map<String, Object> temp5 = new HashMap<>();
         temp5.put("name", po.getCatalog5());
         Map<String, Object> file5 = new HashMap<>();
-        file5.put("anme", po.getCatalog5());
-        file5.put("src", po.getIconUrl5());
+        file5.put("name", po.getCatalog5());
+        file5.put("src", basePath+po.getIconUrl5());
         temp5.put("files", file5);
         subName.add(temp4);
         return subName;

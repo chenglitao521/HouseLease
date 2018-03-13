@@ -74,13 +74,40 @@ public class ClassifyServiceImpl implements IClassifyService {
                 classifyPo.setIconUrl(iconUrl);
             }
 
-
-            if(null!=subName.getJSONObject(0)){
-                classifyPo.setCatalog1(subName.getJSONObject(0).getString("name"));
-               // String iconUrl1 = FileUpload.generateImage(icon.getString("src"), icon.getString("name"));
-               // classifyPo.setIconUrl1(iconUrl1);
+            JSONObject jb1= subName.getJSONObject(0);
+            if(null!=jb1){
+                classifyPo.setCatalog1(jb1.getString("name"));
+                String iconUrl1 = FileUpload.generateImage(StringUtils.substringAfter(jb1.getJSONObject("files").getString("src"),","), jb1.getJSONObject("files").getString("name"));
+                classifyPo.setIconUrl1(iconUrl1);
             }
 
+            JSONObject jb2= subName.getJSONObject(1);
+            if(null!=jb2){
+                classifyPo.setCatalog2(jb2.getString("name"));
+                String iconUrl2 = FileUpload.generateImage(StringUtils.substringAfter(jb2.getJSONObject("files").getString("src"),","), jb2.getJSONObject("files").getString("name"));
+                classifyPo.setIconUrl2(iconUrl2);
+            }
+
+            JSONObject jb3= subName.getJSONObject(2);
+            if(null!=jb3){
+                classifyPo.setCatalog3(jb3.getString("name"));
+                String iconUrl3 = FileUpload.generateImage(StringUtils.substringAfter(jb3.getJSONObject("files").getString("src"),","), jb3.getJSONObject("files").getString("name"));
+                classifyPo.setIconUrl3(iconUrl3);
+            }
+
+            JSONObject jb4= subName.getJSONObject(3);
+            if(null!=jb4){
+                classifyPo.setCatalog4(jb4.getString("name"));
+                String iconUrl4 = FileUpload.generateImage(StringUtils.substringAfter(jb4.getJSONObject("files").getString("src"),","), jb4.getJSONObject("files").getString("name"));
+                classifyPo.setIconUrl4(iconUrl4);
+            }
+
+            JSONObject jb5= subName.getJSONObject(4);
+            if(null!=jb5){
+                classifyPo.setCatalog5(jb5.getString("name"));
+                String iconUrl5 = FileUpload.generateImage(StringUtils.substringAfter(jb5.getJSONObject("files").getString("src"),","), jb5.getJSONObject("files").getString("name"));
+                classifyPo.setIconUrl1(iconUrl5);
+            }
             return classifyDaoImpl.add(classifyPo);
 
         } catch (DataAccessException e) {

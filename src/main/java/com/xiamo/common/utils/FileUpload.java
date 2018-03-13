@@ -48,7 +48,7 @@ public class FileUpload {
     public static String generateImage(String imgStr, String origName) {
 
         //保存到服务器的文件名
-        String trueFileName = DateConstants.DATE_FORMAT_NUM().format(new Date()) + origName ;
+        String trueFileName = DateConstants.DATE_FORMAT_NUM().format(new Date()) +"_"+ origName ;
         //上传的路径
         String path = realPath + trueFileName;
 
@@ -80,7 +80,7 @@ public class FileUpload {
 
             e.printStackTrace();
         }
-        return FILE_PATH + trueFileName;
+        return  trueFileName;
     }
 
     /**
