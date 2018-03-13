@@ -183,11 +183,11 @@ public class ClassifyController {
      */
     @ResponseBody
     @RequestMapping("/update")
-    public AjaxResultPo update(ClassifyPo classifyPo, HttpServletRequest request) throws IOException {
-        logger.info("进入ClassifyController.update方法，classifyPo={}", JsonUtils.toJson(classifyPo));
+    public AjaxResultPo update(@RequestBody String param, HttpServletRequest request) throws IOException {
+        logger.info("进入ClassifyController.update方法，classifyPo={}", JsonUtils.toJson(param));
 
         try {
-            int r = classifyServiceImpl.update(classifyPo, request);
+            int r = classifyServiceImpl.update(param, request);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResultPo.failure("更新分类信息失败");

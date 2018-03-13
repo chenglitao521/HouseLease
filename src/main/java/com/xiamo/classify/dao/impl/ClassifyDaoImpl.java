@@ -47,7 +47,7 @@ public class ClassifyDaoImpl extends BaseJdbcMysqlDao implements IClassifyDao {
 
     public int update(ClassifyPo po) throws DataAccessException {
         StringBuffer sql = new StringBuffer("UPDATE HL_CLASSIFY SET NAME=?, CATALOG=?,ICON_URL=?,CATALOG1=?,ICON_URL1=?,CATALOG2=?,ICON_URL2=?," +
-                "CATALOG3=?,ICON_URL3=?,CATALOG4=?,ICON_URL4=?,CATALOG5=?,ICON_URL5=?,SORT=? ");
+                "CATALOG3=?,ICON_URL3=?,CATALOG4=?,ICON_URL4=?,CATALOG5=?,ICON_URL5=?,SORT=? ,");
 
         sql.append(" UPDATE_TIME= NOW() WHERE ID=?");
         Object[] args = new Object[]{po.getName(), po.getCatalog(), po.getIconUrl(), po.getCatalog1(), po.getIconUrl1(), po.getCatalog2(),
