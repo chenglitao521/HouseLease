@@ -19,6 +19,8 @@ public interface IMerchantDao {
 
     int update(MerchantPo po) throws DataAccessException;
 
-    int delete(Integer id);
+    int delete(Integer id) throws DataAccessException;
+
+    int changeState(Integer id, Integer state) throws DataAccessException;
 
 }

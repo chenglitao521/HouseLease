@@ -26,4 +26,6 @@ public interface IMerchantService {
     int add(String param, HttpServletRequest request);
 
     int update(String param, HttpServletRequest request);
+
+    int changeState(Integer id, Integer state);
 }

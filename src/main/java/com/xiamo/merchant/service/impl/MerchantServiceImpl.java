@@ -131,4 +131,15 @@ public class MerchantServiceImpl implements IMerchantService {
         }
         return 0;
     }
+
+    @Override
+    public int changeState(Integer id, Integer state) {
+        try {
+            return merchantDaoImpl.changeState(id,state);
+
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

@@ -182,4 +182,26 @@ public class MerchantController {
         return AjaxResultPo.successDefault();
     }
 
+    /**
+     * @date:2018/3/14 0014 16:11
+     * @className:MerchantController
+     * @author:chenglitao
+     * @description:更新状态
+     *
+     */
+    @ResponseBody
+    @RequestMapping("/changeState")
+    public AjaxResultPo changeState(Integer id,Integer state) {
+        logger.info("进入MerchantController.changeState，id={}", id);
+
+        try {
+            int r = merchantServiceImpl.changeState(id,state);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResultPo.failure("更新商户信息失败");
+
+        }
+        return AjaxResultPo.successDefault();
+    }
+
 }

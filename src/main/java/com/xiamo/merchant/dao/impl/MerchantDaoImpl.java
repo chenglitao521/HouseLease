@@ -59,4 +59,15 @@ public class MerchantDaoImpl extends BaseJdbcMysqlDao implements IMerchantDao {
         String sql = "DELETE FROM HL_MERCHANT WHERE ID=?";
         return this.update(sql, new Object[]{id}, new int[]{Types.INTEGER});
     }
+
+    @Override
+    public int changeState(Integer id, Integer state) throws DataAccessException {
+
+        StringBuffer sql = new StringBuffer("UPDATE HL_MERCHANT SET STATUS=?");
+        sql.append(", UPDATE_TIME= NOW() WHERE ID=?");
+        Object[] args = new Object[]{state, id};
+
+        int[] argTypes = new int[]{Types.INTEGER, Types.INTEGER};
+        return this.update(sql.toString(), args, argTypes);
+    }
 }
