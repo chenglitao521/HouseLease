@@ -29,6 +29,7 @@ public class MerchantPo implements Serializable {
     private String imageUrl3;//
 
 
+
     public Integer getId() {
         return id;
     }

@@ -1,19 +1,25 @@
 package com.xiamo.merchant.controller;
 
+import com.xiamo.common.utils.FileUpload;
 import com.xiamo.common.utils.JsonUtils;
 import com.xiamo.common.vo.AjaxResultPo;
 import com.xiamo.common.vo.PageInfo;
 import com.xiamo.merchant.po.MerchantPo;
+import com.xiamo.merchant.po.MerchantVo;
+import com.xiamo.merchant.po.RecordFilePo;
 import com.xiamo.merchant.service.IMerchantService;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,7 +50,7 @@ public class MerchantController {
      */
     @ResponseBody
     @RequestMapping("/query")
-    public AjaxResultPo query(Integer page, Integer rows, MerchantPo po) {
+    public AjaxResultPo query(Integer page, Integer rows, MerchantPo po, HttpServletRequest request) {
         logger.info("进入MerchantController.query方法");
         AjaxResultPo res = new AjaxResultPo(true, "操作成功");
         try {
@@ -54,13 +60,55 @@ public class MerchantController {
             }
 
             List<MerchantPo> list = merchantServiceImpl.query(po, pageInfo);
+            //转换po为Vo
+            String contextPath = request.getContextPath();
+            String basePath = request.getScheme() + "://" + request.getServerName() + ":" +
+                    request.getServerPort() + contextPath + FileUpload.FILE_PATH;
+            List<MerchantVo> voList= new ArrayList<>();
+
+            for (MerchantPo merchantPo : list) {
+
+                MerchantVo vo =new MerchantVo();
+                vo.setId(merchantPo.getId());
+                vo.setName(merchantPo.getName());
+                vo.setAddr(merchantPo.getAddress());
+                vo.setConcats(merchantPo.getContactName());
+                vo.setTel(merchantPo.getTelephone());
+                vo.setState(merchantPo.getStatus());
+                vo.setShopNum(merchantPo.getNum());
+
+                List<RecordFilePo> recordFiles = new ArrayList<>();
+
+                if (StringUtils.isNotBlank(merchantPo.getImageUrl1())) {
+                    RecordFilePo recordFilePo = new RecordFilePo();
+                    recordFilePo.setName(merchantPo.getImageUrl1());
+                    recordFilePo.setSrc(basePath+merchantPo.getImageUrl1());
+                    recordFiles.add(recordFilePo);
+                }
+                if (StringUtils.isNotBlank(merchantPo.getImageUrl2())) {
+                    RecordFilePo recordFilePo = new RecordFilePo();
+                    recordFilePo.setName(merchantPo.getImageUrl2());
+                    recordFilePo.setSrc(basePath+merchantPo.getImageUrl2());
+                    recordFiles.add(recordFilePo);
+                }
+                if (StringUtils.isNotBlank(merchantPo.getImageUrl3())) {
+                    RecordFilePo recordFilePo = new RecordFilePo();
+                    recordFilePo.setName(merchantPo.getImageUrl3());
+                    recordFilePo.setSrc(basePath+merchantPo.getImageUrl3());
+                    recordFiles.add(recordFilePo);
+                }
+                vo.setRecordFiles(recordFiles);
+
+                voList.add(vo);
+            }
+
             if (page > 0) {
                 res.setTotal(pageInfo.getTotalRecords());
             } else {
-                res.setTotal(list.size());
+                res.setTotal(voList.size());
             }
 
-            res.setRows(list);
+            res.setRows(voList);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResultPo.failure("查询商户信息失败");
@@ -78,11 +126,11 @@ public class MerchantController {
      */
     @ResponseBody
     @RequestMapping("/add")
-    public AjaxResultPo add(MerchantPo po, HttpServletRequest request) throws IOException {
-        logger.info("进入MerchantController.add方法，MerchantPo={}", JsonUtils.toJson(po));
+    public AjaxResultPo add(@RequestBody String param, HttpServletRequest request) throws IOException {
+        logger.info("进入MerchantController.add方法，MerchantPo={}", JsonUtils.toJson(param));
         try {
 
-            int r = merchantServiceImpl.add(po,request);
+            int r = merchantServiceImpl.add(param, request);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResultPo.failure("添加商户信息失败");
@@ -100,11 +148,11 @@ public class MerchantController {
 
     @ResponseBody
     @RequestMapping("/update")
-    public AjaxResultPo update(MerchantPo po,HttpServletRequest request) throws IOException {
-        logger.info("进入MerchantController.update方法，po={}", JsonUtils.toJson(po));
+    public AjaxResultPo update(@RequestBody String param, HttpServletRequest request) throws IOException {
+        logger.info("进入MerchantController.update方法，po={}", JsonUtils.toJson(param));
 
         try {
-            int r = merchantServiceImpl.update(po,request);
+            int r = merchantServiceImpl.update(param, request);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResultPo.failure("更新商户信息失败");

@@ -1,5 +1,7 @@
 package com.xiamo.classify.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.xiamo.classify.po.ClassifyPo;
 import com.xiamo.classify.po.ClassifyVo;
 import com.xiamo.classify.service.IClassifyService;
@@ -204,11 +206,15 @@ public class ClassifyController {
      */
     @ResponseBody
     @RequestMapping("/delete")
-    public AjaxResultPo delete(Integer id) throws IOException {
-        logger.info("进入ClassifyController.delete方法，id={}", id);
+    public AjaxResultPo delete(@RequestBody String  param) throws IOException {
+        JSONObject jo = JSON.parseObject(param);
+        logger.info("进入ClassifyController.delete方法，id={}", param);
 
         try {
-            int r = classifyServiceImpl.delete(id);
+            if(jo==null||jo.getInteger("id")==null){
+                return AjaxResultPo.failure("删除分类信息失败");
+            }
+            int r = classifyServiceImpl.delete(jo.getInteger("id"));
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResultPo.failure("删除分类信息失败");

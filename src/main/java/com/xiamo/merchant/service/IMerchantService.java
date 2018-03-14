@@ -23,7 +23,7 @@ public interface IMerchantService {
 
     List<MerchantPo> query(MerchantPo po, PageInfo pageInfo);
 
-    int add(MerchantPo po, HttpServletRequest request);
+    int add(String param, HttpServletRequest request);
 
-    int update(MerchantPo po, HttpServletRequest request);
+    int update(String param, HttpServletRequest request);
 }

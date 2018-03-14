@@ -47,7 +47,7 @@ public class MerchantDaoImpl extends BaseJdbcMysqlDao implements IMerchantDao {
         StringBuffer sql = new StringBuffer("UPDATE HL_MERCHANT SET NAME=?,NUM=?,ADDRESS=?,TELEPHONE=?,STATUS=?" +
                 ",CONTACT_NAME=?,IMAGE_URL1=?,IMAGE_URL2=?,IMAGE_URL3=?");
 
-        sql.append(" UPDATE_TIME= NOW() WHERE ID=?");
+        sql.append(", UPDATE_TIME= NOW() WHERE ID=?");
         Object[] args = new Object[]{po.getName(), po.getNum(), po.getAddress(), po.getTelephone(), po.getStatus(), po.getContactName(),
                 po.getImageUrl1(), po.getImageUrl2(), po.getImageUrl3(), po.getId()};
 
