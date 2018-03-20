@@ -9,6 +9,7 @@ import com.xiamo.common.po.ServiceException;
 import com.xiamo.common.utils.FileUpload;
 import com.xiamo.common.utils.JsonUtils;
 import com.xiamo.common.vo.AjaxResultPo;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,45 +108,53 @@ public class ClassifyController {
     private List<Map<String, Object>> getSubName(String basePath, ClassifyPo po) {
         List<Map<String, Object>> subName = new ArrayList<>();
 
-        Map<String, Object> temp1 = new HashMap<>();
-        temp1.put("name", po.getCatalog1());
-        Map<String, Object> file1 = new HashMap<>();
-        file1.put("name", po.getCatalog1());
-        file1.put("src", basePath+po.getIconUrl1());
-        temp1.put("files", file1);
-        subName.add(temp1);
+        if(StringUtils.isNotBlank(po.getCatalog1())){
+            Map<String, Object> temp1 = new HashMap<>();
+            temp1.put("name", po.getCatalog1());
+            Map<String, Object> file1 = new HashMap<>();
+            file1.put("name", po.getCatalog1());
+            file1.put("src", basePath+po.getIconUrl1());
+            temp1.put("files", file1);
+            subName.add(temp1);
+        }
 
-        Map<String, Object> temp2 = new HashMap<>();
-        temp2.put("name", po.getCatalog2());
-        Map<String, Object> file2 = new HashMap<>();
-        file2.put("name", po.getCatalog2());
-        file2.put("src", basePath+po.getIconUrl2());
-        temp2.put("files", file2);
-        subName.add(temp2);
+        if(StringUtils.isNotBlank(po.getCatalog2())){
+            Map<String, Object> temp2 = new HashMap<>();
+            temp2.put("name", po.getCatalog2());
+            Map<String, Object> file2 = new HashMap<>();
+            file2.put("name", po.getCatalog2());
+            file2.put("src", basePath+po.getIconUrl2());
+            temp2.put("files", file2);
+            subName.add(temp2);
+        }
+        if(StringUtils.isNotBlank(po.getCatalog3())){
+            Map<String, Object> temp3 = new HashMap<>();
+            temp3.put("name", po.getCatalog3());
+            Map<String, Object> file3 = new HashMap<>();
+            file3.put("name", po.getCatalog3());
+            file3.put("src",basePath+ po.getIconUrl3());
+            temp3.put("files", file3);
+            subName.add(temp3);
+        }
 
-        Map<String, Object> temp3 = new HashMap<>();
-        temp3.put("name", po.getCatalog3());
-        Map<String, Object> file3 = new HashMap<>();
-        file3.put("name", po.getCatalog3());
-        file3.put("src",basePath+ po.getIconUrl3());
-        temp3.put("files", file3);
-        subName.add(temp3);
-
-        Map<String, Object> temp4 = new HashMap<>();
-        temp4.put("name", po.getCatalog4());
-        Map<String, Object> file4 = new HashMap<>();
-        file4.put("name", po.getCatalog4());
-        file4.put("src", basePath+po.getIconUrl4());
-        temp4.put("files", file4);
-        subName.add(temp4);
-
-        Map<String, Object> temp5 = new HashMap<>();
-        temp5.put("name", po.getCatalog5());
-        Map<String, Object> file5 = new HashMap<>();
-        file5.put("name", po.getCatalog5());
-        file5.put("src", basePath+po.getIconUrl5());
-        temp5.put("files", file5);
-        subName.add(temp4);
+        if(StringUtils.isNotBlank(po.getCatalog4())){
+            Map<String, Object> temp4 = new HashMap<>();
+            temp4.put("name", po.getCatalog4());
+            Map<String, Object> file4 = new HashMap<>();
+            file4.put("name", po.getCatalog4());
+            file4.put("src", basePath+po.getIconUrl4());
+            temp4.put("files", file4);
+            subName.add(temp4);
+        }
+        if(StringUtils.isNotBlank(po.getCatalog5())){
+            Map<String, Object> temp5 = new HashMap<>();
+            temp5.put("name", po.getCatalog5());
+            Map<String, Object> file5 = new HashMap<>();
+            file5.put("name", po.getCatalog5());
+            file5.put("src", basePath+po.getIconUrl5());
+            temp5.put("files", file5);
+            subName.add(temp5);
+        }
         return subName;
     }
 
