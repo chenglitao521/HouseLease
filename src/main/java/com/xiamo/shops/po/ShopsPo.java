@@ -2,6 +2,7 @@ package com.xiamo.shops.po;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <dl>
@@ -24,8 +25,9 @@ public class ShopsPo implements Serializable {
     private Date expireTime;//到期时间
     private Integer floor;//楼层
     private Integer structure;//构造
-    private String leaseTime;//租期
-    private String leaseMoney;//租金
+
+    private List<LeasePo> rentType;//租赁类型
+
     private String descp;//描述
     private String photoUrl;//图片地址
 
@@ -122,20 +124,13 @@ public class ShopsPo implements Serializable {
         this.photoUrl = photoUrl;
     }
 
-    public String getLeaseTime() {
-        return leaseTime;
+
+    public List<LeasePo> getRentType() {
+        return rentType;
     }
 
-    public void setLeaseTime(String leaseTime) {
-        this.leaseTime = leaseTime;
-    }
-
-    public String getLeaseMoney() {
-        return leaseMoney;
-    }
-
-    public void setLeaseMoney(String leaseMoney) {
-        this.leaseMoney = leaseMoney;
+    public void setRentType(List<LeasePo> rentType) {
+        this.rentType = rentType;
     }
 
     public String getCoordinate() {

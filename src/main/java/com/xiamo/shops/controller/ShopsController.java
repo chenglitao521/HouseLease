@@ -1,10 +1,15 @@
 package com.xiamo.shops.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.xiamo.classify.po.ClassifyPo;
+import com.xiamo.classify.service.IClassifyService;
 import com.xiamo.common.utils.JsonUtils;
 import com.xiamo.common.vo.AjaxResultPo;
 import com.xiamo.common.vo.PageInfo;
 import com.xiamo.shops.po.ShopsPo;
 import com.xiamo.shops.service.IShopsService;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +45,9 @@ public class ShopsController {
 
     @Autowired
     IShopsService shopsService;
+
+    @Autowired
+    IClassifyService classifyServiceImpl;
 
     @InitBinder
     public void initBinder(ServletRequestDataBinder binder) {
@@ -91,7 +99,7 @@ public class ShopsController {
         logger.info("进入ShopsController.add方法，ShopsPo={}", JsonUtils.toJson(po));
         try {
 
-            int r = shopsService.add(po,request);
+            int r = shopsService.add(po, request);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResultPo.failure("添加商铺信息失败");
@@ -109,7 +117,7 @@ public class ShopsController {
      */
     @ResponseBody
     @RequestMapping("/update")
-    public AjaxResultPo update(ShopsPo po,HttpServletRequest request) throws IOException {
+    public AjaxResultPo update(ShopsPo po, HttpServletRequest request) throws IOException {
         logger.info("进入ShopsController.update方法，po={}", JsonUtils.toJson(po));
 
         try {
@@ -143,4 +151,67 @@ public class ShopsController {
         return AjaxResultPo.successDefault();
     }
 
+    @ResponseBody
+    @RequestMapping("/classfyOpt")
+    public AjaxResultPo classfyOpt() throws IOException {
+        logger.info("进入ShopsController.classfyOpt方法，ShopsPo={}");
+        AjaxResultPo resultPo  = new AjaxResultPo(true,"操作成功");
+        try {
+
+            List<ClassifyPo> list = classifyServiceImpl.query(new ClassifyPo());
+
+            if (list != null) {
+                JSONArray result = new JSONArray(list.size());
+
+                for (ClassifyPo classifyPo : list) {
+                    JSONObject object = new JSONObject();
+                    object.put("value", classifyPo.getCatalog());
+                    object.put("label", classifyPo.getCatalog());
+                    JSONArray children = new JSONArray();
+
+                    if (StringUtils.isNotBlank(classifyPo.getCatalog1())) {
+                        JSONObject temp = new JSONObject();
+                        temp.put("value", classifyPo.getCatalog1());
+                        temp.put("label", classifyPo.getCatalog1());
+                        children.add(temp);
+                    }
+
+                    if (StringUtils.isNotBlank(classifyPo.getCatalog2())) {
+                        JSONObject temp = new JSONObject();
+                        temp.put("value", classifyPo.getCatalog2());
+                        temp.put("label", classifyPo.getCatalog2());
+                        children.add(temp);
+                    }
+                    if (StringUtils.isNotBlank(classifyPo.getCatalog3())) {
+                        JSONObject temp = new JSONObject();
+                        temp.put("value", classifyPo.getCatalog3());
+                        temp.put("label", classifyPo.getCatalog3());
+                        children.add(temp);
+                    }
+                    if (StringUtils.isNotBlank(classifyPo.getCatalog4())) {
+                        JSONObject temp = new JSONObject();
+                        temp.put("value", classifyPo.getCatalog4());
+                        temp.put("label", classifyPo.getCatalog4());
+                        children.add(temp);
+                    }
+                    if (StringUtils.isNotBlank(classifyPo.getCatalog5())) {
+                        JSONObject temp = new JSONObject();
+                        temp.put("value", classifyPo.getCatalog5());
+                        temp.put("label", classifyPo.getCatalog5());
+                        children.add(temp);
+                    }
+                    object.put("children", children);
+                    result.add(object);
+                }
+                resultPo.setRows(result);
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResultPo.failure("商铺查询分类信息失败");
+
+        }
+        return resultPo;
+    }
 }

@@ -15,10 +15,10 @@ import org.apache.commons.lang.StringUtils;
  */
 public enum ShopsStatus
 {
-    ALREADYRENTED("0", "已出租"),
-    TOBERENTED("1", "待出租"),
+    ALREADYRENTED("0", "待出租"),
+    TOBERENTED("1", "已出租"),
     TOBESOLD("2","待出售"),
-    ELSE("","");
+    ELSE("3","其他");
     public String value;
     public String desc;
 

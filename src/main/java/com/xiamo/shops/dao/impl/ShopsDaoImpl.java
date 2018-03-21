@@ -45,20 +45,19 @@ public class ShopsDaoImpl extends BaseJdbcMysqlDao implements IShopsDao {
                 "LEASE_TIME=? ,LEASE_MONEY=?,DESCP=?,PHOTO_URL=?,");
         sql.append(" UPDATE_TIME= NOW() WHERE ID=?");
         Object[] args = new Object[]{po.getName(), po.getPosition(), po.getArea(), po.getStatus(), po.getExpireTime(), po.getFloor(),
-                po.getStructure(), po.getLeaseTime(), po.getLeaseMoney(), po.getDescp(), po.getPhotoUrl(), po.getId()};
-        int[] argTypes = new int[]{Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.INTEGER, Types.DATE, Types.INTEGER, Types.VARCHAR,
-                Types.INTEGER, Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.INTEGER};
+                po.getStructure(),  po.getDescp(), po.getPhotoUrl(), po.getId()};
+        int[] argTypes = new int[]{Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.INTEGER, Types.DATE, Types.INTEGER, Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.INTEGER};
         return this.update(sql.toString(), args, argTypes);
     }
 
     public int add(ShopsPo po) throws DataAccessException {
         StringBuffer sql = new StringBuffer("INSERT INTO HL_SHOPS (NAME,POSITION,AREA,STATUS,EXPIRE_TIME,FLOOR" +
                 ",STRUCTURE,LEASE_TIME,LEASE_MONEY,DESCP,PHOTO_URL) ")
-                .append(" VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+                .append(" VALUES(?,?,?,?,?,?,?,?,?)");
         Object[] args = new Object[]{po.getName(), po.getPosition(), po.getArea(), po.getStatus(), po.getExpireTime(), po.getFloor(),
-                po.getStructure(), po.getLeaseTime(), po.getLeaseMoney(), po.getDescp(), po.getPhotoUrl()};
+                po.getStructure(), po.getDescp(), po.getPhotoUrl()};
         int[] argTypes = new int[]{Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.INTEGER, Types.DATE, Types.INTEGER, Types.VARCHAR,
-                Types.INTEGER, Types.INTEGER, Types.VARCHAR, Types.VARCHAR};
+                Types.INTEGER,Types.VARCHAR};
         return this.update(sql.toString(), args, argTypes);
     }
 
