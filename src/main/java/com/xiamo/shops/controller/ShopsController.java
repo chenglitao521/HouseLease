@@ -17,6 +17,7 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -95,7 +96,7 @@ public class ShopsController {
      */
     @ResponseBody
     @RequestMapping("/add")
-    public AjaxResultPo add(ShopsPo po, HttpServletRequest request) throws IOException {
+    public AjaxResultPo add(@RequestBody  ShopsPo po, HttpServletRequest request) throws IOException {
         logger.info("进入ShopsController.add方法，ShopsPo={}", JsonUtils.toJson(po));
         try {
 

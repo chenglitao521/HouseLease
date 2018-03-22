@@ -36,7 +36,7 @@ public class ShopsPo implements Serializable {
     private String catalog;//一级目录
     private String catalog1;//二级目录
     private Integer high;//层高
-    private String santong;//水电气
+    private String[] santong;//水电气
     private Integer electricType;//电类型
 
     private Integer attribute;//房子属性
@@ -173,11 +173,11 @@ public class ShopsPo implements Serializable {
         this.high = high;
     }
 
-    public String getSantong() {
+    public String[] getSantong() {
         return santong;
     }
 
-    public void setSantong(String santong) {
+    public void setSantong(String[] santong) {
         this.santong = santong;
     }
 

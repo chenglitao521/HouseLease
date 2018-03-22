@@ -33,22 +33,22 @@ public class FileUpload {
         String str = getImageStr(realPath + "20180312171536aaa.png");
 
 
-        String path= generateImage(str,"测试");
+        String path = generateImage(str, "测试");
         System.out.println(str);
     }
 
     /**
      * @param imgStr base64编码字符串
      * @param
-     * @return
+     * @return 上传文件的路径
      * @Description: 将base64编码字符串转换为图片
      * @Author:
      * @CreateTime:
      */
-    public static String generateImage(String imgStr, String origName) {
+    public static String generateImagePath(String imgStr, String origName) {
 
         //保存到服务器的文件名
-        String trueFileName = DateConstants.DATE_FORMAT_NUM().format(new Date()) +"_"+ origName ;
+        String trueFileName = DateConstants.DATE_FORMAT_NUM().format(new Date()) + "_" + origName;
         //上传的路径
         String path = realPath + trueFileName;
 
@@ -80,7 +80,53 @@ public class FileUpload {
 
             e.printStackTrace();
         }
-        return  trueFileName;
+        return path;
+    }
+
+    /**
+     * @param imgStr base64编码字符串
+     * @param
+     * @return
+     * @Description: 将base64编码字符串转换为图片
+     * @Author:
+     * @CreateTime:
+     */
+    public static String generateImage(String imgStr, String origName) {
+
+        //保存到服务器的文件名
+        String trueFileName = DateConstants.DATE_FORMAT_NUM().format(new Date()) + "_" + origName;
+        //上传的路径
+        String path = realPath + trueFileName;
+
+        logger.debug("上传文件完整的路径为：{}", path);
+        // 转存文件到指定的路径
+
+
+        if (imgStr == null) {
+            return "";
+        }
+
+
+        BASE64Decoder decoder = new BASE64Decoder();
+        try {
+            // 解密
+            byte[] b = decoder.decodeBuffer(imgStr);
+            // 处理数据
+            for (int i = 0; i < b.length; ++i) {
+                if (b[i] < 0) {
+                    b[i] += 256;
+                }
+            }
+            OutputStream out = new FileOutputStream(path);
+            out.write(b);
+            out.flush();
+            out.close();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+        return trueFileName;
     }
 
     /**
@@ -160,10 +206,10 @@ public class FileUpload {
         return FILE_PATH + trueFileName;
     }
 
-    public static void uploadImages(MultipartHttpServletRequest request) throws IOException {
+    public static String uploadImages(MultipartHttpServletRequest request) throws IOException {
 
         Iterator<String> fileNames = request.getFileNames();
-
+        String qrCode="";
         while (fileNames.hasNext()) {
 
             //把fileNames集合中的值打出来
@@ -176,7 +222,7 @@ public class FileUpload {
              */
             List<MultipartFile> fileList = request.getFiles(fileName);
 
-            String trueFileName = "";
+
             if (fileList.size() > 0) {
 
                 //遍历文件列表
@@ -191,7 +237,7 @@ public class FileUpload {
                     String origName = multipartFile.getOriginalFilename();
                     System.out.println("origName: " + origName);
 
-                    trueFileName = DateConstants.DATE_FORMAT_NUM().format(new Date()) + origName;
+                    String   trueFileName = DateConstants.DATE_FORMAT_NUM().format(new Date()) + origName;
                     String filePath = realPath + trueFileName;
 
                     logger.debug("上传文件完整的路径为：{}", filePath);
@@ -207,27 +253,14 @@ public class FileUpload {
                     }
 
 
-                    //保存文件
-                    File dest = new File(filePath);
-                    if (!(dest.exists())) {
                         /*
                          * MultipartFile提供了void transferTo(File dest)方法,
                          * 将获取到的文件以File形式传输至指定路径.
                          */
-                        multipartFile.transferTo(dest);
+                    multipartFile.transferTo(tempFile);
 
-                        /*
-                         * 如果需对文件进行其他操作, MultipartFile也提供了
-                         * InputStream getInputStream()方法获取文件的输入流
-                         *
-                         * 例如下面的语句即为通过
-                         * org.apache.commons.io.FileUtils提供的
-                         * void copyInputStreamToFile(InputStream source, File destination)
-                         * 方法, 获取输入流后将其保存至指定路径
-                         */
-                        //FileUtils.copyInputStreamToFile(multipartFile.getInputStream(), dest);
-                    }
 
+                     qrCode = QrCode.getLogoQRCode(tempFile, "https://www.baidu.com/", "跳转到百度的二维码");
                     //MultipartFile也提供了其他一些方法, 用来获取文件的部分属性
 
                     //获取文件contentType
@@ -253,6 +286,11 @@ public class FileUpload {
                 }
             }
         }
+
+        return qrCode;
     }
 
+    public static String getQrImage(String imgStr) {
+        return null;
+    }
 }

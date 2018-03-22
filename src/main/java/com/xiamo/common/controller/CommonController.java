@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,17 +35,21 @@ public class CommonController {
      * @author:chenglitao
      * @description:上传图片
      */
-    @RequestMapping(value = "/uploadImage")
+    @RequestMapping(value = "/getCodeUrl")
+    @ResponseBody
     public AjaxResultPo uploadImage(HttpServletRequest request) {
         AjaxResultPo po = AjaxResultPo.successDefault();
+        String contextPath = request.getContextPath();
+        String basePath = request.getScheme()+"://"+request.getServerName()+":"+
+                request.getServerPort()+contextPath+ FileUpload.FILE_PATH;
         try {
-            String url = FileUpload.uploadFile(request);
+          String url = FileUpload.uploadImages((MultipartHttpServletRequest) request);
 
             if (StringUtils.isBlank(url)) {
 
                 return AjaxResultPo.failure("上传图片失败！");
             }
-            po.setRows(url);
+            po.setRows(basePath+url);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -36,7 +36,7 @@ public class QrCode {
 
     public static void main(String[] args) throws WriterException {
         try {
-            getLogoQRCode("https://www.baidu.com/", "跳转到百度的二维码");
+         //   getLogoQRCode("https://www.baidu.com/", "跳转到百度的二维码");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -49,15 +49,15 @@ public class QrCode {
      * @param
      * @param
      */
-    public static String getLogoQRCode(String qrUrl, String productName) {
+    public static String getLogoQRCode(File file,String qrUrl, String productName) {
         //      String filePath = (javax.servlet.http.HttpServletRequest)request.getSession().getServletContext().getRealPath("/") + "resources/images/logoImages/llhlogo.png";
         //filePath是二维码logo的路径，但是实际中我们是放在项目的某个路径下面的，所以路径用上面的，把下面的注释就好
-        String filePath = "E:/test/logo.jpg";  //TODO
+
         String content = qrUrl;
         try {
             QrCode zp = new QrCode();
             BufferedImage bim = zp.getQR_CODEBufferedImage(content, BarcodeFormat.QR_CODE, 400, 400, zp.getDecodeHintType());
-            return zp.addLogo_QRCode(bim, new File(filePath), new LogoConfig(), productName);
+            return zp.addLogo_QRCode(bim, file, new LogoConfig(), productName);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -152,12 +152,14 @@ public class QrCode {
             //二维码生成的路径，但是实际项目中，我们是把这生成的二维码显示到界面上的，因此下面的折行代码可以注释掉
             //可以看到这个方法最终返回的是这个二维码的imageBase64字符串
             //前端用 <img src="data:image/png;base64,${imageBase64QRCode}"/>  其中${imageBase64QRCode}对应二维码的imageBase64字符串
-            ImageIO.write(image, "png", new File("E:/test/" + new Date().getTime() + "qr.png")); //TODO
+
+            String trueFileName = DateConstants.DATE_FORMAT_NUM().format(new Date()) + "_" + "qr.png";
+            ImageIO.write(image, "png", new File("E:/test/" + trueFileName  )); //TODO
 
             String imageBase64QRCode = Base64.encodeBase64URLSafeString(baos.toByteArray());
 
             baos.close();
-            return imageBase64QRCode;
+            return trueFileName;
         } catch (Exception e) {
             e.printStackTrace();
         }
