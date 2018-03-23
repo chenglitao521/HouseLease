@@ -56,8 +56,8 @@ public class ShopsDaoImpl extends BaseJdbcMysqlDao implements IShopsDao {
                 .append(" VALUES(?,?,?,?,?,?,?,?,?)");
         Object[] args = new Object[]{po.getName(), po.getPosition(), po.getArea(), po.getStatus(), po.getExpireTime(), po.getFloor(),
                 po.getStructure(), po.getDescp()};
-        int[] argTypes = new int[]{Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.INTEGER, Types.DATE, Types.INTEGER, Types.VARCHAR,
-                Types.INTEGER,Types.VARCHAR};
+        int[] argTypes = new int[]{Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.INTEGER, Types.DATE, Types.INTEGER, Types.INTEGER,Types.VARCHAR,
+                Types.VARCHAR,Types.VARCHAR, Types.INTEGER,Types.VARCHAR};
         return this.update(sql.toString(), args, argTypes);
     }
 
