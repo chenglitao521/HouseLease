@@ -1,5 +1,7 @@
 package com.xiamo.shops.po;
 
+import com.xiamo.common.po.ImgPo;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.List;
  */
 public class ShopsPo implements Serializable {
     private Integer id;
+    private Integer merchantId;
     private String name;//商铺名称
     private String position;//商铺位置
     private Integer area;//商铺面积
@@ -29,8 +32,8 @@ public class ShopsPo implements Serializable {
     private List<LeasePo> rentType;//租赁类型
 
     private String descp;//描述
-    private String photoUrl;//图片地址
-
+    private List<ImgPo> recordFiles;//图片地址
+    private ImgPo qrCode;  //二维码
     private String coordinate;//商铺坐标
     private Integer classifyId; //分类ID
     private String catalog;//一级目录
@@ -49,6 +52,30 @@ public class ShopsPo implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public List<ImgPo> getRecordFiles() {
+        return recordFiles;
+    }
+
+    public void setRecordFiles(List<ImgPo> recordFiles) {
+        this.recordFiles = recordFiles;
+    }
+
+    public ImgPo getQrCode() {
+        return qrCode;
+    }
+
+    public void setQrCode(ImgPo qrCode) {
+        this.qrCode = qrCode;
+    }
+
+    public Integer getMerchantId() {
+        return merchantId;
+    }
+
+    public void setMerchantId(Integer merchantId) {
+        this.merchantId = merchantId;
     }
 
     public String getName() {
@@ -115,15 +142,6 @@ public class ShopsPo implements Serializable {
     public void setDescp(String descp) {
         this.descp = descp;
     }
-
-    public String getPhotoUrl() {
-        return photoUrl;
-    }
-
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
-    }
-
 
     public List<LeasePo> getRentType() {
         return rentType;
