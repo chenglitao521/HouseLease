@@ -24,14 +24,14 @@ public class ShopsDaoImpl extends BaseJdbcMysqlDao implements IShopsDao {
         StringBuffer sql = new StringBuffer();
         sql.append("SELECT * FROM HL_SHOPS  WHERE 1=1 ");
 
-        if(StringUtils.isNotBlank(po.getName())){
-            sql.append(" AND NAME LIKE '%"+po.getName()+"%'");
+        if (StringUtils.isNotBlank(po.getName())) {
+            sql.append(" AND NAME LIKE '%" + po.getName() + "%'");
         }
-        if(StringUtils.isNotBlank(po.getCatalog())){
-            sql.append(" AND CATALOG LIKE '%"+po.getCatalog()+"%'");
+        if (StringUtils.isNotBlank(po.getCatalog())) {
+            sql.append(" AND CATALOG LIKE '%" + po.getCatalog() + "%'");
         }
-        if(StringUtils.isNotBlank(po.getCatalog1())){
-            sql.append(" AND CATALOG1 LIKE '%"+po.getCatalog1()+"%'");
+        if (StringUtils.isNotBlank(po.getCatalog1())) {
+            sql.append(" AND CATALOG1 LIKE '%" + po.getCatalog1() + "%'");
         }
         if (pageInfo != null && pageInfo.getResults() > 0) {
             return this.queryByPage(sql.toString(), pageInfo, ShopsPo.class);
@@ -45,19 +45,22 @@ public class ShopsDaoImpl extends BaseJdbcMysqlDao implements IShopsDao {
                 "LEASE_TIME=? ,LEASE_MONEY=?,DESCP=?,PHOTO_URL=?,");
         sql.append(" UPDATE_TIME= NOW() WHERE ID=?");
         Object[] args = new Object[]{po.getName(), po.getPosition(), po.getArea(), po.getStatus(), po.getExpireTime(), po.getFloor(),
-                po.getStructure(),  po.getDescp(),  po.getId()};
+                po.getStructure(), po.getDescp(), po.getId()};
         int[] argTypes = new int[]{Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.INTEGER, Types.DATE, Types.INTEGER, Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.INTEGER};
         return this.update(sql.toString(), args, argTypes);
     }
 
     public int add(ShopsPo po) throws DataAccessException {
-        StringBuffer sql = new StringBuffer("INSERT INTO HL_SHOPS (NAME,POSITION,AREA,STATUS,EXPIRE_TIME,FLOOR" +
-                ",STRUCTURE,LEASE_TIME,LEASE_MONEY,DESCP,PHOTO_URL) ")
-                .append(" VALUES(?,?,?,?,?,?,?,?,?)");
-        Object[] args = new Object[]{po.getName(), po.getPosition(), po.getArea(), po.getStatus(), po.getExpireTime(), po.getFloor(),
-                po.getStructure(), po.getDescp()};
-        int[] argTypes = new int[]{Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.INTEGER, Types.DATE, Types.INTEGER, Types.INTEGER,Types.VARCHAR,
-                Types.VARCHAR,Types.VARCHAR, Types.INTEGER,Types.VARCHAR};
+        StringBuffer sql = new StringBuffer("INSERT INTO HL_SHOPS (MERCHANTID,NAME,POSITION,AREA,STATUS,EXPIRE_TIME,FLOOR" +
+                ",STRUCTURE,LEASE_TIME,LEASE_MONEY,DESCP,PHOTO_URL,COORDINATE,CATALOG,CATALOG1,HIGH,SANTONG,ELECTRIC_TYPE,ATTRIBUTE,LESSEE" +
+                ",LESSEE_TEL,QRCODE_URL) ")
+                .append(" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        Object[] args = new Object[]{po.getMerchantId(),po.getName(), po.getPosition(), po.getArea(), po.getStatus(), po.getExpireTime(), po.getFloor(),
+                po.getStructure(), po.getLeaseTime(), po.getLeaseMoney(), po.getDescp(), po.getPhotoUrl(), po.getCoordinate(), po.getCatalog(),
+                po.getCatalog1(), po.getHigh(), po.getSantong(), po.getElectricType(), po.getAttribute(), po.getLessee(), po.getLessseTel(),po.getQrCodeUrl()};
+        int[] argTypes = new int[]{Types.INTEGER,Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.INTEGER, Types.VARCHAR, Types.INTEGER, Types.INTEGER, Types.VARCHAR,
+                Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.VARCHAR, Types.INTEGER
+                , Types.INTEGER, Types.VARCHAR, Types.VARCHAR,Types.VARCHAR};
         return this.update(sql.toString(), args, argTypes);
     }
 

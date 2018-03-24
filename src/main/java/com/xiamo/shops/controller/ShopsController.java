@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xiamo.classify.po.ClassifyPo;
 import com.xiamo.classify.service.IClassifyService;
+import com.xiamo.common.po.ImgPo;
+import com.xiamo.common.utils.FileUpload;
 import com.xiamo.common.utils.JsonUtils;
 import com.xiamo.common.vo.AjaxResultPo;
 import com.xiamo.common.vo.PageInfo;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -64,7 +67,7 @@ public class ShopsController {
      */
     @ResponseBody
     @RequestMapping("/query")
-    public AjaxResultPo query(Integer page, Integer rows, ShopsPo po) {
+    public AjaxResultPo query(Integer page, Integer rows, ShopsPo po,HttpServletRequest request) {
         logger.info("进入ShopsController.query方法");
         AjaxResultPo res = new AjaxResultPo(true, "操作成功");
         try {
@@ -72,7 +75,26 @@ public class ShopsController {
             if (page > 0) {
                 pageInfo = new PageInfo((page - 1) * rows, rows);
             }
+            String contextPath = request.getContextPath();
+            String basePath = request.getScheme()+"://"+request.getServerName()+":"+
+                    request.getServerPort()+contextPath+ FileUpload.FILE_PATH;
             List<ShopsPo> list = shopsService.query(po, pageInfo);
+            if(list!=null&&list.size()>0){
+
+                for (ShopsPo shopsPo :list){
+                    String[] photos= shopsPo.getPhotoUrl().split(",");
+                    List<ImgPo> imgPoList = new ArrayList<>();
+                    for(String ph:photos){
+                        ImgPo imgPo = new ImgPo();
+                        imgPo.setName(ph);
+                        imgPo.setSrc(basePath+ph);
+                        imgPoList.add(imgPo);
+                    }
+
+                    shopsPo.setRecordFiles(imgPoList);
+                }
+
+            }
             if (page > 0) {
                 res.setTotal(pageInfo.getTotalRecords());
             } else {

@@ -1,9 +1,9 @@
 package com.xiamo.shops.po;
 
 import com.xiamo.common.po.ImgPo;
+import com.xiamo.common.utils.StringUtil;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,14 +25,19 @@ public class ShopsPo implements Serializable {
     private String position;//商铺位置
     private Integer area;//商铺面积
     private Integer status;//商铺状态
-    private Date expireTime;//到期时间
+    private String expireTime;//到期时间
     private Integer floor;//楼层
     private Integer structure;//构造
 
     private List<LeasePo> rentType;//租赁类型
+    private String leaseTime;//租赁时间
+    private String leaseMoney;//租赁金额
 
     private String descp;//描述
-    private List<ImgPo> recordFiles;//图片地址
+    private List<ImgPo> recordFiles;
+    private String photoUrl;//图片地址
+    private String qrCodeUrl;//二维码地址
+
     private ImgPo qrCode;  //二维码
     private String coordinate;//商铺坐标
     private Integer classifyId; //分类ID
@@ -52,6 +57,38 @@ public class ShopsPo implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
+    public String getQrCodeUrl() {
+        return qrCodeUrl;
+    }
+
+    public void setQrCodeUrl(String qrCodeUrl) {
+        this.qrCodeUrl = qrCodeUrl;
+    }
+
+    public String getLeaseTime() {
+        return leaseTime;
+    }
+
+    public void setLeaseTime(String leaseTime) {
+        this.leaseTime = leaseTime;
+    }
+
+    public String getLeaseMoney() {
+        return leaseMoney;
+    }
+
+    public void setLeaseMoney(String leaseMoney) {
+        this.leaseMoney = leaseMoney;
     }
 
     public List<ImgPo> getRecordFiles() {
@@ -110,11 +147,11 @@ public class ShopsPo implements Serializable {
         this.status = status;
     }
 
-    public Date getExpireTime() {
+    public String getExpireTime() {
         return expireTime;
     }
 
-    public void setExpireTime(Date expireTime) {
+    public void setExpireTime(String expireTime) {
         this.expireTime = expireTime;
     }
 
@@ -191,8 +228,8 @@ public class ShopsPo implements Serializable {
         this.high = high;
     }
 
-    public String[] getSantong() {
-        return santong;
+    public String getSantong() {
+        return StringUtil.arrayToStrWithComma(this.santong);
     }
 
     public void setSantong(String[] santong) {

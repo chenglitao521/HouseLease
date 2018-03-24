@@ -1,10 +1,13 @@
 package com.xiamo.shops.service.impl;
 
+import com.xiamo.common.po.ImgPo;
 import com.xiamo.common.po.ServiceException;
 import com.xiamo.common.utils.ConfigUtils;
 import com.xiamo.common.utils.DateConstants;
+import com.xiamo.common.utils.FileUpload;
 import com.xiamo.common.vo.PageInfo;
 import com.xiamo.shops.dao.IShopsDao;
+import com.xiamo.shops.po.LeasePo;
 import com.xiamo.shops.po.ShopsPo;
 import com.xiamo.shops.service.IShopsService;
 import org.apache.commons.io.FilenameUtils;
@@ -195,6 +198,39 @@ public class ShopsServiceImpl implements IShopsService {
 
     public int add(ShopsPo po, HttpServletRequest httprequest) {
         try {
+
+
+            List<LeasePo> leasePos = po.getRentType();
+            //处理租赁时间
+            StringBuffer leaseTimes = new StringBuffer();
+            StringBuffer leaseMoneys = new StringBuffer();
+            if (leasePos != null && leasePos.size() > 0) {
+                for (int i = 0; i < leasePos.size(); i++) {
+                    leaseMoneys.append(leasePos.get(i).getMoney());
+                    leaseTimes.append(leasePos.get(i).getTime());
+                    if ((i + 1) != leasePos.size()) {
+                        leaseMoneys.append(",");
+                    }
+                }
+            }
+            po.setLeaseMoney(leaseMoneys.toString());
+            po.setLeaseTime(leaseTimes.toString());
+            //处理商铺图片
+            List<ImgPo> imgPos = po.getRecordFiles();
+
+            StringBuffer imgStr = new StringBuffer();
+            if (imgPos != null && imgPos.size() > 0) {
+                for (int i = 0; i < imgPos.size(); i++) {
+                    ImgPo temIm = imgPos.get(i);
+                    String trueFileName = FileUpload.generateImage(StringUtils.substringAfter(temIm.getSrc(), ","), temIm.getName());
+                    imgStr.append(trueFileName);
+                    if ((i + 1) != imgPos.size()) {
+                        imgStr.append(",");
+                    }
+                }
+            }
+
+            po.setPhotoUrl(imgStr.toString());
             return shopsDaoImpl.add(po);
         } catch (DataAccessException e) {
             e.printStackTrace();
