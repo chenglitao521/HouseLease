@@ -63,7 +63,7 @@ public class ClassifyController {
      */
     @ResponseBody
     @RequestMapping("/query")
-    public AjaxResultPo query(ClassifyPo classifyPo,HttpServletRequest request) {
+    public AjaxResultPo query(@RequestBody  ClassifyPo classifyPo,HttpServletRequest request) {
         logger.info("进入ClassifyController.query方法");
         AjaxResultPo res = new AjaxResultPo(true, "操作成功");
         try {

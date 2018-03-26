@@ -3,6 +3,7 @@ package com.xiamo.classify.dao.impl;
 import com.xiamo.classify.dao.IClassifyDao;
 import com.xiamo.classify.po.ClassifyPo;
 import com.xiamo.common.dao.impl.BaseJdbcMysqlDao;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.dao.DataAccessException;
 
 import java.sql.Types;
@@ -22,7 +23,10 @@ import java.util.List;
 public class ClassifyDaoImpl extends BaseJdbcMysqlDao implements IClassifyDao {
     public List<ClassifyPo> query(ClassifyPo classifyPo) throws DataAccessException {
         StringBuffer sql = new StringBuffer();
-        sql.append("SELECT *  FROM HL_CLASSIFY ");
+        sql.append("SELECT *  FROM HL_CLASSIFY WHERE 1=1 ");
+        if(StringUtils.isNotBlank(classifyPo.getName())){
+            sql.append(" AND CATALOG LIKE '%").append(classifyPo.getName()).append("%'");
+        }
         
         return this.queryForList(sql.toString(), ClassifyPo.class);
 
