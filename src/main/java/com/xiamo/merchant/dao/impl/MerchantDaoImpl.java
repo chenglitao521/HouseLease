@@ -4,6 +4,7 @@ import com.xiamo.common.dao.impl.BaseJdbcMysqlDao;
 import com.xiamo.common.vo.PageInfo;
 import com.xiamo.merchant.dao.IMerchantDao;
 import com.xiamo.merchant.po.MerchantPo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.dao.DataAccessException;
 
 import java.sql.Types;
@@ -23,8 +24,11 @@ import java.util.List;
 public class MerchantDaoImpl extends BaseJdbcMysqlDao implements IMerchantDao {
     public List<MerchantPo> query(MerchantPo po, PageInfo pageInfo) throws DataAccessException {
         StringBuffer sql = new StringBuffer();
-        sql.append("SELECT *  FROM HL_MERCHANT ");
+        sql.append("SELECT *  FROM HL_MERCHANT WHERE 1=1 ");
 
+        if(StringUtils.isNotBlank(po.getName())){
+            sql.append(" AND NAME LIKE '%").append(po.getName()).append("%'");
+        }
         if (pageInfo != null && pageInfo.getResults() > 0) {
             return this.queryByPage(sql.toString(), pageInfo, MerchantPo.class);
         } else {
