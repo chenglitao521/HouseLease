@@ -13,7 +13,7 @@ import java.util.List;
  * @description:商铺接口
  */
 public interface IShopsService {
-    List<ShopsPo> query(ShopsPo po, PageInfo pageInfo);
+    List<ShopsPo> query(ShopsPo po, String date, PageInfo pageInfo);
 
     int update(ShopsPo po, HttpServletRequest request);
 

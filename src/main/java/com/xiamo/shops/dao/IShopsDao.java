@@ -13,7 +13,7 @@ import java.util.List;
  * @description:商铺接口
  */
 public interface IShopsDao {
-    List<ShopsPo> query(ShopsPo po, PageInfo pageInfo) throws DataAccessException;
+    List<ShopsPo> query(ShopsPo po, String date, PageInfo pageInfo) throws DataAccessException;
 
     int update(ShopsPo po) throws DataAccessException;
 

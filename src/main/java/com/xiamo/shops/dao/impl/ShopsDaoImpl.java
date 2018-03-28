@@ -20,18 +20,40 @@ import java.util.List;
 @Repository
 public class ShopsDaoImpl extends BaseJdbcMysqlDao implements IShopsDao {
     @Override
-    public List<ShopsPo> query(ShopsPo po, PageInfo pageInfo) throws DataAccessException {
+    public List<ShopsPo> query(ShopsPo po, String date, PageInfo pageInfo) throws DataAccessException {
         StringBuffer sql = new StringBuffer();
         sql.append("SELECT * FROM HL_SHOPS  WHERE 1=1 ");
 
         if (StringUtils.isNotBlank(po.getName())) {
-            sql.append(" AND NAME LIKE '%" + po.getName() + "%'");
+            sql.append(" AND ( NAME LIKE '%" + po.getName() + "%'");
         }
         if (StringUtils.isNotBlank(po.getCatalog())) {
-            sql.append(" AND CATALOG LIKE '%" + po.getCatalog() + "%'");
+            sql.append(" OR CATALOG LIKE '%" + po.getName() + "%'");
         }
         if (StringUtils.isNotBlank(po.getCatalog1())) {
-            sql.append(" AND CATALOG1 LIKE '%" + po.getCatalog1() + "%'");
+            sql.append(" OR CATALOG1 LIKE '%" + po.getName() + "%')");
+        }
+        /*
+        *
+        *
+        * 		dateOptions:[{value: 'day-7',label: '最近7天'},
+							 {value: 'day-15',label: '最近15天'},
+							 {value: 'mon-1',label: '最近1个月'},
+		        			 {value: 'mon-3',label: '最近3个月'},
+		        			 {value: 'mon-6',label: '最近6个月'}],
+        * */
+        if (StringUtils.isNotBlank(date)) {
+            if ("day-7".equals(date)) {
+                sql.append(" AND 0<DATEDIFF(DATE(now()), EXPIRE_TIME) <=7");
+            } else if ("day-15".equals(date)) {
+                sql.append(" AND 0<DATEDIFF(DATE(now()), EXPIRE_TIME) <=15");
+            } else if ("mon-1".equals(date)) {
+                sql.append(" AND 0<DATEDIFF(DATE(now()), EXPIRE_TIME) <=30");
+            } else if ("mon-3".equals(date)) {
+                sql.append(" AND 0<DATEDIFF(DATE(now()), EXPIRE_TIME) <=(30*3)");
+            } else if ("mon-6".equals(date)) {
+                sql.append(" AND 0<DATEDIFF(DATE(now()), EXPIRE_TIME) <=(30*6)");
+            }
         }
         if (pageInfo != null && pageInfo.getResults() > 0) {
             return this.queryByPage(sql.toString(), pageInfo, ShopsPo.class);
@@ -55,12 +77,12 @@ public class ShopsDaoImpl extends BaseJdbcMysqlDao implements IShopsDao {
                 ",STRUCTURE,LEASE_TIME,LEASE_MONEY,DESCP,PHOTO_URL,COORDINATE,CATALOG,CATALOG1,HIGH,SANTONG,ELECTRIC_TYPE,ATTRIBUTE,LESSEE" +
                 ",LESSEE_TEL,QRCODE_URL) ")
                 .append(" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-        Object[] args = new Object[]{po.getMerchantId(),po.getName(), po.getPosition(), po.getArea(), po.getStatus(), po.getExpireTime(), po.getFloor(),
+        Object[] args = new Object[]{po.getMerchantId(), po.getName(), po.getPosition(), po.getArea(), po.getStatus(), po.getExpireTime(), po.getFloor(),
                 po.getStructure(), po.getLeaseTime(), po.getLeaseMoney(), po.getDescp(), po.getPhotoUrl(), po.getCoordinate(), po.getCatalog(),
-                po.getCatalog1(), po.getHigh(), po.getSantong(), po.getElectricType(), po.getAttribute(), po.getLessee(), po.getLessseTel(),po.getQrCodeUrl()};
-        int[] argTypes = new int[]{Types.INTEGER,Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.INTEGER, Types.VARCHAR, Types.INTEGER, Types.INTEGER, Types.VARCHAR,
+                po.getCatalog1(), po.getHigh(), po.getSantong(), po.getElectricType(), po.getAttribute(), po.getLessee(), po.getLessseTel(), po.getQrCodeUrl()};
+        int[] argTypes = new int[]{Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.INTEGER, Types.VARCHAR, Types.INTEGER, Types.INTEGER, Types.VARCHAR,
                 Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.VARCHAR, Types.INTEGER
-                , Types.INTEGER, Types.VARCHAR, Types.VARCHAR,Types.VARCHAR};
+                , Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR};
         return this.update(sql.toString(), args, argTypes);
     }
 

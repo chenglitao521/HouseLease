@@ -45,10 +45,10 @@ public class ShopsServiceImpl implements IShopsService {
     IShopsDao shopsDaoImpl;
 
     @Override
-    public List<ShopsPo> query(ShopsPo po, PageInfo pageInfo) {
+    public List<ShopsPo> query(ShopsPo po, String date, PageInfo pageInfo) {
         List<ShopsPo> shopsPos = null;
         try {
-            shopsPos = shopsDaoImpl.query(po, pageInfo);
+            shopsPos = shopsDaoImpl.query(po,date, pageInfo);
         } catch (DataAccessException e) {
             e.printStackTrace();
         }

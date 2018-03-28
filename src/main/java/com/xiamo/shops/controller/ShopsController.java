@@ -67,7 +67,7 @@ public class ShopsController {
      */
     @ResponseBody
     @RequestMapping("/query")
-    public AjaxResultPo query(Integer page, Integer rows, ShopsPo po,HttpServletRequest request) {
+    public AjaxResultPo query(Integer page, Integer rows, ShopsPo po,String date,HttpServletRequest request) {
         logger.info("进入ShopsController.query方法");
         AjaxResultPo res = new AjaxResultPo(true, "操作成功");
         try {
@@ -78,7 +78,7 @@ public class ShopsController {
             String contextPath = request.getContextPath();
             String basePath = request.getScheme()+"://"+request.getServerName()+":"+
                     request.getServerPort()+contextPath+ FileUpload.FILE_PATH;
-            List<ShopsPo> list = shopsService.query(po, pageInfo);
+            List<ShopsPo> list = shopsService.query(po,date, pageInfo);
             if(list!=null&&list.size()>0){
 
                 for (ShopsPo shopsPo :list){
