@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -33,17 +32,17 @@ public class CommonController {
      * @date:2018/1/22 0022 10:50
      * @className:CommonController
      * @author:chenglitao
-     * @description:上传图片
+     * @description:上传二维码图片
      */
     @RequestMapping(value = "/getCodeUrl")
     @ResponseBody
-    public AjaxResultPo uploadImage(HttpServletRequest request) {
+    public AjaxResultPo getCodeUrl(HttpServletRequest request) {
         AjaxResultPo po = AjaxResultPo.successDefault();
         String contextPath = request.getContextPath();
         String basePath = request.getScheme()+"://"+request.getServerName()+":"+
                 request.getServerPort()+contextPath+ FileUpload.FILE_PATH;
         try {
-          String url = FileUpload.uploadImages((MultipartHttpServletRequest) request);
+          String url = FileUpload.getCodeUrl((MultipartHttpServletRequest) request);
 
             if (StringUtils.isBlank(url)) {
 
@@ -56,17 +55,24 @@ public class CommonController {
         return po;
     }
 
-
+    @RequestMapping(value = "/uploadImage")
     @ResponseBody
-    @RequestMapping(value="upload")
-    public ModelAndView testUpload() throws IOException {
-       // FileUpload.uploadImages(request);
+    public AjaxResultPo uploadImage(HttpServletRequest request) {
+        AjaxResultPo po = AjaxResultPo.successDefault();
+        String contextPath = request.getContextPath();
+        String basePath = request.getScheme()+"://"+request.getServerName()+":"+
+                request.getServerPort()+contextPath+ FileUpload.FILE_PATH;
+        try {
+            String url = FileUpload.uploadImages((MultipartHttpServletRequest) request);
 
-       // /tmp/2018012915540012345. png
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("trueFileName","/tmp/2018012915540012345.png");
-        modelAndView.setViewName("/zxingcoder");
-        return modelAndView;
+            if (StringUtils.isBlank(url)) {
+
+                return AjaxResultPo.failure("上传图片失败！");
+            }
+            po.setRows(basePath+url);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return po;
     }
-
 }
